@@ -5,16 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image gallery</title>
 
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./styles/home.css">
     <script src="./app.js" defer></script>
 
     <script src="https://kit.fontawesome.com/80b2a22f1b.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <header>
+    <header class="header">
         <nav class="nav-top">
             <div class="logo">
-                <img src="./assets/images/pixpal-high-resolution-logo-transparent.png" alt="pixpal logo">
+                <img src="./assets/images/Pixpal-Mark.svg" alt="pixpal logo">
             </div>
             <form action="#" class="search-form">
                 <input type="text" name="" id="">
@@ -30,20 +30,45 @@
         </nav>
         <nav class="nav-bottom">
             <div class="filters" style="display: none;">Filters</div>
-            <div class="tags">
+            <div class="tag-scroller tag-scroller-left">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+            <div class="tags-container">
                 <a href="/nature">Nature</a>
                 <a href="/space">Space</a>
                 <a href="/world">World</a>
                 <a href="/food">Food</a>
+                <a href="/world">World</a>
+                <a href="/world">World</a>
+                <a href="/food">Food</a>
+                <a href="/world">World</a>
+                <a href="/world">World</a>
+                <a href="/food">Food</a>
+                <a href="/world">World</a>
+                <a href="/food">Food</a>
+                <a href="/world">World</a>
+                <a href="/food">Food</a>
+            </div>
+            <div class="tag-scroller tag-scroller-right">
+                <i class="fas fa-chevron-right"></i>
             </div>
         </nav>
-        <dialog class="menu-modal" open>
+        <!-- <dialog class="menu-modal">
             <div class="filters" style="display: none;">Filters</div>
             <a href="/login" class="login-btn">Login</a>
             <button class="submit-photo">Submit a photo</button>
-        </dialog>
+        </dialog> -->
+        <div class="menu-modal">
+            <button class="btn filter-btn">Filters</button>
+            <a href="/login" class="login-btn">Login</a>
+            <button class="btn submit-photo-btn">Submit a photo</button>
+        </div>
     </header>
     <div class="container">
+        <!-- filter section will be here for the large screen sizes -->
+        <section class="img-gallery">
+            
+        </secti>
     </div>
 </body>
 </html>
