@@ -12,10 +12,14 @@
 </head>
 <body>
     <header class="header">
-        <nav class="nav-top">
+        <div class="nav-top">
             <div class="logo">
-                <img src="./assets/images/Pixpal-Mark.svg" alt="pixpal logo">
+                <img src="./assets/images/Pixpal-White-Mark.svg" alt="pixpal logo">
             </div>
+            <a href="/login" class="login-btn">Login</a>
+            <button class="btn signup-btn">Signup</button>
+        </div>
+        <nav class="nav-main">
             <form action="#" class="search-form">
                 <input type="text" name="" id="">
             </form>
@@ -23,34 +27,43 @@
             <div class="user-icon" style="display: none;">
                 <i class="far fa-user"></i>
             </div>
-            <div class="hamburger-icon">
+            <!-- <div class="options hamburger-icon">
                 <div class="line line-1"></div>
                 <div class="line line-2"></div>
+            </div> -->
+            <div class="options filter-icon">
+                <i class="fa-solid fa-sliders"></i>
             </div>
         </nav>
         <nav class="nav-bottom">
-            <div class="filters" style="display: none;">Filters</div>
-            <div class="tag-scroller tag-scroller-left">
-                <i class="fas fa-chevron-left"></i>
-            </div>
-            <div class="tags-container">
-                <a href="/nature">Nature</a>
-                <a href="/space">Space</a>
-                <a href="/world">World</a>
-                <a href="/food">Food</a>
-                <a href="/world">World</a>
-                <a href="/world">World</a>
-                <a href="/food">Food</a>
-                <a href="/world">World</a>
-                <a href="/world">World</a>
-                <a href="/food">Food</a>
-                <a href="/world">World</a>
-                <a href="/food">Food</a>
-                <a href="/world">World</a>
-                <a href="/food">Food</a>
-            </div>
-            <div class="tag-scroller tag-scroller-right">
-                <i class="fas fa-chevron-right"></i>
+            <div class="nav-tag-container">
+                <div class="filters" style="display: none;">Filters</div>
+                <div class="tag-scroller-wrapper tag-scroller-wrapper-left">
+                    <div class="tag-scroller tag-scroller-left">
+                        <i class="fas fa-chevron-left"></i>
+                    </div>
+                </div>
+                <div class="tags-container">
+                    <a href="/nature">Nature</a>
+                    <a href="/space">Space</a>
+                    <a href="/world">World</a>
+                    <a href="/food">Food</a>
+                    <a href="/world">World</a>
+                    <a href="/world">World</a>
+                    <a href="/food">Food</a>
+                    <a href="/world">World</a>
+                    <a href="/world">World</a>
+                    <a href="/food">Food</a>
+                    <a href="/world">World</a>
+                    <a href="/food">Food</a>
+                    <a href="/world">World</a>
+                    <a href="/food">Food</a>
+                </div>
+                <div class="tag-scroller-wrapper tag-scroller-wrapper-right">
+                    <div class="tag-scroller tag-scroller-right">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
             </div>
         </nav>
         <!-- <dialog class="menu-modal">
@@ -67,8 +80,15 @@
     <div class="container">
         <!-- filter section will be here for the large screen sizes -->
         <section class="img-gallery">
-            
-        </secti>
+            <div class="img-gallery-sub-grid img-gallery-sub-grid-1"></div>
+            <div class="img-gallery-sub-grid img-gallery-sub-grid-2"></div>
+            <div class="img-gallery-sub-grid img-gallery-sub-grid-3"></div>
+        </section>
     </div>
+    <dialog>
+        <nav class="modal-nav">
+            <div class="close-button"></div>
+        </nav>
+    </dialog>
 </body>
 </html>

@@ -14,6 +14,7 @@
     --primary-color: hsl(0, 0%, 100%);
     --secondary-color: hsl(0, 0%, 11%);
     --accent-color: hsl(0, 0%, 7%);
+    --accent-color-on-hover:  hsl(0, 0%, 0%);
 
     /* text colors */
     --txt-primary-color: var(--accent-color);
@@ -45,6 +46,11 @@
 
     /* border radius */
     --border-radius-sm: 5px; 
+    --border-radius-full: 50%;
+
+    /* box shadow */
+    --box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    --box-shadow-btn: rgba(149, 157, 165, 0.4) 0px 8px 24px;
 
     /* transition */
     --transition: all 150ms ease-in-out;
@@ -58,4 +64,14 @@
 body {
     font-family: 'SF-Pro';
     background-color: var(--primary-color);
+}
+
+@media screen and (min-width: 768px) {
+    :root {
+        /* font sizes */
+        --fnt-heading: 24px;
+
+        /* line height */
+        --line-height-heading: 28px;
+    }
 }
