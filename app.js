@@ -9,48 +9,48 @@ const imgGallerySubGrid1 = document.querySelector('.img-gallery-sub-grid-1');
 const imgGallerySubGrid2 = document.querySelector('.img-gallery-sub-grid-2');
 const imgGallerySubGrid3 = document.querySelector('.img-gallery-sub-grid-3');
 
+const WIN_PADDING = 40;
+const SCROLL_UNIT = 200;
+
 // hamburgerIcon.addEventListener('click', () => {
 //     hamburgerIcon.classList.toggle('ham-active');
 //     dialogMenuModal.classList.toggle('open');
 // });
 
-const scrollUnit = 200;
 const totalLengthNavBottom = navTagContainer.scrollWidth;
 
-tagScrollerLeft.style.display = 'none';
+tagScrollerLeft.classList.remove('show');
+tagScrollerRight.classList.add('show');
+
+navTagContainer.onscroll = () => {
+    console.log("scrolling...");
+
+    if (navTagContainer.scrollLeft > 0) {
+        tagScrollerLeft.classList.add('show');
+    } else {
+        tagScrollerLeft.classList.remove('show');
+    }
+
+    if (navTagContainer.scrollLeft + window.innerWidth - WIN_PADDING > totalLengthNavBottom) {
+        tagScrollerRight.classList.remove('show');
+
+    } else {
+        tagScrollerRight.classList.add('show');
+    }
+}
 
 tagScrollerRight.addEventListener('click', () => {
     let currentPositionX = navTagContainer.scrollLeft;
-    const newScrollPosition = currentPositionX + scrollUnit;
+    const newScrollPosition = currentPositionX + SCROLL_UNIT;
 
     navTagContainer.scrollTo(newScrollPosition, 0);
-
-    // if (currentPositionX + window.innerWidth > totalLengthNavBottom) {
-    //     tagScrollerRight.style.display = "none";
-    // }
-    tagScrollerLeft.style.display = 'flex';
-
-    console.log(currentPositionX + window.innerWidth, totalLengthNavBottom);
 });
 
 tagScrollerLeft.addEventListener('click', () => {
     let currentPositionX = navTagContainer.scrollLeft;
-    const newScrollPosition = currentPositionX - scrollUnit;
-
-    // console.log("new scrolll pos" + newScrollPosition)
-    // if (newScrollPosition < 500) tagScrollerLeft.style.display = 'none';
+    const newScrollPosition = currentPositionX - SCROLL_UNIT;
 
     navTagContainer.scrollTo(newScrollPosition, 0);
-
-    if (currentPositionX === 0) {
-        tagScrollerLeft.style.display = 'none';
-    } else {
-        tagScrollerLeft.style.display = 'flex';
-    }
-    // if (currentPositionX + window.innerWidth > totalLengthNavBottom) {
-    //     tagScrollerRight.style.display = "none";
-    // }
-    console.log(currentPositionX + window.innerWidth, totalLengthNavBottom);
 });
 
 let images = [];
@@ -82,13 +82,35 @@ const renderImages = async () => {
     console.log(requiredImageData);
 
     for (let i = 0; i < requiredImageData.length; i++) {
-        const imgContainer = document.createElement('div');
+        const imgContainer = document.createElement('figure');
+        const imgOverlay = document.createElement('div');
         const imgElement = document.createElement('img');
+        const imgFooter = document.createElement('div');
+        const userDetailContainer = document.createElement('div');
+        const profilePic = document.createElement('img');
+        const userName = document.createElement('p');
+        const downloadBtn = document.createElement('a');
 
         imgContainer.classList.add('img-container');
+        imgOverlay.classList.add('img-overlay');
         imgElement.classList.add('img');
+        imgFooter.classList.add('img-footer');
+        userDetailContainer.classList.add('user-detail-container');
+        profilePic.classList.add('profile-pic');
+        userName.classList.add('user-name');
+        downloadBtn.classList.add('btn', 'download-btn');
+
+        profilePic.src = requiredImageData[i].user.profile_image.large;
+        userName.textContent = requiredImageData[i].user.username;
+        downloadBtn.innerHTML = '<i class="fa-solid fa-download"></i>'
 
         imgElement.setAttribute('src', requiredImageData[i].urls.small);
+        userDetailContainer.appendChild(profilePic)
+        userDetailContainer.appendChild(userName)
+        imgFooter.appendChild(userDetailContainer);
+        imgFooter.appendChild(downloadBtn);
+        imgOverlay.appendChild(imgFooter);
+        imgContainer.appendChild(imgOverlay);
         imgContainer.appendChild(imgElement);
 
         if (i < 4) {
@@ -98,12 +120,12 @@ const renderImages = async () => {
         } else {
             imgGallerySubGrid3.appendChild(imgContainer);
         }
-
         // imgGallery.appendChild(imgContainer);
-        imgGallery.appendChild(imgGallerySubGrid1);
-        imgGallery.appendChild(imgGallerySubGrid2);
-        imgGallery.appendChild(imgGallerySubGrid3);
     }
+    
+    imgGallery.appendChild(imgGallerySubGrid1);
+    imgGallery.appendChild(imgGallerySubGrid2);
+    imgGallery.appendChild(imgGallerySubGrid3);
 }
 
 renderImages();
