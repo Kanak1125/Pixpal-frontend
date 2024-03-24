@@ -31,9 +31,9 @@
                 <div class="line line-1"></div>
                 <div class="line line-2"></div>
             </div> -->
-            <div class="options filter-icon">
+            <button class="options filter-icon">
                 <i class="fa-solid fa-sliders"></i>
-            </div>
+            </butt>
         </nav>
         <nav class="nav-bottom">
             <div class="nav-tag-container">
@@ -70,6 +70,8 @@
             <a href="/login" class="login-btn">Login</a>
             <button class="submit-photo">Submit a photo</button>
         </dialog> -->
+
+        <!-- this isn't a model the following is the modal that we open on hamburger icon click... -->
         <div class="menu-modal">
             <button class="btn filter-btn">Filters</button>
             <a href="/login" class="login-btn">Login</a>
@@ -79,17 +81,19 @@
     <div class="container">
         <!-- filter section will be here for the large screen sizes -->
         <section class="img-gallery">
-            <div class="img-gallery-sub-grid img-gallery-sub-grid-1"></div>
+            <!-- <div class="img-gallery-sub-grid img-gallery-sub-grid-1"></div>
             <div class="img-gallery-sub-grid img-gallery-sub-grid-2"></div>
-            <div class="img-gallery-sub-grid img-gallery-sub-grid-3"></div>
+            <div class="img-gallery-sub-grid img-gallery-sub-grid-3"></div> -->
         </section>
 
         <!-- image gallery container -->
         <!-- <section class="img-gallery"></section> -->
     </div>
-    <dialog>
+    <dialog class="modal-filter">
         <nav class="modal-nav">
-            <div class="close-button"></div>
+            <div class="close-button">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
         </nav>
     </dialog>
 </body>
