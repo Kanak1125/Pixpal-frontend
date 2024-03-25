@@ -20,8 +20,11 @@
             <a href="/pages/signup.html" class="btn signup-btn">Signup</a>
         </div>
         <nav class="nav-main">
+            <span class="search-icon">
+                <i class="fa-solid fa-magnifying-glass" ></i>
+            </span>
             <form action="#" class="search-form">
-                <input type="search" name="" id="" placeholder="Search...">
+                <input type="search" name="" id="" placeholder="Search..." />
             </form>
             <!-- <a href="/login" class="login-btn">Login</a> -->
             <div class="user-icon" style="display: none;">
@@ -91,10 +94,54 @@
     </div>
     <dialog class="modal-filter">
         <nav class="modal-nav">
-            <div class="close-button">
+            <button class="close-btn">
                 <i class="fa-solid fa-xmark"></i>
-            </div>
+            </button>
+            <h2>Filters</h2>
+            <button class="btn clear-all-btn">Clear all</button>
         </nav>
+        <div class="filter-options-container">
+            <div class="filter-by filter-by-orientation">
+                <h3>Orientation: </h3>
+                <div class="filter-by-options-container filter-by-orientation-options-container">
+                    <label for="filter-landscape" class="filter-input-label">Landscape</label>
+                    <input type="checkbox" name="filter-landscape" id="filter-landscape"
+                    class="filter-input-option">
+                    <label for="filter-portrait" class="filter-input-label">Portrait</label>
+                    <input type="checkbox" name="filter-portrait" id="filter-portrait"
+                    class="filter-input-option">
+                    <label for="filter-square" class="filter-input-label">Square</label>
+                    <input type="checkbox" name="filter-square" id="filter-square"
+                    class="filter-input-option">
+                    <label for="filter-panaromic" class="filter-input-label">Panaromic</label>
+                    <input type="checkbox" name="filter-panaromic" id="filter-panaromic"
+                    class="filter-input-option">
+                </div>
+            </div>
+            <div class="filter-by filter-by-file-type">
+                <h3>File type: </h3>
+                <div class="filter-by-options-container  filter-by-orientation-options-container">
+                    <label for="filter-jpg"
+                    class="filter-input-label">JPG</label>
+                    <input type="checkbox" name="filter-jpg" id="filter-jpg"
+                    class="filter-input-option"
+                    >
+                    <label for="filter-png"
+                    class="filter-input-label">PNG</label>
+                    <input type="checkbox" name="filter-png" id="filter-png"
+                    class="filter-input-option"
+                    >
+                    <label for="filter-svg"
+                    class="filter-input-label">SVG</label>
+                    <input type="checkbox" name="filter-svg" id="filter-svg"
+                    class="filter-input-option"
+                    >
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn apply-filter-btn">Apply filters</button>
+        </div>
     </dialog>
 </body>
 </html>

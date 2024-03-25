@@ -31,6 +31,7 @@
 
 .nav-main {
     padding: 10px 20px;
+    position: relative;
 }
 
 .logo img {
@@ -44,14 +45,26 @@
 }
 
 .search-form input {
+    position: relative;
     width: 100%;
     height: 44px;
     padding: 0 10px;
+    padding-left: 40px; 
     border-radius: var(--border-radius-sm);
     outline: none !important;
     border: 1.25px solid var(--border-color-light);
     font-size: var(--fnt-body);
     transition: var(--transition);
+}
+
+.search-icon {
+    position: absolute;
+    top: 50%;
+    left: 35px;
+    font-size: var(--fnt-body);
+    transform: translateY(-50%);
+    color: var(--txt-secondary-color);
+    z-index: 2;
 }
 
 .search-form input:focus {
@@ -79,11 +92,12 @@ input[type="search"]::-webkit-search-cancel-button {
     padding: 0 10px;
     cursor: pointer;
     transition: var(--transition);
+    box-shadow: var(--box-shadow-btn);
 }
 
 .btn:hover {
     background-color: var(--accent-color-on-hover);
-    box-shadow: var(--box-shadow-btn);
+    /* box-shadow: var(--box-shadow-btn); */
 }
 
 .nav-top .login-btn {
@@ -191,11 +205,110 @@ input[type="search"]::-webkit-search-cancel-button {
 dialog.modal-filter {
     position: absolute;
     min-height: 100vh;
+    /* inset: 0; */
+    min-width: 100%;
+    padding: 0 20px;
+    border: none;
+    outline: none;
 }
 
-dialog.modal-filter::backdrop {
-    background: green;
+.modal-nav {
+    padding: 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: sticky;
+    top: 0;
+    border-bottom: 1px solid var(--border-color-light);
+    background-color: var(--primary-color);
+    z-index: 2;
 }
+
+.close-btn {
+    background: none;
+    font-size: var(--fnt-heading);
+    border: none;
+    outline: none;
+    cursor: pointer;
+    color: var(--txt-secondary-color);
+    transition: var(--transition);
+}
+
+.close-btn:focus,
+.close-btn:hover {
+    color: var(--accent-color);
+}
+
+dialog .modal-nav > h2 {
+    font-size: var(--fnt-heading);
+    font-weight: var(--fnt-semibold);
+}
+
+dialog .modal-nav > .clear-all-btn {
+    width: max-content;
+    margin-left: auto;
+    border: 1.25px solid var(--border-color-light);
+    color: var(--txt-secondary-color);
+    background: var(--primary-color);
+}
+
+dialog .modal-nav > .clear-all-btn:hover {
+    border-color: var(--accent-color) !important;
+    color: var(--accent-color) !important;
+}
+
+.filter-options-container {
+    padding: 20px 0;
+}
+
+.filter-by h3 {
+    font-size: var(--fnt-body);
+    font-weight: var(--fnt-semibold);
+}
+
+.filter-by-options-container {
+    margin: 20px 0;
+    padding: 8px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.filter-input-label {
+    cursor: pointer;
+}
+
+.filter-input-label.filter-active {
+    color: var(--accent-color);
+    background-color: hsl(0, 0%, 96%);
+    border: 1.5px solid var(--accent-color);
+}
+/* .filter-input-label.filter-active:hover {
+    color: white;
+} */
+
+.filter-by-options-container > input[type="checkbox"] {
+    display: none;
+}
+
+dialog .modal-footer {
+    padding: 20px 0;
+    border-top: 1px solid var(--border-color-light);
+    position: sticky;
+    bottom: 0;
+    background-color: var(--primary-color);
+}
+
+.apply-filter-btn {
+    height: auto;
+    padding: 16px 0;
+    /* font-size: 15px; */
+    font-weight: var(--fnt-medium);
+}
+
+/* dialog.modal-filter::backdrop {
+    background: green;
+} */
 
 .nav-bottom {
     padding: 20px;
@@ -284,7 +397,8 @@ dialog.modal-filter::backdrop {
     position: relative;
 }
 
-.tags-container > a {
+.tags-container > a,
+.filter-by-options-container > label {
     display: inline-block;
     padding: 0 20px;
     height: 42px;
@@ -295,11 +409,15 @@ dialog.modal-filter::backdrop {
     font-weight: var(--fnt-semibold);
     color: var(--txt-secondary-color);
     transition: var(--transition);
+    user-select: none;
     z-index: 0;
 }
 
 .tags-container > a:focus,
-.tags-container > a:hover {
+.tags-container > a:hover,
+.filter-by-options-container > label:hover,
+.filter-by-options-container > label:focus
+{
     outline: none;
     color: var(--txt-primary-color);
     border-color: var(--accent-color);
@@ -453,6 +571,12 @@ dialog.modal-filter::backdrop {
         align-items: start;
         padding: 20px;
         columns: 2;
+    }
+
+    dialog.modal-filter {
+        width: 60%;
+        margin-left: auto;
+        min-width: 60%;
     }
 }
 

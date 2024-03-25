@@ -8,6 +8,8 @@ const imgGallery = document.querySelector('.img-gallery');
 // const imgGallerySubGrid1 = document.querySelector('.img-gallery-sub-grid-1');
 // const imgGallerySubGrid2 = document.querySelector('.img-gallery-sub-grid-2');
 // const imgGallerySubGrid3 = document.querySelector('.img-gallery-sub-grid-3');
+const filterInputLabels = document.querySelectorAll('.filter-input-label');
+const filterInputOptions = document.querySelectorAll('.filter-input-option');
 
 const WIN_PADDING = 40;
 const SCROLL_UNIT = 200;
@@ -161,4 +163,29 @@ const renderImages = async (url) => {
     observer.observe(target);
 }
 
-// renderImages(REQUEST_URL);
+renderImages(REQUEST_URL);
+
+const filterIcon = document.querySelector('.filter-icon');
+const filterModal = document.querySelector('.modal-filter');
+const modalCloseBtn = document.querySelector('.close-btn');
+
+filterIcon.addEventListener('click', () => {
+    filterModal.showModal();
+    document.body.style.overflow = "hidden";
+})
+
+modalCloseBtn.addEventListener('click', () => {
+    filterModal.close();
+    document.body.style.overflow = "scroll";
+});
+
+filterInputOptions.forEach((item, idx) => {
+    item.addEventListener('click', () => {
+        console.log(filterInputLabels[idx], item);
+        if (item.checked) {
+            filterInputLabels[idx].classList.add('filter-active');
+        } else {
+            filterInputLabels[idx].classList.remove('filter-active');
+        }
+    })
+})
