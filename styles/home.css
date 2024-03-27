@@ -4,8 +4,8 @@
     /* padding: 0 20px; */
     position: sticky;
     top: 0;
-    z-index: 2;
     background-color: var(--primary-color);
+    z-index: 3;
 }
 
 .header a {
@@ -34,6 +34,13 @@
     position: relative;
 }
 
+.nav-main .logo,
+.nav-main .login-btn,
+.nav-main .signup-btn,
+.nav-main .logo-full {
+    display: none;
+}
+
 .logo img {
     height: 24px;
     width: auto;
@@ -41,15 +48,15 @@
 
 .search-form {
     width: 100%;
+    position: relative;
     /* border: 2px solid green; */
 }
 
 .search-form input {
-    position: relative;
     width: 100%;
     height: 44px;
     padding: 0 10px;
-    padding-left: 40px; 
+    padding-left: 44px; 
     border-radius: var(--border-radius-sm);
     outline: none !important;
     border: 1.25px solid var(--border-color-light);
@@ -60,7 +67,7 @@
 .search-icon {
     position: absolute;
     top: 50%;
-    left: 35px;
+    left: 16px;
     font-size: var(--fnt-body);
     transform: translateY(-50%);
     color: var(--txt-secondary-color);
@@ -109,8 +116,12 @@ input[type="search"]::-webkit-search-cancel-button {
     width: max-content;
     line-height: 32px;
     font-weight: var(--fnt-semibold);
-    background-color: white !important;
+    background-color: var(--primary-color);
     color: var(--txt-primary-color);
+}
+
+.signup-btn:hover {
+    background-color: var(--primary-color);
 }
 
 .login-btn {
@@ -118,10 +129,14 @@ input[type="search"]::-webkit-search-cancel-button {
     padding: 0 10px;
     color: var(--txt-secondary-color-inv);
     transition: var(--transition);
+    border: 1.25px solid var(--border-color-light);
+    height: 32px;
+    border-radius: var(--border-radius-sm);
+    line-height: 32px;
 }
 
 .login-btn:hover {
-    color: white !important;
+    color: white;
 }
 
 .filter-icon {
@@ -216,6 +231,7 @@ dialog.modal-filter {
     padding: 20px 0;
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 20px;
     position: sticky;
     top: 0;
@@ -224,7 +240,8 @@ dialog.modal-filter {
     z-index: 2;
 }
 
-.close-btn {
+.close-btn,
+.main-filter-close-btn {
     background: none;
     font-size: var(--fnt-heading);
     border: none;
@@ -235,7 +252,9 @@ dialog.modal-filter {
 }
 
 .close-btn:focus,
-.close-btn:hover {
+.close-btn:hover,
+.main-filter-close-btn:focus,
+.main-filter-close-btn:hover {
     color: var(--accent-color);
 }
 
@@ -244,7 +263,8 @@ dialog .modal-nav > h2 {
     font-weight: var(--fnt-semibold);
 }
 
-dialog .modal-nav > .clear-all-btn {
+dialog .modal-nav > .clear-all-btn,
+.clear-all-btn {
     width: max-content;
     margin-left: auto;
     border: 1.25px solid var(--border-color-light);
@@ -252,9 +272,11 @@ dialog .modal-nav > .clear-all-btn {
     background: var(--primary-color);
 }
 
-dialog .modal-nav > .clear-all-btn:hover {
+dialog .modal-nav > .clear-all-btn:hover,
+.clear-all-btn:hover {
     border-color: var(--accent-color) !important;
     color: var(--accent-color) !important;
+    background: var(--primary-color);
 }
 
 .filter-options-container {
@@ -283,11 +305,49 @@ dialog .modal-nav > .clear-all-btn:hover {
     background-color: hsl(0, 0%, 96%);
     border: 1.5px solid var(--accent-color);
 }
+
+.filter-input-label-color {
+    width: 42px;
+    height: 42px;
+    border-radius: var(--border-radius-full) !important;
+}
+.filter-input-label-color.filter-color-red {
+    background: red;
+}
+.filter-input-label-color.filter-color-blue {
+    background: blue;
+}
+.filter-input-label-color.filter-color-green {
+    background: green;
+}
+.filter-input-label-color.filter-color-white {
+    background: white;
+}
+.filter-input-label-color.filter-color-black {
+    background: black;
+}
+.filter-input-label-color.filter-color-yellow {
+    background: yellow;
+}
+.filter-input-label-color.filter-color-orange {
+    background: orange;
+}
+.filter-input-label-color.filter-color-purple {
+    background: purple;
+}
+.filter-input-label-color.filter-color-teal {
+    background: teal;
+}
+
+/* .filter-input-label.filter-input-label-color.filter-active {
+    background-color: transparent !important;
+    opacity: 0.5;
+} */
 /* .filter-input-label.filter-active:hover {
     color: white;
 } */
 
-.filter-by-options-container > input[type="checkbox"] {
+.filter-by-options-container > input[type="radio"] {
     display: none;
 }
 
@@ -391,6 +451,11 @@ dialog .modal-footer {
     display: none;
 }
 
+.main-filter {
+    display: none;
+    height: max-content;
+}
+
 .tags-container {
     display: flex;
     gap: 20px;
@@ -469,17 +534,30 @@ dialog .modal-footer {
     display: grid;
     gap: 24px;
 } */
+
 .img-gallery {
     --gap: 24px;
-    --columns: 1;
+    --columns: 1 auto;
     margin: 0 auto;
     padding: 40px 0;
     columns: var(--columns);
     gap: var(--gap);
+    min-width: 100%;
+    /* display: flex;
+    flex-direction: row; */
     /* writing-mode: horizontal-tb; */
     /* display: flex;
+    flex-wrap: wrap;
+    display: flex;
+    flex-direction: row;
     flex-wrap: wrap; */
 }
+/* 
+.sub-column{
+    width: 100px;
+    height: 100px;
+    background: #000;
+} */
 
 .img-gallery > * {
     break-inside: avoid;
@@ -501,6 +579,9 @@ dialog .modal-footer {
 
 .img-container {
     width: 100%;
+    /* width: 300px; */
+    height: auto;
+
     /* border: 2px solid red; */
     position: relative;
     /* overflow: hidden !important; */
@@ -523,7 +604,8 @@ dialog .modal-footer {
 
 .img-container .img {
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
+    height: auto;
     /* border: 2px solid red; */
 }
 
@@ -562,15 +644,70 @@ dialog .modal-footer {
     box-shadow: none;
 }
 
+.image-number-tag {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: var(--fnt-medium);
+    font-weight: var(--fnt-semibold);
+    width: 32px;
+    height: 32px;
+    text-align: center;
+    line-height: 32px;
+    border-radius: var(--border-radius-full);
+    background-color: var(--primary-color);
+    color: var(--accent-color);
+}
+
+.filters-btn {
+    position: sticky;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+    width: max-content;
+    /* font-size: var(--fnt-heading); */
+}
+
 @media screen and (min-width: 390px) {
+    .nav-top {
+        display: none;
+    }
+
+    .nav-main .logo,
+    .nav-main .login-btn,
+    .nav-main .signup-btn {
+        display: block;
+    }
+
+    .nav-main .logo-full {
+        display: none;
+    }
+
+    .nav-main .login-btn {
+        color: var(--txt-secondary-color);
+    }
+
+    .nav-main .login-btn:hover {
+        color: var(--accent-color);
+    }
+
+    .nav-main .signup-btn {
+        background-color: var(--accent-color);
+        color: var(--primary-color);
+    }
+
+    .nav-main .signup-btn:hover {
+        background-color: var(--accent-color-on-hover);
+    }
+
     /* main section */
     .img-gallery {
-        /* grid-template-columns: repeat(2, minmax(0, 1fr));
-        grid-template-rows: auto; */
+  
         gap: 24px;
         align-items: start;
         padding: 20px;
-        columns: 2;
+        columns: 2 auto;
     }
 
     dialog.modal-filter {
@@ -584,13 +721,70 @@ dialog .modal-footer {
     /* .hamburger-icon {
         display: none;
     } */
+
+    .nav-main {
+        gap: 20px;
+    }
+
+    .nav-main .logo {
+        display: none;
+    }
+
+    .nav-main .logo-full {
+        display: block;
+    }
+
     .filter-icon {
         display: none;
     }
 
+    .container {
+        display: block;
+        position: relative;
+        /* min-height: 300px; */
+        /* column-gap: 5%; */
+        width: 100%;
+        padding: 20px;
+    }
+
+    .container.add-grid {
+        display: grid;
+        grid-template-columns: 25% 75%;
+    }
+
+    .main-filter-container {
+        border-right: 1.25px solid var(--border-color-light);
+        padding: 0 20px;
+        display: none;
+    }
+
+    .main-filter {
+        display: block;
+        position: sticky;
+        top: 160px;
+        /* overflow-y: scroll; */
+        /* border: 2px solid green; */
+    }
+
+    .main-filter .filter-options-container {
+        max-height: 50dvh;
+        overflow-y: scroll;
+        scrollbar-width: thin;
+        scroll-behavior: smooth;
+    }
+
     .img-gallery {
         grid-template-columns: repeat(3, minmax(0, 1fr));
-        /* grid-template-rows: masonry; */
-        columns: 3;
+        columns: 3 auto;
+    }
+
+    .filters-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .filters-btn.hide-filters-btn {
+        display: none;
     }
 }
