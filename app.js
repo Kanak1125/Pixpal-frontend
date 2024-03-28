@@ -24,6 +24,32 @@ const mainContainer = document.querySelector('.container');
 const filtersBtn = document.querySelector('.filters-btn');
 const clearAllFilterBtns = document.querySelectorAll('.clear-all-btn');
 
+const tags = ['nature', 'space', 'world', 'food', 'tech', 'dark', 'place', 'mountain', 'green', 'animals', 'aliens', 'pets', 'annimals'];
+
+// the following is api end-point is for the searching...
+// const BASE_URL = 'https://api.unsplash.com/search/photos'
+
+// the api end-point for the random photo filter...
+// const BASE_URL = 'https://api.unsplash.com/search/photos'
+
+let images = [];
+const BASE_URL = 'https://api.unsplash.com/';
+const FILTER_BASE_URL = `${BASE_URL}/search/photos?client_id=U-JKAdSdHZRA2-glU6Oe4WSzqHGP6GpKM8DZ8yUkelY&query=random&per_page=20`;
+
+const REQUEST_URL = `${BASE_URL}photos/?client_id=U-JKAdSdHZRA2-glU6Oe4WSzqHGP6GpKM8DZ8yUkelY`;
+const SEARCH_BASE_URL = '/pages/results.html?query=';
+// const REQUEST_URL_WITH_FILTERS = `${BASE_URL}/?client_id=U-JKAdSdHZRA2-glU6Oe4WSzqHGP6GpKM8DZ8yUkelY&query=nature&orientation=landscape&page=${pageCount}`;
+
+let target;
+let filter_url = '';
+
+tags.forEach(tag => {
+    const tagLink = document.createElement('a');
+    tagLink.textContent = tag;
+    tagLink.href = `${SEARCH_BASE_URL}${tag}`;
+    tagsContainer.appendChild(tagLink);
+})
+
 mainFilterCloseBtn.addEventListener('click', () => {
     mainFilterContainer.style.display = "none";
     mainContainer.classList.remove('add-grid');
@@ -94,25 +120,9 @@ searchForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
     const searchQuery = searchFormInput.value.trim();
-    const url = `/pages/results.html?query=${encodeURIComponent(searchQuery)}`;
+    const url = `${SEARCH_BASE_URL}${encodeURIComponent(searchQuery)}`;
     window.location.href = url;
-})
-
-let images = [];
-const BASE_URL = 'https://api.unsplash.com/';
-const FILTER_BASE_URL = `${BASE_URL}/search/photos?client_id=U-JKAdSdHZRA2-glU6Oe4WSzqHGP6GpKM8DZ8yUkelY&query=random&per_page=20`;
-
-// the following is api end-point is for the searching...
-// const BASE_URL = 'https://api.unsplash.com/search/photos'
-
-// the api end-point for the random photo filter...
-// const BASE_URL = 'https://api.unsplash.com/search/photos'
-
-const REQUEST_URL = `${BASE_URL}photos/?client_id=U-JKAdSdHZRA2-glU6Oe4WSzqHGP6GpKM8DZ8yUkelY`;
-// const REQUEST_URL_WITH_FILTERS = `${BASE_URL}/?client_id=U-JKAdSdHZRA2-glU6Oe4WSzqHGP6GpKM8DZ8yUkelY&query=nature&orientation=landscape&page=${pageCount}`;
-
-let target;
-let filter_url = '';
+});
 
 const fetchData = async (url) => {
     try {
