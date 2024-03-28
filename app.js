@@ -1,3 +1,5 @@
+import { renderImages } from "./scripts/modules/renderImage.mjs";
+
 // const hamburgerIcon = document.querySelector('.hamburger-icon');
 const dialogMenuModal = document.querySelector('.menu-modal');
 const tagScrollerLeft = document.querySelector('.tag-scroller-left');
@@ -5,6 +7,9 @@ const tagScrollerRight = document.querySelector('.tag-scroller-right');
 const navTagContainer = document.querySelector('.nav-tag-container');
 const tagsContainer = document.querySelector('.tags-container');
 const imgGallery = document.querySelector('.img-gallery');
+
+const searchForm = document.getElementById('search-form');
+const searchFormInput = document.getElementById('search-form-input');
 // const imgGallerySubGrid1 = document.querySelector('.img-gallery-sub-grid-1');
 // const imgGallerySubGrid2 = document.querySelector('.img-gallery-sub-grid-2');
 // const imgGallerySubGrid3 = document.querySelector('.img-gallery-sub-grid-3');
@@ -85,6 +90,14 @@ tagScrollerLeft.addEventListener('click', () => {
     navTagContainer.scrollTo(newScrollPosition, 0);
 });
 
+searchForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const searchQuery = searchFormInput.value.trim();
+    const url = `/pages/results.html?query=${encodeURIComponent(searchQuery)}`;
+    window.location.href = url;
+})
+
 let images = [];
 const BASE_URL = 'https://api.unsplash.com/';
 const FILTER_BASE_URL = `${BASE_URL}/search/photos?client_id=U-JKAdSdHZRA2-glU6Oe4WSzqHGP6GpKM8DZ8yUkelY&query=random&per_page=20`;
@@ -103,7 +116,6 @@ let filter_url = '';
 
 const fetchData = async (url) => {
     try {
-        console.log("URL<", url);
         const response = await fetch(url);
         const data = await response.json();
         console.log(data);
@@ -149,47 +161,7 @@ const observerFilter = new IntersectionObserver(entries => {
 // let prevImageCount = 0;
 
 // the function to render the images in DOM...
-const renderImages = (data) => {
-    for (let i = 0; i < data.length; i++) {
-        const imgContainer = document.createElement('figure');
-        const imgOverlay = document.createElement('div');
-        const imgElement = document.createElement('img');
-        const imgFooter = document.createElement('div');
-        const userDetailContainer = document.createElement('div');
-        const profilePic = document.createElement('img');
-        const userName = document.createElement('p');
-        const downloadBtn = document.createElement('a');
-        // const imageNumberTag = document.createElement('div');
-
-        imgContainer.classList.add('img-container');
-        imgOverlay.classList.add('img-overlay');
-        imgElement.classList.add('img');
-        imgFooter.classList.add('img-footer');
-        userDetailContainer.classList.add('user-detail-container');
-        profilePic.classList.add('profile-pic');
-        userName.classList.add('user-name');
-        downloadBtn.classList.add('btn', 'download-btn');
-        // imageNumberTag.classList.add('image-number-tag');
-
-        profilePic.src = data[i].user.profile_image.large;
-        userName.textContent = data[i].user.username;
-        downloadBtn.innerHTML = '<i class="fa-solid fa-download"></i>'
-
-        // imageNumberTag.textContent = prevImageCount + i + 1;
-
-        imgElement.setAttribute('src', data[i].urls.small);
-        userDetailContainer.appendChild(profilePic)
-        userDetailContainer.appendChild(userName)
-        imgFooter.appendChild(userDetailContainer);
-        imgFooter.appendChild(downloadBtn);
-        imgOverlay.appendChild(imgFooter);
-        imgContainer.appendChild(imgOverlay);
-        imgContainer.appendChild(imgElement);
-        // imgContainer.appendChild(imageNumberTag);
-
-        imgGallery.appendChild(imgContainer);
-    }
-}
+// export 
 
 // const renderImagesNew = ({columnCount, columnData}) => {
 
@@ -309,7 +281,7 @@ const getRandomImages = async (url) => {
     // }
 
     // renderImagesNew({columnCount:columnCount, columnData:columnBasedDataSet});
-    renderImages(requiredImageData);
+    renderImages(imgGallery, requiredImageData);
 
     // prevImageCount += 10;
     
@@ -353,7 +325,7 @@ const filterImages = async (url) => {
         images = [...await newImages.results];
     } else {
         // observer.unobserve(target);
-        result = await fetchData(url);
+        const result = await fetchData(url);
         newImages = [...await result.results];
         images = [...images, ...newImages];
     }
@@ -373,7 +345,7 @@ const filterImages = async (url) => {
 
     console.log(requiredImageData);
 
-    renderImages(requiredImageData);
+    renderImages(imgGallery, requiredImageData);
 
     target = imgGallery.lastChild;
     console.log(target);
@@ -404,6 +376,7 @@ filterInputOptions.forEach((item, idx) => {
         const filterValue = item.value; // brings the value of the item that is clicked on... for eg. "red" when the input type with name "filter-color" is clicked...
         removeActiveClass();
         images = [];
+        pageCountFilter = 1;
 
         console.log("Filter map: ", previousElement);
         // if (previousElement[filterName]) {

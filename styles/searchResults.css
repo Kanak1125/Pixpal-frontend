@@ -1,0 +1,19 @@
+@import url('../style.css');
+
+.main {
+    padding: 20px;
+}
+
+.main h1 {
+    color: var(--txt-primary-color);
+    font-size: var(--fnt-heading);
+    font-weight: var(--fnt-semibold);
+}
+
+#search-result-title {
+    font-style: italic;
+}
+
+.img-gallery {
+    padding: 40px 0;
+}
