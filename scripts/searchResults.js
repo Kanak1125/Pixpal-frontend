@@ -6,6 +6,7 @@ const imgGallery = document.querySelector('.img-gallery');
 const searchForm = document.getElementById('search-form');
 const searchFormInput = document.getElementById('search-form-input');
 const searchResultTitle = document.getElementById('search-result-title');
+const noResultsInfo = document.querySelector('.no-results-info');
 
 const urlParams = new URLSearchParams(window.location.search);
 
@@ -15,7 +16,6 @@ const searchQuery = urlParams.get('query');
 searchResultTitle.textContent = decodeURI(searchQuery);
 
 const SEARCH_URL = `${BASE_URL}/search/photos?client_id=U-JKAdSdHZRA2-glU6Oe4WSzqHGP6GpKM8DZ8yUkelY&query=${searchQuery}&per_page=20`;
-
 
 const fetchResults = async () => {
     try {
@@ -33,6 +33,12 @@ let images = [];
 fetchResults().then((data) => {
     images = [...data];
     renderImages(imgGallery, images);
+    if (images.length === 0) {
+        noResultsInfo.style.display = "block";
+        noResultsInfo.textContent = "No results...";
+    } else {
+        noResultsInfo.style.display = "none";
+    }
 }).catch((err) => {
     console.error("ERROR: ", err);
 });

@@ -261,6 +261,7 @@ const getRandomImages = async (url) => {
         width: item.width,
         height: item.height,
         urls: item.urls,
+        blur_hash: item.blur_hash,
     }));
 
     console.log(requiredImageData);
@@ -351,6 +352,7 @@ const filterImages = async (url) => {
         width: item.width,
         height: item.height,
         urls: item.urls,
+        blur_hash: item.blur_hash,
     }));
 
     console.log(requiredImageData);
