@@ -1,4 +1,7 @@
 import { renderImages } from "./scripts/modules/renderImage.mjs";
+import createObserver from "./scripts/modules/observer.mjs";
+import fetchData from "./scripts/modules/fetchData.mjs";
+import handleMainFilterBtn from "./scripts/modules/handleMainFilterBtn.mjs";
 
 // const hamburgerIcon = document.querySelector('.hamburger-icon');
 const dialogMenuModal = document.querySelector('.menu-modal');
@@ -18,10 +21,7 @@ let filterInputOptions = document.querySelectorAll('.filter-input-option');
 const filterOrientation = document.querySelectorAll('.filter-orientation');
 const filterFileType = document.querySelectorAll('.filter-file-type');
 const filterColors = document.querySelectorAll('.filter-input-label-color');
-const mainFilterCloseBtn = document.querySelector('.main-filter-close-btn');
-const mainFilterContainer = document.querySelector('.main-filter-container');
-const mainContainer = document.querySelector('.container');
-const filtersBtn = document.querySelector('.filters-btn');
+
 const clearAllFilterBtns = document.querySelectorAll('.clear-all-btn');
 
 const tags = ['nature', 'space', 'world', 'food', 'tech', 'dark', 'place', 'mountain', 'green', 'animals', 'aliens', 'pets', 'annimals'];
@@ -50,19 +50,7 @@ tags.forEach(tag => {
     tagsContainer.appendChild(tagLink);
 })
 
-mainFilterCloseBtn.addEventListener('click', () => {
-    mainFilterContainer.style.display = "none";
-    mainContainer.classList.remove('add-grid');
-    console.log(filtersBtn);
-    filtersBtn.classList.remove('hide-filters-btn');
-});
-
-filtersBtn.addEventListener('click', () => {
-    mainFilterContainer.style.display = "block";
-    mainContainer.classList.add('add-grid');
-    console.log(filtersBtn);
-    filtersBtn.classList.add('hide-filters-btn');
-});
+handleMainFilterBtn();
 
 window.addEventListener('resize', () => {
     filterInputLabels = document.querySelectorAll('.filter-input-label');
@@ -124,34 +112,6 @@ searchForm.addEventListener('submit', (e) => {
     window.location.href = url;
 });
 
-const fetchData = async (url) => {
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
-        console.log(data);
-        return data;
-        // return data.results;
-    } catch (err) {
-        console.error("Error while fetching the data: ", err);
-        return;
-    }
-}
-
-const observer = new IntersectionObserver(entries => {
-    entries.forEach((entry, idx) => {
-        console.log(entry);
-        if (entry.isIntersecting) {
-            pageCount ++;
-
-            const updatedRequestUrl = `${REQUEST_URL}&page=${pageCount}`;
-            getRandomImages(updatedRequestUrl);
-
-            observer.unobserve(target);
-        }
-    })
-}, {
-    threshold: 1.0,
-});
 
 const observerFilter = new IntersectionObserver(entries => {
     entries.forEach((entry, idx) => {
@@ -165,7 +125,7 @@ const observerFilter = new IntersectionObserver(entries => {
         }
     })
 }, {
-    threshold: 1.0,
+    threshold: 0.5,
 });
 
 // let prevImageCount = 0;
@@ -230,8 +190,10 @@ const observerFilter = new IntersectionObserver(entries => {
 //     }) 
 // }
 
+const observerMainPage = createObserver(target, REQUEST_URL, pageCount, getRandomImages);
 
-const getRandomImages = async (url) => {
+
+async function getRandomImages(url) {
     let newImages = [];
     // let tempArr = images;
     // images = [];
@@ -305,30 +267,16 @@ const getRandomImages = async (url) => {
     target = imgGallery.lastChild;
     console.log(target);
 
-    // setTimeout(() => {
-    //     observer.observe(target);
-    // }, 3000);
+    setTimeout(() => {
+        observerMainPage.observe(target);
+    }, 3000);
 }
 
 getRandomImages(`${REQUEST_URL}&page=${pageCount}`);
 
-const filterIcon = document.querySelector('.filter-icon');
-const filterModal = document.querySelector('.modal-filter');
-const modalCloseBtn = document.querySelector('.close-btn');
-
-filterIcon.addEventListener('click', () => {
-    filterModal.showModal();
-    document.body.style.overflow = "hidden";
-})
-
-modalCloseBtn.addEventListener('click', () => {
-    filterModal.close();
-    document.body.style.overflow = "scroll";
-});
-
 let previousElement = {};
 
-const filterImages = async (url) => {
+async function filterImages (url) {
     let newImages = [];
     
     if (images.length === 0) {
@@ -362,9 +310,9 @@ const filterImages = async (url) => {
     target = imgGallery.lastChild;
     console.log(target);
 
-    // setTimeout(() => {
-    //     observerFilter.observe(target);
-    // }, 3000);
+    setTimeout(() => {
+        observerFilter.observe(target);
+    }, 3000);
 }
 
 const removeActiveClass = () => {
