@@ -612,6 +612,7 @@ dialog .modal-footer {
     opacity: 0;
     transition: var(--transition);
     /* border: 2px solid green; */
+    z-index: 0;
 }
 
 .img-container:hover .img-overlay {
@@ -626,28 +627,11 @@ dialog .modal-footer {
     width: 100%;
     height: auto;
 }
-
-.image-modal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    transform-origin: center left;
-    /* transform: scale(1) translate(-50%, -50%); */
-    width: 100%;
-    min-height: 100px;
-    max-height: 80%;
-    border: none;
-    outline: none;
-    border-radius: var(--border-radius-sm);
-    scrollbar-width: none;
-    animation: scaleUp 300ms ease-out;
-}
-.image-modal::backdrop {
-    background: var(--accent-color);
-    opacity: 0.4;
-}
-
+/* .close-image-modal-btn {
+    position: absolute;
+    top: -10px;
+    right: 0;
+} */
 @keyframes scaleUp {
     0% {
         /* transform-origin: center left; */
@@ -690,6 +674,7 @@ dialog .modal-footer {
     line-height: 32px;
     background: transparent;
     color: var(--txt-secondary-color-inv);
+    z-index: 2;
 }
 
 .download-btn:hover {
@@ -730,6 +715,77 @@ dialog .modal-footer {
     opacity: 0.8;
     margin: 20px auto 80px;
     width: max-content;
+}
+
+.image-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transform-origin: center left;
+    /* transform: scale(1) translate(-50%, -50%); */
+    width: 100%;
+    min-height: 100px;
+    max-height: 80%;
+    border: none;
+    outline: none;
+    border-radius: var(--border-radius-sm);
+    scrollbar-width: none;
+    animation: scaleUp 300ms ease-out;
+}
+
+.modal-header {
+    width: 100%;
+    padding: 20px 20px 0;
+}
+
+.close-image-modal-btn {
+    display: block;
+    width: max-content;
+    margin-left: auto;
+}
+
+.modal-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    gap: 20px;
+}
+
+.image-modal::backdrop {
+    background: var(--accent-color);
+    opacity: 0.4;
+}
+
+.modal-img-container {
+    text-align: center;
+    /* border: 2px solid red; */
+}
+
+.modal-img-info-container {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    /* border: 2px solid green; */
+}
+
+.modal-info-container-user {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 0;
+}
+
+.modal-download-btn {
+    color: var(--accent-color);
+}
+
+.modal-download-btn:hover,
+.modal-download-btn:focus {
+    color: var(--accent-color);
+    scale: 1.1;
 }
 
 @media screen and (min-width: 390px) {

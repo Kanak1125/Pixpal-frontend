@@ -1,7 +1,5 @@
 import { decode } from "/node_modules/blurhash/dist/index.mjs";
 
-let imgModals = [];
-
 // the function to render the images in DOM...
 
 export const renderImages = (wrapper, data) => {
@@ -18,15 +16,20 @@ export const renderImages = (wrapper, data) => {
         const downloadBtn = document.createElement('a');
         const canvas = document.createElement('canvas');
         
-
+        // modal...
         const imageModal = document.createElement('dialog');
+        const modalContainer = document.createElement('div');
+        const modalHeader = document.createElement('div');
         const closeModalBtn = document.createElement('button');
         closeModalBtn.textContent = "Close";
         const modalImgContainer = document.createElement('div');
         const modalImg = document.createElement('img');
+        const modalImgInfoContainer = document.createElement('div');
+        const  modalInfoContainerUser = document.createElement('div');
+        const modalProfilePic = document.createElement('img');
+        const modalUserName = document.createElement('p');
+        const modalDownloadBtn = document.createElement('a');
         
-        // imgModals.push(imageModal);
-
         // const imageNumberTag = document.createElement('div');
 
         imgContainer.classList.add('img-container');
@@ -41,11 +44,29 @@ export const renderImages = (wrapper, data) => {
         canvas.classList.add('canvas');
         canvas.setAttribute('width', '100%');
         canvas.setAttribute('height', '100%');
+
+        // image modal...
         imageModal.classList.add('image-modal');
-        closeModalBtn.classList.add('close-image-modal-btn');
+        modalHeader.classList.add('modal-header');
+        modalContainer.classList.add('modal-container');
+        modalImgInfoContainer.classList.add('modal-img-info-container');
+        closeModalBtn.classList.add('close-image-modal-btn', 'btn');
         modalImgContainer.classList.add('modal-img-container');
         modalImg.classList.add('modal-img');
-        // canvas.height = data[i].height;
+        modalDownloadBtn.classList.add('download-btn', 'modal-download-btn');
+        downloadBtn.href = data[i].urls.regular;
+        downloadBtn.setAttribute("download", "true");
+        modalInfoContainerUser.classList.add("modal-info-container-user")
+        modalProfilePic.classList.add('profile-pic');
+        modalUserName.classList.add('user-name');
+        modalInfoContainerUser.appendChild(modalProfilePic);
+        modalInfoContainerUser.appendChild(modalUserName);
+        modalDownloadBtn.href = data[i].urls.regular;
+        modalDownloadBtn.setAttribute('download', "true");
+        modalImgInfoContainer.appendChild(modalInfoContainerUser);
+        modalImgInfoContainer.appendChild(modalDownloadBtn);
+
+        // downloadBtn.target = "blank";
         // imageNumberTag.classList.add('image-number-tag');
 
         imgElement.setAttribute('loading', 'lazy');
@@ -75,7 +96,14 @@ export const renderImages = (wrapper, data) => {
         imgContainer.appendChild(imgElement);
         imgElement.style.visibility = 'hidden';
         imgOverlay.style.display = 'none';
+        modalProfilePic.src = data[i].user.profile_image.large;
+        modalUserName.textContent = data[i].user.username;
+        modalDownloadBtn.innerHTML = '<i class="fa-solid fa-download"></i>'
         
+        
+        downloadBtn.onclick = () => {
+            console.log("downloaded...");
+        }
         // imgContainer.appendChild(imgElement);
 
         imgElement.onload = () => {
@@ -88,46 +116,37 @@ export const renderImages = (wrapper, data) => {
             console.log("Images have been successfully loaded...")
         }
         
-        // imgElement.addEventListener('load', () => {
-        //         // imgContainer.removeChild(canvas);
-        //         // imgContainer.appendChild(imgOverlay);
-        //         // imgContainer.appendChild(imgElement);
-        //         canvas.style.display = 'none';
-        //         imgElement.display.style = 'block';
-        //         imgOverlay.style.display = 'block';
-        //         console.log("Images have been successfully loaded...")
-                
-        //     })
-        // imgElement.display.style = 'block';
-        // imgOverlay.style.display = 'block';
-        // imgContainer.appendChild(imageNumberTag);
         modalImgContainer.appendChild(modalImg);
-        imageModal.appendChild(modalImgContainer);
-        imageModal.appendChild(closeModalBtn);
+        imageModal.appendChild(modalContainer);
+        modalHeader.appendChild(closeModalBtn);
+        imageModal.appendChild(modalHeader);
+        modalContainer.appendChild(modalImgContainer);
+        modalContainer.appendChild(modalImgInfoContainer);
+        imageModal.appendChild(modalContainer);
         document.body.appendChild(imageModal);
         wrapper.appendChild(imgContainer);
     }
-    // console.log(imgModals);
 
-    const imgContainers = document.querySelectorAll('.img-container');
+    const imgContainerOverlays = document.querySelectorAll('.img-overlay');
     const imgModals = document.querySelectorAll('.image-modal');
     const closeModalBtns = document.querySelectorAll('.close-image-modal-btn');
 
-    console.log(imgContainers.length, imgModals.length, closeModalBtns.length);
-
     imgModals.forEach((_, idx) => {
         // imgModals[idx].style = "padding: 40px";
-        imgContainers[idx].addEventListener('click', () => {
+        imgContainerOverlays[idx].addEventListener('click', () => {
             imgModals[idx].showModal();
             document.body.style = "overflow: hidden";
         });
         
         closeModalBtns[idx].addEventListener('click', () => {
-            console.log("CLose the modal...");
             imgModals[idx].close();
-            console.log("CLosing the modal successful...");
-            imgModals[idx].removeAttribute('open');
             document.body.style = "overflow: visible";
+        });
+        closeModalBtns[idx].addEventListener('keydown', (e) => {
+            if (e.key == 'Escape') {
+                imgModals[idx].close();
+                document.body.style = "overflow: visible";
+            }
         });
     });
 }
