@@ -224,6 +224,7 @@ async function getRandomImages(url) {
         height: item.height,
         urls: item.urls,
         blur_hash: item.blur_hash,
+        tags: item.tags,
     }));
 
     console.log(requiredImageData);
@@ -267,9 +268,9 @@ async function getRandomImages(url) {
     target = imgGallery.lastChild;
     console.log(target);
 
-    setTimeout(() => {
-        observerMainPage.observe(target);
-    }, 3000);
+    // setTimeout(() => {
+    //     observerMainPage.observe(target);
+    // }, 3000);
 }
 
 getRandomImages(`${REQUEST_URL}&page=${pageCount}`);
@@ -301,6 +302,7 @@ async function filterImages (url) {
         height: item.height,
         urls: item.urls,
         blur_hash: item.blur_hash,
+        tags: item.tags,
     }));
 
     console.log(requiredImageData);
@@ -310,9 +312,9 @@ async function filterImages (url) {
     target = imgGallery.lastChild;
     console.log(target);
 
-    setTimeout(() => {
-        observerFilter.observe(target);
-    }, 3000);
+    // setTimeout(() => {
+    //     observerFilter.observe(target);
+    // }, 3000);
 }
 
 const removeActiveClass = () => {
