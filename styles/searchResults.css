@@ -1,13 +1,14 @@
 @import url('../style.css');
 
 .main {
-    padding: 20px;
+    padding: 5px;
 }
 
 .main h1 {
     color: var(--txt-primary-color);
     font-size: var(--fnt-heading);
     font-weight: var(--fnt-semibold);
+    margin: 0 5px;
 }
 
 #search-result-title {
@@ -15,5 +16,19 @@
 }
 
 .img-gallery {
-    padding: 40px 0;
+    padding: 20px 0;
+}
+
+@media screen and (min-width: 390px) {
+    .main {
+        padding: 20px;
+    }
+
+    .main h1 {
+        margin: 0;
+    }
+
+    .img-gallery {
+        padding: 40px 0;
+    }
 }

@@ -316,6 +316,56 @@
         <i class="fa-solid fa-sliders"></i>
         <span>Filters</span>
     </button>
+    <template id="template-img-gallery">
+        <figure class="img-container">
+            <div class="img-overlay">
+                <div class="img-footer">
+                    <div class="user-detail-container">
+                        <img class="profile-pic" src="">
+                        <p class="user-name"></p>
+                    </div>
+                    <a class="btn download-btn" href="" download="true">
+                        <i class="fa-solid fa-download" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="img-element-flex-container">
+                <img class="img" loading="lazy" src="" style="visibility: visible;">
+            </div>
+        </figure>
+    </template>
+
+    <template id="template-img-modal">
+        <div class="img-modal-container-with-overlay">
+            <div class="image-modal">
+                <div class="modal-header">
+                    <button class="close-image-modal-btn btn">Close</button>
+                </div>
+                <div class="modal-container">
+                    <div class="modal-img-container">
+                        <img class="modal-img" src="">
+                    </div>
+                    <div class="modal-typography-section">
+                        <div class="modal-img-info-container">
+                            <div class="modal-info-container-user">
+                                <img class="profile-pic" src="">
+                                <p class="user-name modal-user-name"></p>
+                            </div>
+                            <a class="btn download-btn modal-download-btn" href="" download>
+                                Download <i class="fa-solid fa-download" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                        <p class="modal-img-detail"></p>
+                        <div class="tags-container"></div>
+                    </div>
+                    <section class="related-img-section">
+                        <h2>Related Images</h2>
+                        <div class="img-gallery related-img-container"></div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </template>
 </body>
 </html>
 </body>
