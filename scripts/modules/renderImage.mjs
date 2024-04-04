@@ -7,6 +7,12 @@ const BASE_URL = 'https://api.unsplash.com/';
 const SEARCH_BASE_URL = '/pages/results.html?query=';
 const RELATED_IMAGES_BASE_URL = `${BASE_URL}/search/photos?client_id=U-JKAdSdHZRA2-glU6Oe4WSzqHGP6GpKM8DZ8yUkelY&per_page=10`;
 let images = [];
+let currentModalImages = [];
+
+const getBlob= async (url) => {
+    const response = fetch(url)
+    return (await response).blob();
+}
 
 const injectImagesToGallery = (clonedTemplate, wrapper, data, idx) => {
     const imgContainer = clonedTemplate.querySelector('.img-container');
@@ -20,13 +26,19 @@ const injectImagesToGallery = (clonedTemplate, wrapper, data, idx) => {
     canvas.setAttribute('width', '100%');
     canvas.setAttribute('height', '100%');
     imgContainer.appendChild(canvas);
+
     const pixel = decode(data[idx].blur_hash, 128, 128);
     const imageData = new ImageData(pixel, 128, 128);
     let ctx = canvas.getContext('2d');
     ctx.putImageData(imageData, 0, 0);
     profilePic.src = data[idx].user.profile_image.large;
     userName.textContent = data[idx].user.username;
-    downloadBtn.href = data[idx].urls.regular;
+
+    getBlob(data[idx].urls.regular).then((blob) => {
+        downloadBtn.href = URL.createObjectURL(blob);
+        downloadBtn.download = 'image.jpg';
+      });
+
     imgElement.setAttribute('src', data[idx].urls.small);
     imgElement.style.visibility = 'hidden';
     imgOverlay.style.display = 'none';
@@ -58,13 +70,16 @@ const injectModalToImages = (clonedTemplate, wrapper, data, idx) => {
         }
     }
     
-    // image modal...
-    modalDownloadBtn.href = data[idx].urls.regular;
+    // image modal... 
+    getBlob(data[idx].urls.regular).then((blob) => {
+      modalDownloadBtn.href = URL.createObjectURL(blob);
+      modalDownloadBtn.download = 'image.jpg';
+    });
 
     modalImg.setAttribute('src', data[idx].urls.regular);
     modalProfilePic.src = data[idx].user.profile_image.large;
     // modalUserName.textContent = data[idx].user.username;
-    modalImgDetail.textContent = data[idx].description;
+    modalImgDetail.textContent = data[idx].description ? data[idx].description : data[idx].alt_description;
 
     wrapper.appendChild(clonedTemplate);
 }
@@ -84,59 +99,92 @@ const handleImageModalInteractions = (data) => {
     let rotateYFactor = 45;
     let modalOpacity = 1;
 
+    let currentWidthFactor = 80;
+    let currentHeightFactor = 80;
+
     const listenModalScroll = (event) => {
         event.preventDefault();
         const element = event.target;
         const currentImgModal = element.querySelector('.image-modal');
+        const scrollTopVal = element.scrollTop;
 
-        const delta = 0.001;
-        // const imgModalContainerOverlay = document.querySelector('.img-modal-container-with-overlay');
+        const delta = 0.05;
 
-        if (element.classList.contains('img-modal-container-with-overlay')  && event.deltaY) {
-            if (alpha === 1 && scalingFactor > 0.4) {
-                scalingFactor -= delta * event.deltaY;
-                element.style = "transform-style: preserve-3d";
-                currentImgModal.style = "perspective: 500px";
-                rotateYFactor += delta * event.deltaY * 45;
-                modalOpacity -= delta * event.deltaY;
-                // currentImgModal.style.opacity = modalOpacity;
-                currentImgModal.style.transform = `scale(${scalingFactor})`;
-                // currentImgModal.style.transform = `scale(${scalingFactor}) rotate3d(0, 1, 0, ${rotateYFactor}deg)`;
-                console.log("Rotating factor ---->", rotateYFactor); 
-            } else if (alpha < 1 && alpha > 0.4 && scalingFactor < 1){
-                scalingFactor -= delta * event.deltaY;
-                currentImgModal.style.transform = `scale(${scalingFactor})`;
-                rotateYFactor = 0;
+        if ( window.innerWidth >= 768) {
+            console.log('scroll Y:', scrollTopVal);
+            console.log("Im biggger.........");
+            console.log("ELement....", element);
+
+            if (currentWidthFactor <= 100) {
+                currentWidthFactor += 1 * delta;
             }
-            if (event.deltaY > 0 && alpha < 1) {
-                // Increase alpha when scrolling down if alpha is less than 1...
-                alpha += delta * event.deltaY;
-                alpha = Math.min(alpha, 1);
-
-            } else if (event.deltaY < 0 && alpha > 0.4) {
-                // Decrease alpha when scrolling up if alpha is greater than 0.4...
-                alpha += delta * event.deltaY;
-                alpha = Math.max(alpha, 0.4);
-
-                if (alpha === 0.4) {
-                    scalingFactor = 1;
-                }
+            if (currentHeightFactor <= 90) {
+                currentHeightFactor += 1 * delta;
             }
 
-            element.style.backgroundColor = `hsla(0, 0%, 7%, ${alpha})`;
+            
+            // element.style.width = `${currentWidthFactor}dvh`;
+            // element.style.maxHeight = `${currentHeightFactor}dvh`;
+            
+            // element.style.height = '100dvh';
         }
+        // // const imgModalContainerOverlay = document.querySelector('.img-modal-container-with-overlay');
+
+        // if (element.classList.contains('img-modal-container-with-overlay')  && event.deltaY) {
+        //     if (alpha === 1 && scalingFactor > 0.4) {
+        //         scalingFactor -= delta * event.deltaY;
+        //         element.style = "transform-style: preserve-3d";
+        //         currentImgModal.style = "perspective: 500px";
+        //         rotateYFactor += delta * event.deltaY * 45;
+        //         modalOpacity -= delta * event.deltaY;
+        //         // currentImgModal.style.opacity = modalOpacity;
+        //         currentImgModal.style.transform = `scale(${scalingFactor})`;
+        //         // currentImgModal.style.transform = `scale(${scalingFactor}) rotate3d(0, 1, 0, ${rotateYFactor}deg)`;
+        //         console.log("Rotating factor ---->", rotateYFactor); 
+        //     } else if (alpha < 1 && alpha > 0.4 && scalingFactor < 1){
+        //         scalingFactor -= delta * event.deltaY;
+        //         currentImgModal.style.transform = `scale(${scalingFactor})`;
+        //         rotateYFactor = 0;
+        //     }
+        //     if (event.deltaY > 0 && alpha < 1) {
+        //         // Increase alpha when scrolling down if alpha is less than 1...
+        //         alpha += delta * event.deltaY;
+        //         alpha = Math.min(alpha, 1);
+
+        //     } else if (event.deltaY < 0 && alpha > 0.4) {
+        //         // Decrease alpha when scrolling up if alpha is greater than 0.4...
+        //         alpha += delta * event.deltaY;
+        //         alpha = Math.max(alpha, 0.4);
+
+        //         if (alpha === 0.4) {
+        //             scalingFactor = 1;
+        //         }
+        //     }
+
+        //     element.style.backgroundColor = `hsla(0, 0%, 7%, ${alpha})`;
+        // }
     };
 
     let userNameArr = [];
 
+    // const closeAllModals = () => {
+    //     imgModalContainerWithOverlays.forEach(element => {
+    //         element.classList.remove('show-modal');
+    //     })
+    // }
+
     imgModals.forEach((_, idx) => {
         // imgModals[idx].style = "padding: 40px";
-        imgContainerOverlays[idx].addEventListener('click', () => {
+        imgContainerOverlays[idx].addEventListener('click', (e) => {
             // imgModals[idx].showModal();
+            // closeAllModals();
             imgModalContainerWithOverlays[idx].classList.add('show-modal');
             document.body.style = "overflow: hidden";
+
             // imgModalContainerWithOverlays[idx].addEventListener('wheel', listenModalScroll, { passive: false });
+            imgModals[idx].addEventListener('scroll', listenModalScroll);
             imgModalContainerWithOverlays[idx].style.backgroundColor = `hsla(0, 0%, 7%, ${alpha})`;
+            console.log("Data list array: ", data);
             console.log("Username: ", data[idx].user.username);
             userNameArr = [];
 
@@ -194,26 +242,34 @@ const handleImageModalInteractions = (data) => {
 
         closeModalBtns[idx].addEventListener('click', () => {
             // imgModals[idx].close();
-            images = [];
+            // images = [];
             related_images_url = RELATED_IMAGES_BASE_URL;
             console.log("IMage afer closing,", images);
             document.body.style = "overflow: visible";
             imgModalContainerWithOverlays[idx].classList.remove('show-modal');
             alpha = 0.4;
-            // window.removeEventListener('wheel', listenModalScroll);
+            window.removeEventListener('scroll', listenModalScroll);
             modalUserNames[idx].textContent = "";
             modalImgDetails[idx].textContent = "";
+            currentWidthFactor = 80;
+            currentHeightFactor = 80;
         });
 
         document.addEventListener('keydown', (e) => {
             if (e.key == 'Escape') {
-                images = [];
+                // images = [];
                 related_images_url = RELATED_IMAGES_BASE_URL;
                 // imgModals[idx].close();
                 document.body.style = "overflow: visible";
                 imgModalContainerWithOverlays[idx].classList.remove('show-modal');
 
-                // window.removeEventListener('wheel', listenModalScroll);
+                window.removeEventListener('scroll', listenModalScroll);
+
+                modalUserNames[idx].textContent = "";
+                modalImgDetails[idx].textContent = "";
+
+                currentWidthFactor = 80;
+                currentHeightFactor = 80;
             }
         });
     });
@@ -238,15 +294,15 @@ export const renderImages = (wrapper, data) => {
 }
 
 async function getRandomImages(url, imgContainer) {
-    images = [];
+    currentModalImages = [];
     const imgData = await fetchData(url);
-    images = [...await imgData.results];
+    currentModalImages = [...await imgData.results];
     console.log("Images: ",images);
 
     imgContainer.innerHTML = '';
 
     // filter out only the needed data...
-    const requiredImageData = images.map(item => ({
+    const requiredImageData = currentModalImages.map(item => ({
         id: item.id,
         user: item.user,
         description: item.description,

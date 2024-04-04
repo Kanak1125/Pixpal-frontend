@@ -343,6 +343,11 @@ dialog .modal-footer {
     bottom: 0;
     padding: 5px;
     font-size: var(--fnt-sm);
+    opacity: 0;
+}
+
+.img-container:hover .img-footer {
+    opacity: 1;
 }
 
 .user-detail-container {
@@ -412,7 +417,7 @@ dialog .modal-footer {
     left: 0;
     width: 100dvw;
     min-height: 100dvh;
-    background-color: hsla(0, 0%, 7%, 0.4);
+    background-color: hsla(0, 0%, 7%, 0.75) !important;
     z-index: 4;
     display: none;
 }
@@ -427,8 +432,7 @@ dialog .modal-footer {
     transform-origin: center;
     width: 100%;
     min-height: 100px;
-    max-height: 84dvh;
-    overflow-y: scroll;
+    max-height: 90dvh;
     border: none;
     outline: none;
     background: var(--primary-color);
@@ -438,6 +442,7 @@ dialog .modal-footer {
     border-radius: var(--border-radius-md) var(--border-radius-sm) 0 0;
     overflow-y: scroll;
     animation: scaleUp 300ms ease-out;
+    position: relative;
 }
 
 .image-modal::-webkit-scrollbar {
@@ -456,23 +461,33 @@ dialog .modal-footer {
 
 .modal-header {
     width: 100%;
-    padding: 16px 20px 16px 0;
+    padding: 16px 20px 16px;
     position: sticky;
     top: 0;
     background-color: hsla(0, 50%, 100%, 0.6);
     backdrop-filter: blur(16px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     z-index: 4;
 }
 
 .close-image-modal-btn {
+    position: absolute;
+    width: 44px;
+    height: 44px;
+    top: 20px;
+    right: 20px;
+    /* top: -54px;
+    right: 20px; */
     display: block;
     width: max-content;
-    margin-left: auto;
+    font-size: var(--fnt-large);
+    background: transparent !important;
 }
 
 .modal-container {
-    display: flex;
-    flex-direction: column;
+    display: grid;
     align-items: center;
     padding: 20px;
     gap: 20px;
@@ -500,6 +515,7 @@ dialog .modal-footer {
     /* align-self: start; */
     /* border: 2px solid red; */
     padding: 20px 0;
+    width: 100%;
 }
 
 .related-img-section h2 {
@@ -509,7 +525,7 @@ dialog .modal-footer {
 
 @keyframes scrollImgUp {
     0% {
-        transform: translateY(50%) scale(0.6);
+        transform: translateY(80%) scale(0.6);
         opacity: 0.4; 
     }
     100% {
@@ -661,15 +677,28 @@ dialog .modal-footer {
     
     .image-modal {
         transform-origin: center bottom;
-        width: 84%;
-        max-height: 90dvh;
+        /* width: 84%;
+        max-height: 80dvh; */
+        width: 100%;
+        max-height: 90dvh;        
     }
     /* .image-modal {
         max-width: 800px;
     } */
-    /* .modal-container {
-        flex-direction: row;
-    } */
+    .modal-container {
+        grid-template-columns: 60% 40%;
+        align-items: start;
+        /* border: 2px solid red; */
+    }
+
+    .modal-typography-section {
+        /* border: 2px solid green; */
+        padding: 0 20px;
+    }
+
+    .related-img-section {
+        grid-column: 1 / -1;
+    }
     .modal-img {
         width: 72%;
     }

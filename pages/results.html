@@ -337,24 +337,32 @@
 
     <template id="template-img-modal">
         <div class="img-modal-container-with-overlay">
+            <button class="close-image-modal-btn btn"><i class="fas fa-times"></i></button>
             <div class="image-modal">
                 <div class="modal-header">
-                    <button class="close-image-modal-btn btn">Close</button>
+                    <div class="modal-info-container-user">
+                        <img class="profile-pic" src="">
+                        <p class="user-name modal-user-name"></p>
+                    </div>
+                    <a class="btn download-btn modal-download-btn" href="" download>
+                        Download <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <!-- <button class="close-image-modal-btn btn">Close</button> -->
                 </div>
                 <div class="modal-container">
                     <div class="modal-img-container">
                         <img class="modal-img" src="">
                     </div>
                     <div class="modal-typography-section">
-                        <div class="modal-img-info-container">
+                        <!-- <div class="modal-img-info-container">
                             <div class="modal-info-container-user">
                                 <img class="profile-pic" src="">
                                 <p class="user-name modal-user-name"></p>
                             </div>
                             <a class="btn download-btn modal-download-btn" href="" download>
-                                Download <i class="fa-solid fa-download" aria-hidden="true"></i>
+                                Download <i class="fas fa-chevron-down"></i>
                             </a>
-                        </div>
+                        </div> -->
                         <p class="modal-img-detail"></p>
                         <div class="tags-container"></div>
                     </div>
