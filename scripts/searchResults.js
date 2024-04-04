@@ -4,8 +4,6 @@ import handleMainFilterBtn from "./modules/handleMainFilterBtn.mjs";
 import fetchData from "./modules/fetchData.mjs";
 
 const imgGallery = document.querySelector('.img-gallery');
-const searchForm = document.getElementById('search-form');
-const searchFormInput = document.getElementById('search-form-input');
 const searchResultTitle = document.getElementById('search-result-title');
 const noResultsInfo = document.querySelector('.no-results-info');
 let filterInputLabels = document.querySelectorAll('.filter-input-label');
@@ -117,15 +115,6 @@ fetchResults().then((data) => {
     }
 }).catch((err) => {
     console.error("ERROR: ", err);
-});
-
-
-searchForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    const searchQuery = searchFormInput.value.trim();
-    const url = `/pages/results.html?query=${encodeURIComponent(searchQuery)}`;
-    window.location.href = url;
 });
 
 const removeActiveClass = () => {

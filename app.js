@@ -11,11 +11,6 @@ const navTagContainer = document.querySelector('.nav-tag-container');
 const tagsContainer = document.querySelector('.tags-container');
 const imgGallery = document.querySelector('.img-gallery');
 
-const searchForm = document.getElementById('search-form');
-const searchFormInput = document.getElementById('search-form-input');
-// const imgGallerySubGrid1 = document.querySelector('.img-gallery-sub-grid-1');
-// const imgGallerySubGrid2 = document.querySelector('.img-gallery-sub-grid-2');
-// const imgGallerySubGrid3 = document.querySelector('.img-gallery-sub-grid-3');
 let filterInputLabels = document.querySelectorAll('.filter-input-label');
 let filterInputOptions = document.querySelectorAll('.filter-input-option');
 const filterOrientation = document.querySelectorAll('.filter-orientation');
@@ -25,12 +20,6 @@ const filterColors = document.querySelectorAll('.filter-input-label-color');
 const clearAllFilterBtns = document.querySelectorAll('.clear-all-btn');
 
 const tags = ['nature', 'space', 'world', 'food', 'tech', 'dark', 'place', 'mountain', 'green', 'animals', 'aliens', 'pets', 'annimals'];
-
-// the following is api end-point is for the searching...
-// const BASE_URL = 'https://api.unsplash.com/search/photos'
-
-// the api end-point for the random photo filter...
-// const BASE_URL = 'https://api.unsplash.com/search/photos'
 
 let images = [];
 const BASE_URL = 'https://api.unsplash.com/';
@@ -103,15 +92,6 @@ tagScrollerLeft.addEventListener('click', () => {
 
     navTagContainer.scrollTo(newScrollPosition, 0);
 });
-
-searchForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    const searchQuery = searchFormInput.value.trim();
-    const url = `${SEARCH_BASE_URL}${encodeURIComponent(searchQuery)}`;
-    window.location.href = url;
-});
-
 
 const observerFilter = new IntersectionObserver(entries => {
     entries.forEach((entry, idx) => {

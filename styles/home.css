@@ -99,7 +99,8 @@ dialog .modal-nav > h2 {
 
 } */
 dialog .modal-nav > .clear-all-btn,
-.clear-all-btn {
+.clear-all-btn,
+.clear-recent-searches-btn {
     width: max-content;
     margin-left: auto;
     border: 1.25px solid var(--border-color-light);
@@ -108,7 +109,8 @@ dialog .modal-nav > .clear-all-btn,
 }
 
 dialog .modal-nav > .clear-all-btn:hover,
-.clear-all-btn:hover {
+.clear-all-btn:hover,
+.clear-recent-searches-btn:hover {
     border-color: var(--accent-color) !important;
     color: var(--accent-color) !important;
     background: var(--primary-color);
@@ -445,18 +447,26 @@ dialog .modal-footer {
     position: relative;
 }
 
-.image-modal::-webkit-scrollbar {
+body::-webkit-scrollbar,
+.image-modal::-webkit-scrollbar,
+.search-bar-info-container::-webkit-scrollbar {
     width: 6px;
 }
-.image-modal::-webkit-scrollbar-track {
+body::-webkit-scrollbar-track,
+.image-modal::-webkit-scrollbar-track,
+.search-bar-info-container::-webkit-scrollbar-track {
     background: #f1f1f1; 
 }
-.image-modal::-webkit-scrollbar-thumb {
+body::-webkit-scrollbar-thumb,
+.image-modal::-webkit-scrollbar-thumb,
+.search-bar-info-container::-webkit-scrollbar-thumb {
     background: var(--txt-secondary-color); 
     border-radius:10px;
 }
-.image-modal::-webkit-scrollbar-thumb:hover {
-    background: #555; 
+body::-webkit-scrollbar-thumb:hover,
+.image-modal::-webkit-scrollbar-thumb:hover,
+.search-bar-info-container::-webkit-scrollbar-thumb:hover {
+    background: hsl(0, 0%, 33%); 
 } 
 
 .modal-header {
@@ -487,7 +497,8 @@ dialog .modal-footer {
 }
 
 .modal-container {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     align-items: center;
     padding: 20px;
     gap: 20px;
@@ -686,7 +697,7 @@ dialog .modal-footer {
         max-width: 800px;
     } */
     .modal-container {
-        grid-template-columns: 60% 40%;
+        /* grid-template-columns: 60% 40%; */
         align-items: start;
         /* border: 2px solid red; */
     }

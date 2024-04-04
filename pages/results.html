@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="../styles/searchResults.css">
     <!-- <script src="../app.js" type="module" defer></script> -->
     <script src="./../scripts/searchResults.js" type="module" defer></script>
+    <script type="module" src="../scripts/modules/search.mjs" defer></script>
 
     <script src="https://kit.fontawesome.com/80b2a22f1b.js" crossorigin="anonymous"></script>
 </head>
@@ -36,11 +37,20 @@
             <a href="/" class="logo logo-full">
                 <img src="../assets/images/Pixpal-Type.svg" alt="pixpal logo">
             </a>
-            <form action="#" id="search-form" class="search-form">
+            <form action="#" autocomplete="off" id="search-form" class="search-form">
                 <span class="search-icon">
                     <i class="fa-solid fa-magnifying-glass" ></i>
                 </span>
                 <input type="search" name="" id="search-form-input" placeholder="Search..." />
+                <div class="search-bar-info-container">
+                    <div class=" recent-searches-container">
+                        <div class="recent-searches-container-header">
+                            <h2>Recent Searches</h2>
+                            <div class="btn  clear-recent-searches-btn">Clear All</div>
+                        </div>
+                        <div class="recent-searches-list"></div>
+                    </div>
+                </div>
             </form>
             <!-- <a href="/login" class="login-btn">Login</a> -->
             <div class="user-icon" style="display: none;">
