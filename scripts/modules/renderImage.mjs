@@ -272,6 +272,15 @@ const handleImageModalInteractions = (data) => {
                 currentHeightFactor = 80;
             }
         });
+
+        imgModalContainerWithOverlays[idx].addEventListener('click', (e) => {
+            let clickInside = imgModals[idx].contains(e.target);
+          
+            if (!clickInside) {
+               imgModalContainerWithOverlays[idx].classList.remove('show-modal');
+               document.body.style = "overflow: visible";
+            }
+        });
     });
 }
 

@@ -469,17 +469,21 @@ body::-webkit-scrollbar-thumb:hover,
     background: hsl(0, 0%, 33%); 
 } 
 
-.modal-header {
-    width: 100%;
-    padding: 16px 20px 16px;
-    position: sticky;
-    top: 0;
+.modal-header-bg {
     background-color: hsla(0, 50%, 100%, 0.6);
     backdrop-filter: blur(16px);
+    position: sticky;
+    top: 0;
+    width: 100%;
+    margin-top: 0;
+    z-index: 4;
+}
+
+.modal-header {
+    padding: 16px 20px 16px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    z-index: 4;
 }
 
 .close-image-modal-btn {
@@ -500,8 +504,11 @@ body::-webkit-scrollbar-thumb:hover,
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
     gap: 20px;
+}
+
+.modal-container > *:not(:first-child) {
+    padding: 20px;
 }
 
 /* .image-modal::backdrop {
@@ -587,6 +594,7 @@ body::-webkit-scrollbar-thumb:hover,
     display: flex;
     align-items: center;
     gap: 8px;
+    font-size: var(--fnt-sm);
 }
 
 .modal-download-btn:hover,
@@ -624,8 +632,20 @@ body::-webkit-scrollbar-thumb:hover,
         min-width: 60%;
     }
 
+    .modal-container > * {
+        padding: 16px;
+    }
+
+    .modal-header-bg {
+        margin-top: 16px;
+    }
+
     .modal-img {
-        width: 80%;
+        width: 100%;
+    }
+
+    .modal-download-btn {
+        font-size: var(--fnt-body);
     }
 }
 
@@ -696,10 +716,24 @@ body::-webkit-scrollbar-thumb:hover,
     /* .image-modal {
         max-width: 800px;
     } */
-    .modal-container {
-        /* grid-template-columns: 60% 40%; */
-        align-items: start;
-        /* border: 2px solid red; */
+
+    .modal-header-bg {
+        margin-top: 24px;
+    }
+
+    .modal-header {
+        padding: 16px 74px;
+        max-width: 1024px;
+        margin: 0 auto;
+    }
+    
+    .modal-container > *:not(:last-child) {
+        padding: 0 74px ;
+        max-width: 1024px;
+    }
+    
+    .modal-container > * {
+        padding: 16px;
     }
 
     .modal-typography-section {
@@ -710,9 +744,9 @@ body::-webkit-scrollbar-thumb:hover,
     .related-img-section {
         grid-column: 1 / -1;
     }
-    .modal-img {
+    /* .modal-img {
         width: 72%;
-    }
+    } */
 
     .related-img-section {
         align-self: start;
