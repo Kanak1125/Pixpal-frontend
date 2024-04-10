@@ -300,6 +300,7 @@ dialog .modal-footer {
     transition: var(--transition);
     /* border: 2px solid green; */
     z-index: 0;
+    display: none;
 }
 
 .img-container:hover .img-overlay {
@@ -610,6 +611,10 @@ body::-webkit-scrollbar-thumb:hover,
         align-items: start;
         padding: 20px;
         columns: 2 auto;
+    }
+
+    .img-overlay {
+        display: block;
     }
 
     .img-footer {
