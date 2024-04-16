@@ -24,7 +24,24 @@ const searchQuery = urlParams.get('query');
 
 searchResultTitle.textContent = decodeURI(searchQuery);
 
-const SEARCH_URL = `${BASE_URL}/search/photos?client_id=U-JKAdSdHZRA2-glU6Oe4WSzqHGP6GpKM8DZ8yUkelY&query=${searchQuery}&per_page=20`;
+// const SEARCH_URL = `${BASE_URL}/search/photos?client_id=U-JKAdSdHZRA2-glU6Oe4WSzqHGP6GpKM8DZ8yUkelY&query=${searchQuery}&per_page=20`;
+
+// const SEARCH_URL = `http://127.0.0.1:8000/search/photos/?q=${searchQuery}`;
+
+const SEARCH_URL_BASE = 'http://127.0.0.1:8000/search/photos/?';
+let search_url;
+const searchQueries = searchQuery.split(' ');
+
+if (searchQueries.length > 1) {
+    search_url = `${SEARCH_URL_BASE}`;
+    for (let item of searchQueries) {
+        search_url += `q=${item}&`;
+    }
+} else {
+    search_url = `${SEARCH_URL_BASE}q=${searchQuery}`;
+}
+console.log("QUery ===> ", search_url);
+
 let images = [];
 let previousElement = {}; 
 let pageCountFilter = 1;
@@ -34,10 +51,12 @@ let filter_url = '';
 
 const fetchResults = async () => {
     try {
-        const response = await fetch(SEARCH_URL);
+        // const response = await fetch(SEARCH_URL);
+        const response = await fetch(search_url);
         const data = await response.json();
         console.log(data);
-        return data.results;
+        // return data.results;
+        return data;
     } catch (err) {
         console.error("Error while searching...", err);
     }

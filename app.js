@@ -21,17 +21,29 @@ const clearAllFilterBtns = document.querySelectorAll('.clear-all-btn');
 
 const tags = ['nature', 'space', 'world', 'food', 'tech', 'dark', 'place', 'mountain', 'green', 'animals', 'aliens', 'pets', 'annimals'];
 
+let target;
+let filter_url = '';
+
+const WIN_PADDING = 40;
+const SCROLL_UNIT = 200;
+
+let pageCount = 1;
+let pageCountFilter = 1;
+
+// currently the following are working...
+let skip = 0;
+const PER_PAGE = 5;
+
 let images = [];
 const BASE_URL = 'https://api.unsplash.com/';
 const FILTER_BASE_URL = `${BASE_URL}/search/photos?client_id=U-JKAdSdHZRA2-glU6Oe4WSzqHGP6GpKM8DZ8yUkelY&query=random&per_page=20`;
 
-const REQUEST_URL = `${BASE_URL}photos/?client_id=U-JKAdSdHZRA2-glU6Oe4WSzqHGP6GpKM8DZ8yUkelY`;
-// const REQUEST_URL = `http://127.0.0.1:8000/images/`;
+// const REQUEST_URL = `${BASE_URL}photos/?client_id=U-JKAdSdHZRA2-glU6Oe4WSzqHGP6GpKM8DZ8yUkelY`;
+const REQUEST_URL = `http://127.0.0.1:8000/images/`;
 const SEARCH_BASE_URL = '/pages/results.html?query=';
-// const REQUEST_URL_WITH_FILTERS = `${BASE_URL}/?client_id=U-JKAdSdHZRA2-glU6Oe4WSzqHGP6GpKM8DZ8yUkelY&query=nature&orientation=landscape&page=${pageCount}`;
+// let updated_request_url = `${REQUEST_URL}?skip=${skip}&limit=${PER_PAGE}`;
 
-let target;
-let filter_url = '';
+// const REQUEST_URL_WITH_FILTERS = `${BASE_URL}/?client_id=U-JKAdSdHZRA2-glU6Oe4WSzqHGP6GpKM8DZ8yUkelY&query=nature&orientation=landscape&page=${pageCount}`;
 
 tags.forEach(tag => {
     const tagLink = document.createElement('a');
@@ -46,12 +58,6 @@ window.addEventListener('resize', () => {
     filterInputLabels = document.querySelectorAll('.filter-input-label');
     filterInputOptions = document.querySelectorAll('.filter-input-option');
 });
-
-const WIN_PADDING = 40;
-const SCROLL_UNIT = 200;
-
-let pageCount = 1;
-let pageCountFilter = 1;
 
 // hamburgerIcon.addEventListener('click', () => {
 //     hamburgerIcon.classList.toggle('ham-active');
@@ -171,17 +177,11 @@ const observerFilter = new IntersectionObserver(entries => {
 //     }) 
 // }
 
-const observerMainPage = createObserver(target, REQUEST_URL, pageCount, getRandomImages);
+const observerMainPage = createObserver(target, REQUEST_URL, skip, PER_PAGE, getRandomImages);
 
 
 async function getRandomImages(url) {
     let newImages = [];
-    // let tempArr = images;
-    // images = [];
-
-    // while (imgGallery.firstChild) {
-    //     imgGallery.removeChild(imgGallery.lastChild);
-    // }
     
     if (images.length === 0) {
         newImages = await fetchData(url);
@@ -194,21 +194,7 @@ async function getRandomImages(url) {
     }
     console.log("Images: ", images);
 
-    // filter out only the needed data...
-    const requiredImageData = newImages.map(item => ({
-        id: item.id,
-        user: item.user,
-        description: item.description,
-        alt_description: item.alt_description,
-        created_at: item.created_at,
-        width: item.width,
-        height: item.height,
-        urls: item.urls,
-        blur_hash: item.blur_hash,
-        tags: item.tags,
-    }));
-
-    console.log(requiredImageData);
+    console.log(newImages);
 
     // let columnCount = parseInt(getComputedStyle(document.getElementById('img-gallery')).columnCount)
 
@@ -217,7 +203,7 @@ async function getRandomImages(url) {
     // console.log("Array of 3", Array.from(new Array(columnCount)));
     
     // Array.from(new Array(columnCount)).map((c, idx) =>{
-    //     let columnImgArr = requiredImageData.filter(item => {
+    //     let columnImgArr = newImages.filter(item => {
     //         return idx + columnCount;
     //     });
         
@@ -227,16 +213,16 @@ async function getRandomImages(url) {
     // console.log("New test", Array.from(new Array(columnCount)));
     // for (let i = 0; i < Array.from(new Array(columnCount)).length; i++) {
     //     let newArr = [];
-    //     for (let j = 0; j < requiredImageData.length; j ++) {
+    //     for (let j = 0; j < newImages.length; j ++) {
     //         if (j % columnCount === 0) {
-    //             newArr.push(requiredImageData[i + j]);
+    //             newArr.push(newImages[i + j]);
     //         }
     //     }
     //     columnBasedDataSet.push(newArr);
     // }
 
     // renderImagesNew({columnCount:columnCount, columnData:columnBasedDataSet});
-    renderImages(imgGallery, requiredImageData);
+    renderImages(imgGallery, newImages);
 
     // prevImageCount += 10;
     
@@ -246,16 +232,19 @@ async function getRandomImages(url) {
 
     // target = imgGallerySubGrid3.lastChild;
     // target = imgGallery.lastChild.lastChild;
-    target = imgGallery.lastChild;
-    console.log(target);
+    // target = imgGallery.lastChild;
+    
+    const imgContainers = document.querySelectorAll('.img-container');
+    
+    target = imgContainers[imgContainers.length - 1];
 
-    // setTimeout(() => {
-    //     observerMainPage.observe(target);
-    // }, 3000);
+    setTimeout(() => {
+        observerMainPage.observe(target);
+    }, 3000);
 }
 
-getRandomImages(`${REQUEST_URL}&page=${pageCount}`);
-// getRandomImages(REQUEST_URL);
+// getRandomImages(`${REQUEST_URL}&page=${pageCount}`);
+getRandomImages(REQUEST_URL);
 // getRandomImages(`http://127.0.0.1:5501/images/`);
 
 let previousElement = {};
@@ -274,23 +263,9 @@ async function filterImages (url) {
     }
     console.log(images);
 
-    // filter out only the needed data...
-    const requiredImageData = newImages.map(item => ({
-        id: item.id,
-        user: item.user,
-        description: item.description,
-        alt_description: item.alt_description,
-        created_at: item.created_at,
-        width: item.width,
-        height: item.height,
-        urls: item.urls,
-        blur_hash: item.blur_hash,
-        tags: item.tags,
-    }));
+    console.log(newImages);
 
-    console.log(requiredImageData);
-
-    renderImages(imgGallery, requiredImageData);
+    renderImages(imgGallery, newImages);
 
     target = imgGallery.lastChild;
     console.log("Target: ", target);

@@ -10,6 +10,7 @@ let images = [];
 let currentModalImages = [];
 
 const getBlob= async (url) => {
+    console.log("current URL ===>", url);
     const response = fetch(url)
     return (await response).blob();
 }
@@ -31,7 +32,8 @@ const injectImagesToGallery = (clonedTemplate, wrapper, data, idx) => {
     const imageData = new ImageData(pixel, 128, 128);
     let ctx = canvas.getContext('2d');
     ctx.putImageData(imageData, 0, 0);
-    profilePic.src = data[idx].user.profile_image.large;
+    // profilePic.src = data[idx].user.profile_image.large;
+    profilePic.src = data[idx].user.profile_image;
     userName.textContent = data[idx].user.username;
 
     getBlob(data[idx].urls.regular).then((blob) => {
@@ -77,7 +79,8 @@ const injectModalToImages = (clonedTemplate, wrapper, data, idx) => {
     });
 
     modalImg.setAttribute('src', data[idx].urls.regular);
-    modalProfilePic.src = data[idx].user.profile_image.large;
+    modalProfilePic.src = data[idx].user.profile_image;
+    // modalProfilePic.src = data[idx].user.profile_image.large;
     // modalUserName.textContent = data[idx].user.username;
     modalImgDetail.textContent = data[idx].description ? data[idx].description : data[idx].alt_description;
 

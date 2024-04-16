@@ -227,7 +227,8 @@ dialog .modal-footer {
     gap: 24px;
 } */
 
-.img-gallery {
+.img-gallery,
+.related-img-container {
     --gap: 5px;
     --columns: 2 auto;
     margin: 0 auto;
@@ -251,7 +252,8 @@ dialog .modal-footer {
     background: #000;
 } */
 
-.img-gallery > * {
+.img-gallery > *,
+.related-img-container > * {
     break-inside: avoid;
     margin-bottom: var(--gap);
     /* flex: 0 0 33.3333%; */
@@ -259,7 +261,8 @@ dialog .modal-footer {
 }
 
 @supports (grid-template-columns: masonry) {
-    .img-gallery {
+    .img-gallery,
+    .related-img-container {
         display: grid;
         grid-template-columns: repeat(var(--columns));
         grid-template-rows: masonry;
@@ -606,7 +609,8 @@ body::-webkit-scrollbar-thumb:hover,
 
 @media screen and (min-width: 390px) {
     /* main section */
-    .img-gallery {
+    .img-gallery,
+    .related-img-container {
         --gap: 24px;
         align-items: start;
         padding: 20px;
@@ -690,7 +694,8 @@ body::-webkit-scrollbar-thumb:hover,
         scroll-behavior: smooth;
     }
 
-    .img-gallery {
+    .img-gallery,
+    .related-img-container {
         --gap: 24px;
         --columns: 2
         grid-template-columns: repeat(3, minmax(0, 1fr));

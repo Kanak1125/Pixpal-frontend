@@ -1,15 +1,21 @@
-const createObserver = (target, url, pageCount, callback) => {
+// the observer might be kept in the app.js file...
+
+const createObserver = (target, url, skip, limit, callback) => {
     console.log(url);
     const currentTarget = target;
     const observer = new IntersectionObserver(entries => {
         entries.forEach((entry, idx) => {
             console.log(entry);
             if (entry.isIntersecting) {
-                pageCount ++;
-    
-                const updatedRequestUrl = `${url}&page=${pageCount}`;
+                // pageCount ++;
+                
+                skip += limit;
+
+                const updatedRequestUrl = `${url}?skip=${skip}&limit=${limit}`;
                 callback(updatedRequestUrl);
-    
+                // callback(url);
+
+                console.log("Current target -=-=-=-=--=> ", currentTarget);
                 if (currentTarget) observer.unobserve(currentTarget);
             }
         })
