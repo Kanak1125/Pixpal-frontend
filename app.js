@@ -36,7 +36,8 @@ const PER_PAGE = 5;
 
 let images = [];
 const BASE_URL = 'https://api.unsplash.com/';
-const FILTER_BASE_URL = `${BASE_URL}/search/photos?client_id=U-JKAdSdHZRA2-glU6Oe4WSzqHGP6GpKM8DZ8yUkelY&query=random&per_page=20`;
+// const FILTER_BASE_URL = `${BASE_URL}/search/photos?client_id=U-JKAdSdHZRA2-glU6Oe4WSzqHGP6GpKM8DZ8yUkelY&query=random&per_page=20`;
+const FILTER_BASE_URL = `http://127.0.0.1:8000/search/photos?query=random`;
 
 // const REQUEST_URL = `${BASE_URL}photos/?client_id=U-JKAdSdHZRA2-glU6Oe4WSzqHGP6GpKM8DZ8yUkelY`;
 const REQUEST_URL = `http://127.0.0.1:8000/images/`;
@@ -222,6 +223,7 @@ async function getRandomImages(url) {
     // }
 
     // renderImagesNew({columnCount:columnCount, columnData:columnBasedDataSet});
+    console.log("NEW IMAGES ========>", newImages);
     renderImages(imgGallery, newImages);
 
     // prevImageCount += 10;

@@ -10,6 +10,8 @@
 
     <script src="https://kit.fontawesome.com/80b2a22f1b.js" crossorigin="anonymous"></script>
     <script type="module" src="./scripts/modules/search.mjs" defer></script>
+    <script type="module" src="./scripts/modules/uploadImage.mjs" defer></script>
+    <script src="/node_modules/fast-average-color-node/dist/index.js"></script>
 </head>
 <body>
     <header class="header">
@@ -17,6 +19,7 @@
             <a href="/" class="logo">
                 <img src="./assets/images/Pixpal-White-Mark.svg" alt="pixpal logo">
             </a>
+            <button class="upload-img-btn">Upload image</button>
             <a href="/pages/login.html" class="login-btn">Login</a>
             <a href="/pages/signup.html" class="btn signup-btn">Signup</a>
         </div>
@@ -221,6 +224,27 @@
         <!-- image gallery container -->
         <!-- <section class="img-gallery"></section> -->
     </div>
+    <dialog class="modal-upload-image">
+        <form id="upload-image-form" enctype="multipart/form-data">
+            <div class="input-container-upload-image">
+                <label for="file">Upload an image</label><br />
+                <input type="file" accept="jpg, png" id="file" name="file" />
+            </div>
+            <div class="input-container-add-description">
+                <label for="description">Description</label><br />
+                <input type="text" name="description" id="description">
+            </div>
+            <div class="input-container-add-tags">
+                <label for="tags">Tags</label><br />
+                <div class="input-tags-field-container">
+                    <div class="input-tags-container"></div>
+                    <input type="text" name="tags" id="tags" placeholder="Write and, hit enter to add another tag" />
+                </div>
+            </div>
+            <input type="submit" value="Submit photo">
+        </form>
+        <button class="close-upload-image-btn">Close</button>
+    </dialog>
     <dialog class="modal-filter">
         <nav class="modal-nav">
             <button class="close-btn">

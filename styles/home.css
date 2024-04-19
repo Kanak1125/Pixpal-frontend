@@ -252,6 +252,13 @@ dialog .modal-footer {
     background: #000;
 } */
 
+/* .modal-upload-image > #tags {
+    font-size: 4px;
+} */
+#tags {
+    font-size: 12px;
+}
+
 .img-gallery > *,
 .related-img-container > * {
     break-inside: avoid;
