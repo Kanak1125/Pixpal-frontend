@@ -10,6 +10,7 @@ let images = [];
 let currentModalImages = [];
 
 const getBlob= async (url) => {
+    console.log("Current imaage url ===> ", url);
     const response = fetch(url)
     return (await response).blob();
 }
@@ -36,9 +37,10 @@ const injectImagesToGallery = (clonedTemplate, wrapper, data, idx) => {
     userName.textContent = data[idx].user.username;
 
     getBlob(data[idx].urls.regular).then((blob) => {
+        console.log("DOWNLOAD URL ====> ", URL.createObjectURL(blob));
         downloadBtn.href = URL.createObjectURL(blob);
         downloadBtn.download = 'image.jpg';
-      });
+    });
 
     imgElement.setAttribute('src', data[idx].urls.small);
     imgElement.style.visibility = 'hidden';

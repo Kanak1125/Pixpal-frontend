@@ -1,6 +1,6 @@
 // import { getAverageColor } from "/node_modules/fast-average-color-node/dist/index.d.ts";
 // import { getAverageColor } from "fast-average-color-node";
-// import getAverageColor from "./averageColor.mjs";
+import getAverageColor from "./averageColor.mjs";
 
 const uploadImageForm = document.getElementById("upload-image-form");
 
@@ -33,6 +33,19 @@ uploadImageForm.addEventListener('submit', (e) => {
     // }
 
     // returnAverageColor();
+
+    // console.log("Width of the image", fileInputField.files[0].width, "Height of an image ====> ", fileInputField.files[0].height);
+    // // const imageEl = new Image();
+    // // imageEl.src = fileInputField.files[0].name;
+
+    // const imageEl = document.querySelectorAll('.img')[0];
+    // console.log("IMage els ====>", imageEl);
+
+
+    // imageEl.onload(() => {
+    //     const {R, G, B} = getAverageColor(imageEl);
+    //     console.log("RED ===>", R, "Green ====>", G, "Blue ====>", B);
+    // })
 
     const imgObjURL = URL.createObjectURL(fileInputField.files[0]);
     console.log("IMGE OBJECT URL ===> ", imgObjURL);

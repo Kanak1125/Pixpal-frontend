@@ -1,4 +1,10 @@
-const getAverageColor = (imageElement, ratio) => {
+/*
+    getAverageColor(imgElement: HTMLImageElement, ratio: number)
+
+    ratio --> determine the size of the image (number of bytes) to be taken from the array of imageData to blur... 
+*/
+
+const getAverageColor = (imageElement, ratio = 4) => {
     const canvas = document.createElement('canvas');
 
     let width = canvas.width = imageElement.width;
@@ -12,6 +18,7 @@ const getAverageColor = (imageElement, ratio) => {
 
     try {
         imageData = ctx.getImageData(0, 0, width, height);
+        console.log("IMage data =========> ", imageData.data);
         length = imageData.data.length;
     } catch (err) {
         console.error("ERROR FROM AVERAGE COLORS: ", err);
@@ -32,6 +39,12 @@ const getAverageColor = (imageElement, ratio) => {
         G += imageData.data[i + 1];
         B += imageData.data[i + 2];
     }
+
+    R = ~~(R / count);
+    G = ~~(G / count);
+    B = ~~(B / count);
+
+    return {R, G, B};
 }
 
 export default getAverageColor;
