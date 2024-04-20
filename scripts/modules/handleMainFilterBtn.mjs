@@ -8,6 +8,7 @@ const filtersBtn = document.querySelector('.filters-btn');
 
 
 filterIcon.addEventListener('click', () => {
+    console.log("FILTER OPENENEDDJKJDFJ>....")
     filterModal.showModal();
     document.body.style.overflow = "hidden";
 })
