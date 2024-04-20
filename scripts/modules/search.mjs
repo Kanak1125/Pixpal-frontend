@@ -68,15 +68,14 @@ searchForm.addEventListener('submit', (e) => {
 
     if (!recentSearches.includes(searchQuery)) {
         if (recentSearches.length >= MAX_RECENT_SEARCHES_LEN) {
-            recentSearches.pop();
-            recentSearches.unshift(searchQuery);
+            const newRecentSearches = recentSearches.slice(0, recentSearches.length - 1);
+            recentSearches = [searchQuery, ...newRecentSearches];
         } else {
-            recentSearches.unshift(searchQuery);
+            recentSearches = [searchQuery, ...recentSearches];
         }
     } else {
-        const idx = recentSearches.indexOf(searchQuery);
-        recentSearches.splice(idx, 1);
-        recentSearches.unshift(searchQuery);
+        const newRecentSearches = recentSearches.filter(item => item !== searchQuery);
+        recentSearches = [searchQuery, ...newRecentSearches];
     }
 
     localStorage.setItem("recent-searches", JSON.stringify(recentSearches));
