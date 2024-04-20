@@ -66,10 +66,16 @@ searchForm.addEventListener('submit', (e) => {
 
     if (searchQuery === '') return;
 
-    if (recentSearches.length >= MAX_RECENT_SEARCHES_LEN) {
-        recentSearches.pop();
-        recentSearches.unshift(searchQuery);
+    if (!recentSearches.includes(searchQuery)) {
+        if (recentSearches.length >= MAX_RECENT_SEARCHES_LEN) {
+            recentSearches.pop();
+            recentSearches.unshift(searchQuery);
+        } else {
+            recentSearches.unshift(searchQuery);
+        }
     } else {
+        const idx = recentSearches.indexOf(searchQuery);
+        recentSearches.splice(idx, 1);
         recentSearches.unshift(searchQuery);
     }
 

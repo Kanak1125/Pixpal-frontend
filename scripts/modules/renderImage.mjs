@@ -82,7 +82,7 @@ const injectModalToImages = (clonedTemplate, wrapper, data, idx) => {
     modalImg.setAttribute('src', data[idx].urls.regular);
     modalProfilePic.src = data[idx].user.profile_image_url;
     // modalProfilePic.src = data[idx].user.profile_image.large;
-    // modalUserName.textContent = data[idx].user.username;
+    modalUserName.textContent = data[idx].user.username;
     modalImgDetail.textContent = data[idx].description ? data[idx].description : data[idx].alt_description;
 
     wrapper.appendChild(clonedTemplate);
@@ -115,9 +115,9 @@ const handleImageModalInteractions = (data) => {
         const delta = 0.05;
 
         if ( window.innerWidth >= 768) {
-            console.log('scroll Y:', scrollTopVal);
-            console.log("Im biggger.........");
-            console.log("ELement....", element);
+            // console.log('scroll Y:', scrollTopVal);
+            // console.log("Im biggger.........");
+            // console.log("ELement....", element);
 
             if (currentWidthFactor <= 100) {
                 currentWidthFactor += 1 * delta;
@@ -229,7 +229,7 @@ const handleImageModalInteractions = (data) => {
             //     }
             // }
 
-            timer = setInterval(printUserName, 200);
+            // timer = setInterval(printUserName, 200);
             // if (imgDescriptionArr[idx] !== undefined) {
             //     timerDescription = setInterval(printImageDescription, 200);
             // }
@@ -244,20 +244,22 @@ const handleImageModalInteractions = (data) => {
             getRandomImages(related_images_url, relatedImagesContainers[idx]);
         });
 
-        closeModalBtns[idx].addEventListener('click', () => {
-            // imgModals[idx].close();
-            // images = [];
-            related_images_url = RELATED_IMAGES_BASE_URL;
-            console.log("IMage afer closing,", images);
-            document.body.style = "overflow: visible";
-            imgModalContainerWithOverlays[idx].classList.remove('show-modal');
-            alpha = 0.4;
-            window.removeEventListener('scroll', listenModalScroll);
-            modalUserNames[idx].textContent = "";
-            modalImgDetails[idx].textContent = "";
-            currentWidthFactor = 80;
-            currentHeightFactor = 80;
-        });
+        // I don't think the following is needed becoz the modal is being closed everytime when the it is clicked outside the modal...
+
+        // closeModalBtns[idx].addEventListener('click', () => {
+        //     // imgModals[idx].close();
+        //     // images = [];
+        //     related_images_url = RELATED_IMAGES_BASE_URL;
+        //     console.log("IMage afer closing,", images);
+        //     document.body.style = "overflow: visible";
+        //     imgModalContainerWithOverlays[idx].classList.remove('show-modal');
+        //     alpha = 0.4;
+        //     window.removeEventListener('scroll', listenModalScroll);
+        //     modalUserNames[idx].textContent = "";
+        //     modalImgDetails[idx].textContent = "";
+        //     currentWidthFactor = 80;
+        //     currentHeightFactor = 80;
+        // });
 
         document.addEventListener('keydown', (e) => {
             if (e.key == 'Escape') {
@@ -283,6 +285,8 @@ const handleImageModalInteractions = (data) => {
             if (!clickInside) {
                imgModalContainerWithOverlays[idx].classList.remove('show-modal');
                document.body.style = "overflow: visible";
+               closeModalBtns[idx].removeEventListener('click', closeModal);
+               document.removeEventListener('keydown', closeModalOnEscape);
             }
         });
     });
@@ -330,4 +334,32 @@ async function getRandomImages(url, imgContainer) {
 
     console.log(requiredImageData);
     renderImages(imgContainer, requiredImageData);
+}
+
+// close all modals function...
+function closeAllModals() {
+    const imgModalContainerWithOverlays = document.querySelectorAll('.img-modal-container-with-overlay');
+    const closeModalBtns = document.querySelectorAll('.close-image-modal-btn');
+
+    imgModalContainerWithOverlays.forEach(element => {
+        element.classList.remove('show-modal');
+    });
+
+    document.body.style = "overflow: visible";
+
+    closeModalBtns.forEach(btn => {
+        btn.removeEventListener('click', closeModal);
+    });
+
+    window.removeEventListener('keydown', closeModalOnEscape);
+}
+
+function closeModal() {
+    closeAllModals();
+}
+
+function closeModalOnEscape(e) {
+    if (e.key === 'Escape') {
+        closeAllModals();
+    }
 }
