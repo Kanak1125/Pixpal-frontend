@@ -19,9 +19,9 @@
             <a href="/" class="logo">
                 <img src="./assets/images/Pixpal-White-Mark.svg" alt="pixpal logo">
             </a>
-            <button class="upload-img-btn">Upload image</button>
             <a href="/pages/login.html" class="login-btn">Login</a>
             <a href="/pages/signup.html" class="btn signup-btn">Signup</a>
+            <button class="upload-img-btn"><i class="fa-solid fa-arrow-up-from-bracket"></i></button>
         </div>
         <nav class="nav-main">
             <a href="/" class="logo">
@@ -226,24 +226,24 @@
     </div>
     <dialog class="modal-upload-image">
         <form id="upload-image-form" enctype="multipart/form-data">
-            <div class="input-container-upload-image">
+            <div class="input-container input-container-upload-image">
                 <label for="file">Upload an image</label><br />
                 <input type="file" accept="jpg, png" id="file" name="file" />
             </div>
-            <div class="input-container-add-description">
+            <div class="input-container input-container-add-description">
                 <label for="description">Description</label><br />
                 <input type="text" name="description" id="description">
             </div>
-            <div class="input-container-add-tags">
+            <div class="input-container input-container-add-tags">
                 <label for="tags">Tags</label><br />
                 <div class="input-tags-field-container">
                     <div class="input-tags-container"></div>
-                    <input type="text" name="tags" id="tags" placeholder="Write and, hit enter to add another tag" />
+                    <input type="text" name="tags" id="input-tags" placeholder="Write and, hit enter to add another tag" />
                 </div>
             </div>
-            <input type="submit" value="Submit photo">
+            <input type="submit" value="Submit photo" class="btn">
         </form>
-        <button class="close-upload-image-btn">Close</button>
+        <button class="btn close-upload-image-btn ">Close</button>
     </dialog>
     <dialog class="modal-filter">
         <nav class="modal-nav">
@@ -375,6 +375,15 @@
                     </a>
                 </div>
                 <img class="img" loading="lazy" src="" style="visibility: visible;">
+            </div>
+            <div class="mb-img-footer">
+                <div class="mb-user-detail-container">
+                    <img class="mb-profile-pic" src="">
+                    <p class="mb-user-name"></p>
+                </div>
+                <a class="btn mb-download-btn" href="" download="true">
+                    <i class="fa-solid fa-download" aria-hidden="true"></i>
+                </a>
             </div>
         </figure>
     </template>

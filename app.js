@@ -34,13 +34,17 @@ let pageCountFilter = 1;
 let skip = 0;
 const PER_PAGE = 5;
 
+window.onload = () => {
+    skip = 0;
+};
+
 let images = [];
 const BASE_URL = 'https://api.unsplash.com/';
 // const FILTER_BASE_URL = `${BASE_URL}/search/photos?client_id=U-JKAdSdHZRA2-glU6Oe4WSzqHGP6GpKM8DZ8yUkelY&query=random&per_page=20`;
-const FILTER_BASE_URL = `http://127.0.0.1:8000/search/photos?query=random`;
+const FILTER_BASE_URL = `http://127.0.0.1:8000/api/search/photos?query=random`;
 
 // const REQUEST_URL = `${BASE_URL}photos/?client_id=U-JKAdSdHZRA2-glU6Oe4WSzqHGP6GpKM8DZ8yUkelY`;
-const REQUEST_URL = `http://127.0.0.1:8000/images/`;
+const REQUEST_URL = `http://127.0.0.1:8000/api/images/`;
 const SEARCH_BASE_URL = '/pages/results.html?query=';
 // let updated_request_url = `${REQUEST_URL}?skip=${skip}&limit=${PER_PAGE}`;
 
@@ -179,7 +183,6 @@ const observerFilter = new IntersectionObserver(entries => {
 // }
 
 const observerMainPage = createObserver(target, REQUEST_URL, skip, PER_PAGE, getRandomImages);
-
 
 async function getRandomImages(url) {
     let newImages = [];
@@ -343,7 +346,7 @@ clearAllFilterBtns.forEach(btn => {
     })
 });
 
-fetch('http://127.0.0.1:8000/images').then(res => res.json()).then(data => console.log("Data is here ====> ", data));
+fetch('http://127.0.0.1:8000/api/images').then(res => res.json()).then(data => console.log("Data is here ====> ", data));
 
 // filterInputOptions.forEach((item, idx) => {
 //     item.addEventListener('click', async () => {

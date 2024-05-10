@@ -22,6 +22,9 @@ const injectImagesToGallery = (clonedTemplate, wrapper, data, idx) => {
     const profilePic = clonedTemplate.querySelector('.profile-pic');
     const userName = clonedTemplate.querySelector('.user-name');
     const downloadBtn = clonedTemplate.querySelector('.download-btn');
+    const mbProfilePic = clonedTemplate.querySelector('.mb-profile-pic');
+    const mbUserName = clonedTemplate.querySelector('.mb-user-name');
+    const mbDownloadBtn = clonedTemplate.querySelector('.mb-download-btn');
     const canvas = document.createElement('canvas');
     canvas.classList.add('canvas');
     canvas.setAttribute('width', '100%');
@@ -33,13 +36,27 @@ const injectImagesToGallery = (clonedTemplate, wrapper, data, idx) => {
     let ctx = canvas.getContext('2d');
     ctx.putImageData(imageData, 0, 0);
     // profilePic.src = data[idx].user.profile_image.large;
-    profilePic.src = data[idx].user.profile_image_url;
-    userName.textContent = data[idx].user.username;
+    if (profilePic && userName) {
+        profilePic.src = data[idx].user.profile_image_url;
+        userName.textContent = data[idx].user?.username;
+    }
+
+    if (mbProfilePic && mbUserName) {
+        mbProfilePic.src = data[idx].user.profile_image_url;
+        mbUserName.textContent = data[idx].user?.username;
+    }
 
     getBlob(data[idx].urls.regular).then((blob) => {
         console.log("DOWNLOAD URL ====> ", URL.createObjectURL(blob));
-        downloadBtn.href = URL.createObjectURL(blob);
-        downloadBtn.download = 'image.jpg';
+        if (downloadBtn) {
+            downloadBtn.href = URL.createObjectURL(blob);
+            downloadBtn.download = 'image.jpg';
+        }
+
+        if (mbDownloadBtn) {
+            mbDownloadBtn.href = URL.createObjectURL(blob);
+            mbDownloadBtn.download = 'image.jpg';
+        }
     });
 
     imgElement.setAttribute('src', data[idx].urls.small);
@@ -82,8 +99,8 @@ const injectModalToImages = (clonedTemplate, wrapper, data, idx) => {
     modalImg.setAttribute('src', data[idx].urls.regular);
     modalProfilePic.src = data[idx].user.profile_image_url;
     // modalProfilePic.src = data[idx].user.profile_image.large;
-    modalUserName.textContent = data[idx].user.username;
-    modalImgDetail.textContent = data[idx].description ? data[idx].description : data[idx].alt_description;
+    modalUserName.textContent = data[idx]?.user.username;
+    modalImgDetail.textContent = data[idx]?.description ? data[idx].description : data[idx].alt_description;
 
     wrapper.appendChild(clonedTemplate);
 }
@@ -189,14 +206,14 @@ const handleImageModalInteractions = (data) => {
             imgModals[idx].addEventListener('scroll', listenModalScroll);
             imgModalContainerWithOverlays[idx].style.backgroundColor = `hsla(0, 0%, 7%, ${alpha})`;
             console.log("Data list array: ", data);
-            console.log("Username: ", data[idx].user.username);
+            console.log("Username: ", data[idx]?.user.username);
             userNameArr = [];
 
-            console.log("Usernames", data[idx].user.username);
-            userNameArr = data[idx].user.username.split('');
+            console.log("Usernames", data[idx]?.user.username);
+            userNameArr = data[idx]?.user.username.split('');
             let imgDescriptionArr;
 
-            if (data[idx].description) {
+            if (data[idx]?.description) {
                 imgDescriptionArr = data[idx].description.split('');
             }
 
@@ -239,7 +256,9 @@ const handleImageModalInteractions = (data) => {
             //     // console.log("TAG ====>,", data[idx].tags[0].title);
             //     // related_images_url += `&query=${data[idx].tags[0].title}`;
             // }
-            related_images_url = `${RELATED_IMAGES_BASE_URL}&query=${data[idx].tags[0].title}`;
+            console.log("IMage tags are here ==================> ", data[idx]?.tags[0]);
+            related_images_url = `${RELATED_IMAGES_BASE_URL}&query=${data[idx]?.tags[0].title}`;
+            console.log("Related Images url =====> ", related_images_url);
 
             getRandomImages(related_images_url, relatedImagesContainers[idx]);
         });

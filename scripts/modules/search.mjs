@@ -17,7 +17,7 @@ let recentSearches = JSON.parse(localStorage.getItem("recent-searches")) || [];
 // const keywords = ['space', 'alien', 'mountain', 'hill', 'hike', 'nature', 'nocturnal', 'bike', 'car', 'animal', 'pet', 'bird', 'fish', 'dinosaurs', 'plant', 'flower', 'star', 'sun', 'moon', 'jupiter', 'venus', 'mercury', 'planet', 'mars', 'saturn', 'pluto', 'uranus', 'neptune', 'station', 'ceres', 'dwarf', 'city', 'countryside', 'Nepal', 'Japan', 'Switzerland', 'Norway', 'Canada', 'Tokyo', 'Kathmandu', 'star-trek', 'Patan', 'Comet', 'Death', 'life', 'religion', 'spiritual', 'technology', 'AI', 'world', 'starbucks', 'people', 'anime', 'stress', 'candy', 'pole', 'starch', 'struck', 'people in black and white'];
 let keywords = [];
 const getTags = async () => {
-    const response = await fetch('http://127.0.0.1:8000/tags');
+    const response = await fetch('http://127.0.0.1:8000/api/tags');
     const data = await response.json();
     keywords = data.map(item => item.title);
     console.log("Tags from DB ====> ", keywords);

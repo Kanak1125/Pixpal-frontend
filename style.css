@@ -15,11 +15,12 @@
     --secondary-color: hsl(0, 0%, 11%);
     --accent-color: hsl(0, 0%, 7%);
     --accent-color-on-hover:  hsl(0, 0%, 0%);
+    --bg-color-tag: hsl(0, 0%, 50%);
 
     /* text colors */
     --txt-primary-color: var(--accent-color);
     --txt-secondary-color: hsl(0, 0%, 35%);
-    --txt-primary-color-inv: var(var(--primary-color));
+    --txt-primary-color-inv: var(--primary-color);
     --txt-secondary-color-inv: hsl(0, 0%, 75%);
     
 
@@ -49,6 +50,7 @@
     --border-color-light: hsl(0, 0%, 82%);
 
     /* border radius */
+    --border-radius-xs: 2px;
     --border-radius-sm: 5px; 
     --border-radius-md: 16px;
     --border-radius-full: 50%;

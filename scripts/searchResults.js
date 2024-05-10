@@ -28,7 +28,7 @@ searchResultTitle.textContent = decodeURI(searchQuery);
 
 // const SEARCH_URL = `http://127.0.0.1:8000/search/photos/?q=${searchQuery}`;
 
-const SEARCH_URL_BASE = 'http://127.0.0.1:8000/search/photos/?';
+const SEARCH_URL_BASE = 'http://127.0.0.1:8000/api/search/photos/?';
 let search_url;
 const searchQueries = searchQuery.split(' ');
 

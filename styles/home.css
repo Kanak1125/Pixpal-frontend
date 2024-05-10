@@ -100,6 +100,7 @@ dialog .modal-nav > h2 {
 } */
 dialog .modal-nav > .clear-all-btn,
 .clear-all-btn,
+.close-upload-image-btn,
 .clear-recent-searches-btn {
     width: max-content;
     margin-left: auto;
@@ -110,6 +111,7 @@ dialog .modal-nav > .clear-all-btn,
 
 dialog .modal-nav > .clear-all-btn:hover,
 .clear-all-btn:hover,
+.close-upload-image-btn:hover,
 .clear-recent-searches-btn:hover {
     border-color: var(--accent-color) !important;
     color: var(--accent-color) !important;
@@ -255,8 +257,101 @@ dialog .modal-footer {
 /* .modal-upload-image > #tags {
     font-size: 4px;
 } */
-#tags {
+
+.modal-upload-image {
+    inset: 50% 50%;
+    transform: translate(-50%, -50%);
+    /* transform-origin: left; */
+    
+    border: none;
+    outline: none;
+    padding: 16px;
+    border-radius: var(--border-radius-sm);
+    /* display: block; */
+    /* animation: scaleUp 300ms ease-out; */
+}
+
+/* .modal-upload-image > * {
+    border: 2px solid red;
+} */
+
+#upload-image-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-container > input,
+.input-tags-field-container {
+    margin-top: 5px;
+}
+
+.input-container > input[type = "text"],
+.input-tags-container {
+    padding: 0 5px;
+}
+
+.input-container-add-description > input,
+.input-container-add-tags > div {
+    font-size: var(--fnt-sm) !important;
+}
+
+.input-container-add-description > input[type = "text"],
+.input-tags-field-container {
+    width: 100%;
+    min-height: 24px;
+}
+
+.input-tags-field-container {
+    /* border: 2px solid red !important; */
+    display: flex;
+    flex-direction: column;
+}
+
+.input-tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    /* padding: 5px; */
+}
+
+.input-tags-field-container > input[type = "text"] {
+    width: 100%;
+    min-height: 24px;
+    /* border: 1px solid green; */
+    padding: 0 5px;
+    border: none;
+}
+
+.close-upload-image-btn {
+    margin-top: 16px;
+    width: 100%;
+    background: var(--primary-color);
+    color: var(--txt-primary-color);
+}
+
+#input-tags {
     font-size: 12px;
+}
+
+.upload-img-tag {
+    font-size: 10px;
+    background-color: var(--bg-color-tag);
+    color: var(--txt-primary-color-inv);
+    border-radius: var(--border-radius-xs);
+    padding: 2px 4px;
+    transition: var(--transition);
+}
+
+.animate-tag {
+    background: var(--secondary-color);
+    animation: jiggle 150ms linear 5;
+}
+
+@keyframes jiggle {
+    0% {transform: rotateZ(5deg)}
+    50% {transform: rotateZ(-5deg)}
+    100% {transform: rotateZ(0deg)}
 }
 
 .img-gallery > *,
@@ -313,10 +408,6 @@ dialog .modal-footer {
     display: none;
 }
 
-.img-container:hover .img-overlay {
-    opacity: 1;
-}
-
 .img-link {
     background: transparent;
 }
@@ -348,35 +439,45 @@ dialog .modal-footer {
     height: auto;
 }
 
-.img-footer {
+.img-footer,
+.mb-img-footer {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    position: absolute;
     bottom: 0;
     padding: 5px;
     font-size: var(--fnt-sm);
     opacity: 0;
 }
 
-.img-container:hover .img-footer {
+.mb-img-footer {
     opacity: 1;
 }
 
-.user-detail-container {
+.img-footer {
+    position: absolute;
+}
+
+.user-detail-container,
+.mb-user-detail-container {
     display: flex;
     align-items: center;
     column-gap: 6px;
+}
+
+.user-detail-container {
     color: var(--primary-color);
 }
 
-.profile-pic {
+.profile-pic,
+.mb-profile-pic {
     width: 24px;
     height: 24px;
     border-radius: var(--border-radius-full);
 }
 
-.download-btn {
+.download-btn,
+.mb-download-btn {
     width: max-content;
     line-height: 32px;
     background: transparent;
@@ -384,7 +485,13 @@ dialog .modal-footer {
     z-index: 2;
 }
 
-.download-btn:hover {
+.mb-download-btn {
+    color: var(--txt-primary-color);
+    box-shadow: none !important;
+}
+
+.download-btn:hover,
+.mb-download-btn:hover {
     color: var(--primary-color);
     background: transparent;
     box-shadow: none;
@@ -628,9 +735,19 @@ body::-webkit-scrollbar-thumb:hover,
         display: block;
     }
 
-    .img-footer {
+    .img-footer,
+    .mb-img-footer {
         padding: 12px;
         font-size: var(--fnt-body);
+    }
+
+    .mb-img-footer {
+        display: none;
+    }
+
+    .img-container:hover .img-overlay, 
+    .img-container:hover .img-footer {
+        opacity: 1;
     }
 
     .profile-pic {

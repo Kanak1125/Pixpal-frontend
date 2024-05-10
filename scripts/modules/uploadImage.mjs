@@ -1,6 +1,7 @@
-// import { getAverageColor } from "/node_modules/fast-average-color-node/dist/index.d.ts";
-// import { getAverageColor } from "fast-average-color-node";
-import getAverageColor from "./averageColor.mjs";
+//  var getAverageColor  = require("../../node_modules/fast-average-color-node/dist/index.js")
+//import { getAverageColor } from "fast-average-color-node";
+// import getAverageColor from "./averageColor.mjs";
+
 
 const uploadImageForm = document.getElementById("upload-image-form");
 
@@ -11,12 +12,14 @@ const closeUploadImageBtn = document.querySelector('.close-upload-image-btn');
 const fileInputField = document.getElementById('file');
 const imageDescriptionField = document.getElementById('description');
 
-const tagsInputField = document.getElementById('tags');
+const tagsInputField = document.getElementById('input-tags');
+
+const tagsInputFieldContainer = document.querySelector('.input-tags-field-container');
 const tagsInputContainer = document.querySelector('.input-tags-container');
 
 let tags = [];  // to be submitted along form data...
 
-const submit_image_URL = "http://127.0.0.1:8000/images/";
+const submit_image_URL = "http://127.0.0.1:8000/api/images/";
 
 uploadImageForm.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -69,7 +72,12 @@ uploadImageForm.addEventListener('submit', (e) => {
         body: formData,
     })
     .then(res => res.json())
-    .then(data => console.log(data))
+    .then(data => {
+        console.log(data)
+        uploadImageForm.reset();
+        tagsInputContainer.innerHTML = "";
+        tags = [];
+    })
     .catch(err => console.error("ERROR: ", err));
 
     console.log(fileInputField.files[0]);
@@ -77,20 +85,51 @@ uploadImageForm.addEventListener('submit', (e) => {
 
 //tags input field...
 
-tagsInputField.addEventListener('keypress', (e) => {
+tagsInputField.addEventListener('keydown', (e) => {
     const currentValue = e.target.value;
 
     if (e.key === "Enter") {
         e.preventDefault();
-        const tag = document.createElement('div');
-        tags.push(currentValue);
-        console.log("New tag added to the list... \n updated tags ====> ", tags);
-        tag.textContent = currentValue;
-        tagsInputContainer.appendChild(tag);
+        if (currentValue && !tags.includes(currentValue)) {
+            const tag = document.createElement('div');
+            tag.classList.add('tag');
+            tag.classList.add('upload-img-tag');
+            tags.push(currentValue);
+            console.log("New tag added to the list... \n updated tags ====> ", tags);
+            tag.textContent = currentValue;
+            tagsInputContainer.appendChild(tag);
+    
+            tagsInputField.value = "";
+        } else {
+            const tagIdx = tags.indexOf(currentValue);
+            const tagsFromDom = document.querySelectorAll('.upload-img-tag');
+            console.log("Tags from the DOM ====> ", tagsFromDom)
 
-        tagsInputField.value = "";
+            if (tagsFromDom[tagIdx]) {
+                tagsFromDom[tagIdx].classList.add('animate-tag');
+
+                setTimeout(() => {
+                    tagsFromDom[tagIdx].classList.remove('animate-tag');
+                }, 500);
+            } 
+
+        }
     }
+
+    if (e.key === "Backspace") {
+        if (currentValue) return;
+
+        e.preventDefault();
+
+        if (tags.length > 0) {
+            tags.pop();
+            tagsInputContainer.removeChild(tagsInputContainer.lastChild);
+        }
+        console.log("Tag deleted...");
+    }
+
 });
+
 
 // modal...
 
@@ -100,4 +139,7 @@ uploadImgBtn.addEventListener('click', () => {
 
 closeUploadImageBtn.addEventListener('click', () => {
     modalUploadImage.close();
+    uploadImageForm.reset();
+    tagsInputContainer.innerHTML = "";
+    tags = [];
 });
