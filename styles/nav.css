@@ -1,7 +1,6 @@
 @import url('../style.css');
 
 .header {
-    /* padding: 0 20px; */
     position: sticky;
     top: 0;
     background-color: var(--primary-color);
@@ -10,7 +9,6 @@
 
 .header a {
     text-decoration: none;
-    /* color: var(--txt-secondary-color); */
     font-size: var(--fnt-nav);
 }
 
@@ -31,7 +29,6 @@
 
 .nav-main {
     padding: 10px;
-    /* padding: 10px 20px; */
     position: relative;
 }
 
@@ -60,7 +57,6 @@
     width: 100%;
     --height-input-field: 44px;
     position: relative;
-    /* border: 2px solid green; */
 }
 
 input[type = "search"],
@@ -86,11 +82,9 @@ input[type = "text"],
     top: calc(var(--height-input-field) + 10px);
     left: 0;
     right: 0;
-    /* border: 1.25px solid var(--border-color-light); */
     border-radius: var(--border-radius-sm);
     background: var(--primary-color);
     box-shadow: 0 8px 32px hsla(0, 0%, 0%, 0.2);
-    /* overflow-y: scroll; */
     overflow-wrap: break-word;
     z-index: 3;
     display: none;
@@ -127,7 +121,6 @@ input[type = "text"],
 
 .recent-searches-container-header {
     display: flex;
-    /* border: 2px solid green; */
     align-items: center;
     justify-content: space-between;
 }
@@ -148,14 +141,12 @@ input[type = "text"],
 }
 
 .recommended-searches-list {
-    /* border: 2px solid red; */
     list-style-type: none;
 }
 
 .recommended-search-tag {
     width: 100%;
     display: block;
-    /* border: 2px solid green; */
     padding: 8px 16px;
     font-size: var(--fnt-sm);
     font-weight: var(--fnt-semibold);
@@ -178,15 +169,11 @@ input[type = "text"],
 }
 
 .search-form input:focus {
-    /* box-shadow: var(--box-shadow); */
     border: 1.5px solid var(--border-color-light);
-    /* box-shadow: 0 8px 32px hsla(0, 0%, 0%, 0.2); */
 }
 
 input[type="search"]::-webkit-search-cancel-button {
     -webkit-appearance: none;
-    /* width: 20px; */
-    /* border: 2px solid hsl(120, 100%, 25%) !important; */
     cursor: pointer;
     font-size: 44px;
     color: var(--accent-color) !important;
@@ -303,17 +290,14 @@ input[type="search"]::-webkit-search-cancel-button {
     align-items: center;
     justify-content: center;
     transform: translateY(-50%);
-    /* box-shadow: rgba(255, 255, 255, 1) 0px 10px 36px 0px, rgba(255, 255, 255, 1) 0px 0px 0px 1px; */
     z-index: 1;
 }
 
 .tag-scroller-wrapper-left {
     left: 0;
     background: linear-gradient(to right, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.1));
-    
-    /* the following to be for later after proper implementation of the scollable... */
-    /* background: white; */
 }
+
 .tag-scroller-wrapper-right {
     right: 0;
     background: linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.1));
@@ -322,7 +306,6 @@ input[type="search"]::-webkit-search-cancel-button {
 .tag-scroller {
     width: 40px;
     height: 40px;
-    /* border: 2px solid blue; */
     border-radius: var(--border-radius-full);
     color: var(--txt-primary-color);
     font-size: var(--fnt-heading);
@@ -334,7 +317,6 @@ input[type="search"]::-webkit-search-cancel-button {
     cursor: pointer;
     opacity: 0.8;
     transition: var(--transition);
-    /* z-index: 2; */
 }
 
 .tag-scroller.show {
@@ -402,7 +384,6 @@ input[type="search"]::-webkit-search-cancel-button {
     right: 20px;
     padding: 20px;
     display: none;
-    /* display: flex; */
     flex-direction: column;
     align-items: center;
     gap: 20px;

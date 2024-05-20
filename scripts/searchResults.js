@@ -8,13 +8,6 @@ const searchResultTitle = document.getElementById('search-result-title');
 const noResultsInfo = document.querySelector('.no-results-info');
 let filterInputLabels = document.querySelectorAll('.filter-input-label');
 let filterInputOptions = document.querySelectorAll('.filter-input-option');
-const filterOrientation = document.querySelectorAll('.filter-orientation');
-const filterFileType = document.querySelectorAll('.filter-file-type');
-const filterColors = document.querySelectorAll('.filter-input-label-color');
-const mainFilterCloseBtn = document.querySelector('.main-filter-close-btn');
-const mainFilterContainer = document.querySelector('.main-filter-container');
-const mainContainer = document.querySelector('.container');
-const filtersBtn = document.querySelector('.filters-btn');
 const clearAllFilterBtns = document.querySelectorAll('.clear-all-btn');
 
 const urlParams = new URLSearchParams(window.location.search);
@@ -23,10 +16,6 @@ const BASE_URL = 'https://api.unsplash.com/';
 const searchQuery = urlParams.get('query');
 
 searchResultTitle.textContent = decodeURI(searchQuery);
-
-// const SEARCH_URL = `${BASE_URL}/search/photos?client_id=U-JKAdSdHZRA2-glU6Oe4WSzqHGP6GpKM8DZ8yUkelY&query=${searchQuery}&per_page=20`;
-
-// const SEARCH_URL = `http://127.0.0.1:8000/search/photos/?q=${searchQuery}`;
 
 const SEARCH_URL_BASE = 'http://127.0.0.1:8000/api/search/photos/?';
 let search_url;
@@ -51,11 +40,9 @@ let filter_url = '';
 
 const fetchResults = async () => {
     try {
-        // const response = await fetch(SEARCH_URL);
         const response = await fetch(search_url);
         const data = await response.json();
         console.log(data);
-        // return data.results;
         return data;
     } catch (err) {
         console.error("Error while searching...", err);

@@ -208,7 +208,6 @@ filterInputOptions.forEach((item, idx) => {
         //     previousElement[filterName].classList.remove('filter-active');
         // }
         // const previousFilterLabel = Array.from(filterInputLabels).find(label => label.name === previousElement[filterName]);
-        // console.log("Previous label >>>>>>", previousFilterLabel);
         console.log("Previous elements:", previousElement);
 
         // remove the child until there is firstChild left in image Gallery...
@@ -249,34 +248,3 @@ clearAllFilterBtns.forEach(btn => {
         getRandomImages(REQUEST_URL);
     })
 });
-
-fetch('http://127.0.0.1:8000/api/images').then(res => res.json()).then(data => console.log("Data is here ====> ", data));
-
-// filterInputOptions.forEach((item, idx) => {
-//     item.addEventListener('click', async () => {
-//         console.log(filterInputLabels[idx], item);
-//         const filterValue = item.value;
-//         images = [];
-
-//         while(imgGallery.firstChild) {
-//             imgGallery.removeChild(imgGallery.lastChild);
-//         }
-        
-//         if (item.checked) {
-//             console.log("From checkbox listener", item.value);
-//             filter_url = `${BASE_URL}/search/photos?client_id=U-JKAdSdHZRA2-glU6Oe4WSzqHGP6GpKM8DZ8yUkelY&query=random&per_page=20&orientation=${filterValue}`;
-//             filterInputLabels[idx].classList.add('filter-active');
-//             const data = await fetchData(filter_url);
-//             images = data.results;
-//             console.log(data);
-//             filterImages(filter_url);
-//         } else {
-//             filter_url = `${BASE_URL}/search/photos?client_id=U-JKAdSdHZRA2-glU6Oe4WSzqHGP6GpKM8DZ8yUkelY&query=random&per_page=20`;
-//             filterInputLabels[idx].classList.remove('filter-active');
-//             const data = await fetchData(filter_url);
-//             console.log(data);
-//             images = data.results;
-//             filterImages(filter_url);
-//         }
-//     })
-// });
