@@ -47,6 +47,14 @@
     color: white;
 }
 
+.upload-img-btn {
+    cursor: pointer;
+}
+
+.upload-img-btn-lg-screen {
+    display: none;
+}
+
 dialog.modal-filter {
     position: absolute;
     min-height: 100vh;
@@ -100,6 +108,7 @@ dialog .modal-nav > h2 {
 } */
 dialog .modal-nav > .clear-all-btn,
 .clear-all-btn,
+.close-upload-image-btn,
 .clear-recent-searches-btn {
     width: max-content;
     margin-left: auto;
@@ -110,6 +119,7 @@ dialog .modal-nav > .clear-all-btn,
 
 dialog .modal-nav > .clear-all-btn:hover,
 .clear-all-btn:hover,
+.close-upload-image-btn:hover,
 .clear-recent-searches-btn:hover {
     border-color: var(--accent-color) !important;
     color: var(--accent-color) !important;
@@ -151,11 +161,20 @@ dialog .modal-nav > .clear-all-btn:hover,
 .filter-input-label-color.filter-color-red {
     background: red;
 }
-.filter-input-label-color.filter-color-blue {
-    background: blue;
+.filter-input-label-color.filter-color-yellow {
+    background: yellow;
 }
 .filter-input-label-color.filter-color-green {
     background: green;
+}
+.filter-input-label-color.filter-color-cyan {
+    background: cyan;
+}
+.filter-input-label-color.filter-color-blue {
+    background: blue;
+}
+.filter-input-label-color.filter-color-magenta {
+    background: magenta;
 }
 .filter-input-label-color.filter-color-white {
     background: white;
@@ -163,26 +182,6 @@ dialog .modal-nav > .clear-all-btn:hover,
 .filter-input-label-color.filter-color-black {
     background: black;
 }
-.filter-input-label-color.filter-color-yellow {
-    background: yellow;
-}
-.filter-input-label-color.filter-color-orange {
-    background: orange;
-}
-.filter-input-label-color.filter-color-purple {
-    background: purple;
-}
-.filter-input-label-color.filter-color-teal {
-    background: teal;
-}
-
-/* .filter-input-label.filter-input-label-color.filter-active {
-    background-color: transparent !important;
-    opacity: 0.5;
-} */
-/* .filter-input-label.filter-active:hover {
-    color: white;
-} */
 
 .filter-by-options-container > input[type="radio"] {
     display: none;
@@ -199,33 +198,13 @@ dialog .modal-footer {
 .apply-filter-btn {
     height: auto;
     padding: 16px 0;
-    /* font-size: 15px; */
     font-weight: var(--fnt-medium);
 }
-
-/* dialog.modal-filter::backdrop {
-    background: green;
-} */
-
-
 
 .main-filter {
     display: none;
     height: max-content;
 }
-
-/* main section */
-/* .img-gallery {
-    /* border: 2px solid green; 
-    padding: 40px 0;
-    display: grid;
-    gap: 24px;
-}
-
-.img-gallery-sub-grid {
-    display: grid;
-    gap: 24px;
-} */
 
 .img-gallery,
 .related-img-container {
@@ -236,34 +215,126 @@ dialog .modal-footer {
     columns: var(--columns);
     gap: var(--gap);
     min-width: 100%;
-    /* display: flex;
-    flex-direction: row; */
-    /* writing-mode: horizontal-tb; */
-    /* display: flex;
-    flex-wrap: wrap;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap; */
 }
-/* 
-.sub-column{
-    width: 100px;
-    height: 100px;
-    background: #000;
-} */
 
-/* .modal-upload-image > #tags {
-    font-size: 4px;
-} */
-#tags {
+.modal-upload-image {
+    inset: 50% 50%;
+    transform: translate(-50%, -50%);
+    border: none;
+    outline: none;
+    padding: 16px;
+    border-radius: var(--border-radius-sm);
+    min-width: 240px;
+    max-width: 444px;
+    width: 44%;
+}
+
+
+dialog.modal-upload-image::backdrop {
+    background-color: rgba(0, 0, 0, 0.75);
+}
+
+#upload-image-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-container > input,
+.input-tags-field-container {
+    margin-top: 5px;
+}
+
+.input-container > input[type = "text"],
+.input-tags-container {
+    padding: 0 5px;
+}
+
+.input-container-add-description > input,
+.input-container-add-tags > div {
+    font-size: var(--fnt-sm) !important;
+}
+
+.input-container-upload-image {
+    width: 100%;
+}
+
+.label-upload-file {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100px;
+    border: 1px solid var(--secondary-color);
+    border-radius: var(--border-radius-sm);
+    word-wrap: break-word;
+    word-break: break-all;
+    user-select: none;
+}
+.input-img-file {
+    display: none;
+}
+
+.upload-img {
+    width: auto;
+    height: 100%;
+    object-fit: contain;
+}
+
+.input-container-add-description > input[type = "text"],
+.input-tags-field-container {
+    width: 100%;
+    min-height: 24px;
+}
+
+
+.input-tags-field-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.input-tags-field-container > input[type = "text"] {
+    width: 100%;
+    min-height: 24px;
+    padding: 0 5px;
+    border: none;
+}
+
+.close-upload-image-btn {
+    margin-top: 16px;
+    width: 100%;
+    background: var(--primary-color);
+    color: var(--txt-primary-color);
+}
+
+#input-tags {
     font-size: 12px;
+}
+
+.upload-img-tag {
+    font-size: 10px;
+    background-color: var(--bg-color-tag);
+    color: var(--txt-primary-color-inv);
+    border-radius: var(--border-radius-xs);
+    padding: 2px 4px;
+    transition: var(--transition);
+}
+
+.animate-tag {
+    background: var(--secondary-color);
+    animation: jiggle 150ms linear 5;
 }
 
 .img-gallery > *,
 .related-img-container > * {
     break-inside: avoid;
     margin-bottom: var(--gap);
-    /* flex: 0 0 33.3333%; */
     overflow-x: hidden;
 }
 
@@ -294,12 +365,6 @@ dialog .modal-footer {
     animation: pulse 2000ms linear infinite;
 }
 
-@keyframes pulse {
-    0% {opacity: 1}
-    50% {opacity: 0.8}
-    100% {opacity: 1}
-}
-
 .img-overlay,
 .img-link {
     position: absolute;
@@ -308,13 +373,8 @@ dialog .modal-footer {
     background-color: rgba(0, 0, 0, 0.25);
     opacity: 0;
     transition: var(--transition);
-    /* border: 2px solid green; */
     z-index: 0;
     display: none;
-}
-
-.img-container:hover .img-overlay {
-    opacity: 1;
 }
 
 .img-link {
@@ -329,54 +389,51 @@ dialog .modal-footer {
 .img-element-flex-container {
     display: flex;
 }
-/* .close-image-modal-btn {
-    position: absolute;
-    top: -10px;
-    right: 0;
-} */
-@keyframes scaleUp {
-    0% {
-        transform: scale(0.2) ;
-    }
-    100% {
-        transform: scale(1);
-    }
-}
 
 .modal-img {
     width: 100%;
     height: auto;
 }
 
-.img-footer {
+.img-footer,
+.mb-img-footer {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    position: absolute;
     bottom: 0;
     padding: 5px;
     font-size: var(--fnt-sm);
     opacity: 0;
 }
 
-.img-container:hover .img-footer {
+.mb-img-footer {
     opacity: 1;
 }
 
-.user-detail-container {
+.img-footer {
+    position: absolute;
+}
+
+.user-detail-container,
+.mb-user-detail-container {
     display: flex;
     align-items: center;
     column-gap: 6px;
+}
+
+.user-detail-container {
     color: var(--primary-color);
 }
 
-.profile-pic {
+.profile-pic,
+.mb-profile-pic {
     width: 24px;
     height: 24px;
     border-radius: var(--border-radius-full);
 }
 
-.download-btn {
+.download-btn,
+.mb-download-btn {
     width: max-content;
     line-height: 32px;
     background: transparent;
@@ -384,7 +441,13 @@ dialog .modal-footer {
     z-index: 2;
 }
 
-.download-btn:hover {
+.mb-download-btn {
+    color: var(--txt-primary-color);
+    box-shadow: none !important;
+}
+
+.download-btn:hover,
+.mb-download-btn:hover {
     color: var(--primary-color);
     background: transparent;
     box-shadow: none;
@@ -412,7 +475,6 @@ dialog .modal-footer {
     transform: translateX(-50%);
     display: none;
     width: max-content;
-    /* font-size: var(--fnt-heading); */
 }
 
 .no-results-info {
@@ -450,7 +512,6 @@ dialog .modal-footer {
     outline: none;
     background: var(--primary-color);
     border-radius: var(--border-radius-sm);
-    /* scrollbar-width: none; */
     margin-top: 40px;
     border-radius: var(--border-radius-md) var(--border-radius-sm) 0 0;
     overflow-y: scroll;
@@ -522,11 +583,6 @@ body::-webkit-scrollbar-thumb:hover,
     padding: 20px;
 }
 
-/* .image-modal::backdrop {
-    background: var(--accent-color);
-    opacity: 0.4;
-} */
-
 .modal-img-container {
     text-align: center;
     overflow: hidden;
@@ -541,8 +597,6 @@ body::-webkit-scrollbar-thumb:hover,
 }
 
 .related-img-section {
-    /* align-self: start; */
-    /* border: 2px solid red; */
     padding: 20px 0;
     width: 100%;
 }
@@ -550,17 +604,6 @@ body::-webkit-scrollbar-thumb:hover,
 .related-img-section h2 {
     font-family: var(--fnt-heading);
     color: var(--txt-primary-color);
-}
-
-@keyframes scrollImgUp {
-    0% {
-        transform: translateY(80%) scale(0.6);
-        opacity: 0.4; 
-    }
-    100% {
-        transform: translateY(0%) scale(1);
-        opacity: 1; 
-    }
 }
 
 .modal-typography-section {
@@ -579,7 +622,6 @@ body::-webkit-scrollbar-thumb:hover,
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-    /* border: 2px solid green; */
 }
 
 .modal-info-container-user {
@@ -592,11 +634,6 @@ body::-webkit-scrollbar-thumb:hover,
 .span-username-single-char,
 .span-image-details-single-char {
     animation: animateTxtChar 150ms linear;
-}
-
-@keyframes animateTxtChar {
-    0% {font-size: 6px;}
-    100% {font-size: var(--fnt-body);}
 }
 
 .modal-download-btn {
@@ -614,8 +651,50 @@ body::-webkit-scrollbar-thumb:hover,
     box-shadow: var(--box-shadow-btn);
 }
 
+@keyframes scrollImgUp {
+    0% {
+        transform: translateY(80%) scale(0.6);
+        opacity: 0.4; 
+    }
+    100% {
+        transform: translateY(0%) scale(1);
+        opacity: 1; 
+    }
+}
+
+@keyframes animateTxtChar {
+    0% {font-size: 6px;}
+    100% {font-size: var(--fnt-body);}
+}
+
+@keyframes jiggle {
+    0% {transform: rotateZ(5deg)}
+    50% {transform: rotateZ(-5deg)}
+    100% {transform: rotateZ(0deg)}
+}
+
+@keyframes pulse {
+    0% {opacity: 1}
+    50% {opacity: 0.8}
+    100% {opacity: 1}
+}
+
+@keyframes scaleUp {
+    0% {
+        transform: scale(0.2) ;
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
 @media screen and (min-width: 390px) {
     /* main section */
+    .upload-img-btn-lg-screen {
+        display: block;
+        color: var(--accent-color);
+    }
+
     .img-gallery,
     .related-img-container {
         --gap: 24px;
@@ -628,9 +707,19 @@ body::-webkit-scrollbar-thumb:hover,
         display: block;
     }
 
-    .img-footer {
+    .img-footer,
+    .mb-img-footer {
         padding: 12px;
         font-size: var(--fnt-body);
+    }
+
+    .mb-img-footer {
+        display: none;
+    }
+
+    .img-container:hover .img-overlay, 
+    .img-container:hover .img-footer {
+        opacity: 1;
     }
 
     .profile-pic {
@@ -669,8 +758,6 @@ body::-webkit-scrollbar-thumb:hover,
     .container {
         display: block;
         position: relative;
-        /* min-height: 300px; */
-        /* column-gap: 5%; */
         width: 100%;
         padding: 20px;
     }
@@ -690,8 +777,6 @@ body::-webkit-scrollbar-thumb:hover,
         display: block;
         position: sticky;
         top: 160px;
-        /* overflow-y: scroll; */
-        /* border: 2px solid green; */
     }
 
     .main-filter .filter-options-container {
@@ -725,14 +810,9 @@ body::-webkit-scrollbar-thumb:hover,
     
     .image-modal {
         transform-origin: center bottom;
-        /* width: 84%;
-        max-height: 80dvh; */
         width: 100%;
         max-height: 90dvh;        
     }
-    /* .image-modal {
-        max-width: 800px;
-    } */
 
     .modal-header-bg {
         margin-top: 24px;
@@ -754,16 +834,12 @@ body::-webkit-scrollbar-thumb:hover,
     }
 
     .modal-typography-section {
-        /* border: 2px solid green; */
         padding: 0 20px;
     }
 
     .related-img-section {
         grid-column: 1 / -1;
     }
-    /* .modal-img {
-        width: 72%;
-    } */
 
     .related-img-section {
         align-self: start;

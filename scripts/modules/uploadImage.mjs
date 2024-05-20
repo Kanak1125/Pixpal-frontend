@@ -1,103 +1,175 @@
-// import { getAverageColor } from "/node_modules/fast-average-color-node/dist/index.d.ts";
-// import { getAverageColor } from "fast-average-color-node";
+//  var getAverageColor  = require("../../node_modules/fast-average-color-node/dist/index.js")
+//import { getAverageColor } from "fast-average-color-node";
 import getAverageColor from "./averageColor.mjs";
+import dropHandler from "./dragDropImage.mjs";
+
 
 const uploadImageForm = document.getElementById("upload-image-form");
 
-const uploadImgBtn = document.querySelector('.upload-img-btn');
+const uploadImgBtnList = document.querySelectorAll('.upload-img-btn');
 const modalUploadImage = document.querySelector('.modal-upload-image');
 const closeUploadImageBtn = document.querySelector('.close-upload-image-btn');
 
 const fileInputField = document.getElementById('file');
 const imageDescriptionField = document.getElementById('description');
 
-const tagsInputField = document.getElementById('tags');
+const tagsInputField = document.getElementById('input-tags');
+
+const tagsInputFieldContainer = document.querySelector('.input-tags-field-container');
 const tagsInputContainer = document.querySelector('.input-tags-container');
+
+const labelUploadFile = document.querySelector('.label-upload-file');
+const imgFileInput = document.querySelector('.input-img-file');
+
+let formData = new FormData();
+let droppedFile = null;
 
 let tags = [];  // to be submitted along form data...
 
-const submit_image_URL = "http://127.0.0.1:8000/images/";
+const submit_image_URL = "http://127.0.0.1:8000/api/images/";
 
-uploadImageForm.addEventListener('submit', (e) => {
+imgFileInput.addEventListener('change', () => {
+    labelUploadFile.textContent = fileInputField.files[0].name;
+});
+
+labelUploadFile.addEventListener('drop', (e) => {
+    const droppedFile = dropHandler(e);
+
+    if (droppedFile) {
+        formData.set('uploaded_file', droppedFile);
+    }
+
+    console.log("FormData uploaded file from drop listener ====> ", formData.get('uploaded_file'));
+});
+
+uploadImageForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    
 
-    console.log("Form submitted ======>")
-    const formData = new FormData();
-    
-    // let color = "";
-
-    // async function returnAverageColor() {
-    //     color = await getAverageColor(fileInputField.files[0]);
-    //     console.log("Average color ====>", color);
-    // }
-
-    // returnAverageColor();
-
-    // console.log("Width of the image", fileInputField.files[0].width, "Height of an image ====> ", fileInputField.files[0].height);
-    // // const imageEl = new Image();
-    // // imageEl.src = fileInputField.files[0].name;
-
-    // const imageEl = document.querySelectorAll('.img')[0];
-    // console.log("IMage els ====>", imageEl);
-
-
-    // imageEl.onload(() => {
-    //     const {R, G, B} = getAverageColor(imageEl);
-    //     console.log("RED ===>", R, "Green ====>", G, "Blue ====>", B);
-    // })
-
-    const imgObjURL = URL.createObjectURL(fileInputField.files[0]);
-    console.log("IMGE OBJECT URL ===> ", imgObjURL);
-    // formData.append('blur_hash', 'skldfjlks');
+    // const imgObjURL = URL.createObjectURL(fileInputField.files[0]);
+    // console.log("IMGE OBJECT URL ===> ", imgObjURL);
     formData.append('description', imageDescriptionField.value);
-    formData.append('uploaded_file', fileInputField.files[0]);
-    formData.append('color', '#abcdef');
+
+    if (droppedFile) {
+        formData.set('uploaded_file', droppedFile);
+    } else if (fileInputField.files.length > 0) {
+        formData.set('uploaded_file', fileInputField.files[0]);
+    } else {
+        console.error("No file provided during submission...");
+    }
+    
+    // labelUploadFile.addEventListener('drop', (e) => dropHandler(e, formData));
 
     for (let tag of tags) {
         formData.append('tags', tag);
     }
 
-    for (const [key, value] of formData) {
-        console.log(`${key}: ${value}\n`);
-    }
+    const imageEl = formData.get('uploaded_file');
+
+    console.log("FormData uploaded file BEFORE submission ====> ", formData.get('uploaded_file'));
+    console.log("IMAGE FILE ELEMENT ====> ", imageEl);
+    const imageURL = URL.createObjectURL(imageEl);
+    const imageElement = new Image();
+    imageElement.crossOrigin = "Anonymous";
+    imageElement.src = `${imageURL}`;
+
+    console.log("FormData uploaded file from submission ====> ", formData.get('uploaded_file'));
+
+    imageElement.onload = async () => {
+        const {R, G, B} = getAverageColor(imageElement);
+        formData.append('color', JSON.stringify({R, G, B}));
+        console.log("RED ===>", R, "Green ====>", G, "Blue ====>", B);
+
+        try {
+            const submittedFormData = fetch(submit_image_URL, {
+                method: "POST",
+                body: formData,
+            })
+            const data = (await submittedFormData).json();
+            
+            console.log("FOrm data submitted: =====> ", data)
+        } catch (err) {
+            console.log("Error occurred while submitting formData ===> ", err);
+        } finally {
+            uploadImageForm.reset();
+            labelUploadFile.textContent = "";
+            tagsInputContainer.innerHTML = "";
+            tags = [];
+            formData = new FormData(); // reset the formData...
+        }
+    };
+    console.log("Form submitted ======>");
 
     console.log(typeof imageData);
 
-    fetch(submit_image_URL, {
-        method: "POST",
-        body: formData,
-    })
-    .then(res => res.json())
-    .then(data => console.log(data))
-    .catch(err => console.error("ERROR: ", err));
+    modalUploadImage.close();
 
     console.log(fileInputField.files[0]);
 });
 
 //tags input field...
 
-tagsInputField.addEventListener('keypress', (e) => {
+/*
+    event listener for tags input in the tag field of the form...
+*/
+
+tagsInputField.addEventListener('keydown', (e) => {
     const currentValue = e.target.value;
 
     if (e.key === "Enter") {
         e.preventDefault();
-        const tag = document.createElement('div');
-        tags.push(currentValue);
-        console.log("New tag added to the list... \n updated tags ====> ", tags);
-        tag.textContent = currentValue;
-        tagsInputContainer.appendChild(tag);
+        if (currentValue && !tags.includes(currentValue)) {
+            const tag = document.createElement('div');
+            tag.classList.add('tag');
+            tag.classList.add('upload-img-tag');
+            tags.push(currentValue);
+            console.log("New tag added to the list... \n updated tags ====> ", tags);
+            tag.textContent = currentValue;
+            tagsInputContainer.appendChild(tag);
+    
+            tagsInputField.value = "";
+        } else {
+            const tagIdx = tags.indexOf(currentValue);
+            const tagsFromDom = document.querySelectorAll('.upload-img-tag');
+            console.log("Tags from the DOM ====> ", tagsFromDom)
 
-        tagsInputField.value = "";
+            if (tagsFromDom[tagIdx]) {
+                tagsFromDom[tagIdx].classList.add('animate-tag');
+
+                setTimeout(() => {
+                    tagsFromDom[tagIdx].classList.remove('animate-tag');
+                }, 500);
+            } 
+
+        }
+    }
+
+    if (e.key === "Backspace") {
+        if (currentValue) return;
+
+        e.preventDefault();
+
+        if (tags.length > 0) {
+            tags.pop();
+            tagsInputContainer.removeChild(tagsInputContainer.lastChild);
+        }
+        console.log("Tag deleted...");
     }
 });
 
+
 // modal...
 
-uploadImgBtn.addEventListener('click', () => {
-    modalUploadImage.showModal();
-});
+uploadImgBtnList.forEach((btn) => {
+    btn.addEventListener('click', () => {
+        modalUploadImage.showModal();
+    });
+})
 
 closeUploadImageBtn.addEventListener('click', () => {
     modalUploadImage.close();
+    labelUploadFile.innerHTML = "";
+    labelUploadFile.textContent = "Upload an image";
+    uploadImageForm.reset();
+    tagsInputContainer.innerHTML = "";
+    tags = [];
 });

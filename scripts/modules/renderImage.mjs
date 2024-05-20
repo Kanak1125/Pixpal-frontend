@@ -3,17 +3,19 @@ import fetchData from "./fetchData.mjs";
 
 // the function to render the images in DOM...
 
-const BASE_URL = 'https://api.unsplash.com/';
+// const BASE_URL = 'https://api.unsplash.com/';
+const BASE_URL = 'http://127.0.0.1:8000/api';
 const SEARCH_BASE_URL = '/pages/results.html?query=';
-const RELATED_IMAGES_BASE_URL = `${BASE_URL}/search/photos?client_id=U-JKAdSdHZRA2-glU6Oe4WSzqHGP6GpKM8DZ8yUkelY&per_page=10`;
+// const RELATED_IMAGES_BASE_URL = `${BASE_URL}/search/photos?client_id=U-JKAdSdHZRA2-glU6Oe4WSzqHGP6GpKM8DZ8yUkelY&per_page=10`;
+const RELATED_IMAGES_BASE_URL = `${BASE_URL}/search/photos`;
 let images = [];
 let currentModalImages = [];
 
 const getBlob= async (url) => {
-    console.log("Current imaage url ===> ", url);
-    const response = fetch(url)
+    console.log("Current image url ===> ", url);
+    const response = fetch(url);
     return (await response).blob();
-}
+};
 
 const injectImagesToGallery = (clonedTemplate, wrapper, data, idx) => {
     const imgContainer = clonedTemplate.querySelector('.img-container');
@@ -22,6 +24,9 @@ const injectImagesToGallery = (clonedTemplate, wrapper, data, idx) => {
     const profilePic = clonedTemplate.querySelector('.profile-pic');
     const userName = clonedTemplate.querySelector('.user-name');
     const downloadBtn = clonedTemplate.querySelector('.download-btn');
+    const mbProfilePic = clonedTemplate.querySelector('.mb-profile-pic');
+    const mbUserName = clonedTemplate.querySelector('.mb-user-name');
+    const mbDownloadBtn = clonedTemplate.querySelector('.mb-download-btn');
     const canvas = document.createElement('canvas');
     canvas.classList.add('canvas');
     canvas.setAttribute('width', '100%');
@@ -33,22 +38,37 @@ const injectImagesToGallery = (clonedTemplate, wrapper, data, idx) => {
     let ctx = canvas.getContext('2d');
     ctx.putImageData(imageData, 0, 0);
     // profilePic.src = data[idx].user.profile_image.large;
-    profilePic.src = data[idx].user.profile_image_url;
-    userName.textContent = data[idx].user.username;
+    if (profilePic && userName) {
+        profilePic.src = data[idx].user.profile_image_url;
+        userName.textContent = data[idx].user?.username;
+    }
+
+    if (mbProfilePic && mbUserName) {
+        mbProfilePic.src = data[idx].user.profile_image_url;
+        mbUserName.textContent = data[idx].user?.username;
+    }
 
     getBlob(data[idx].urls.regular).then((blob) => {
-        console.log("DOWNLOAD URL ====> ", URL.createObjectURL(blob));
-        downloadBtn.href = URL.createObjectURL(blob);
-        downloadBtn.download = 'image.jpg';
+        console.log("DOWNLOAD URL ====> ", blob);
+        if (downloadBtn) {
+            downloadBtn.href = URL.createObjectURL(blob);
+            console.log("URL OF THE IMAGE BLOB ====> ", blob);
+            downloadBtn.download = 'image.jpg';
+        }
+
+        if (mbDownloadBtn) {
+            mbDownloadBtn.href = URL.createObjectURL(blob);
+            mbDownloadBtn.download = 'image.jpg';
+        }
     });
 
     imgElement.setAttribute('src', data[idx].urls.small);
     imgElement.style.visibility = 'hidden';
     imgOverlay.style.display = 'none';
     imgElement.onload = () => {
-    imgContainer.removeChild(canvas);
-    imgElement.style.visibility = 'visible';
-    imgOverlay.style.display = 'block';
+        imgContainer.removeChild(canvas);
+        imgElement.style.visibility = 'visible';
+        imgOverlay.style.display = 'block';
     }
     wrapper.appendChild(clonedTemplate);
 }
@@ -74,16 +94,17 @@ const injectModalToImages = (clonedTemplate, wrapper, data, idx) => {
     }
     
     // image modal... 
+
     getBlob(data[idx].urls.regular).then((blob) => {
-      modalDownloadBtn.href = URL.createObjectURL(blob);
-      modalDownloadBtn.download = 'image.jpg';
+        modalDownloadBtn.href = URL.createObjectURL(blob);
+        modalDownloadBtn.download = 'image.jpg';
     });
 
     modalImg.setAttribute('src', data[idx].urls.regular);
     modalProfilePic.src = data[idx].user.profile_image_url;
     // modalProfilePic.src = data[idx].user.profile_image.large;
-    // modalUserName.textContent = data[idx].user.username;
-    modalImgDetail.textContent = data[idx].description ? data[idx].description : data[idx].alt_description;
+    modalUserName.textContent = data[idx]?.user.username;
+    modalImgDetail.textContent = data[idx]?.description ? data[idx].description : data[idx].alt_description;
 
     wrapper.appendChild(clonedTemplate);
 }
@@ -115,9 +136,9 @@ const handleImageModalInteractions = (data) => {
         const delta = 0.05;
 
         if ( window.innerWidth >= 768) {
-            console.log('scroll Y:', scrollTopVal);
-            console.log("Im biggger.........");
-            console.log("ELement....", element);
+            // console.log('scroll Y:', scrollTopVal);
+            // console.log("Im biggger.........");
+            // console.log("ELement....", element);
 
             if (currentWidthFactor <= 100) {
                 currentWidthFactor += 1 * delta;
@@ -189,14 +210,14 @@ const handleImageModalInteractions = (data) => {
             imgModals[idx].addEventListener('scroll', listenModalScroll);
             imgModalContainerWithOverlays[idx].style.backgroundColor = `hsla(0, 0%, 7%, ${alpha})`;
             console.log("Data list array: ", data);
-            console.log("Username: ", data[idx].user.username);
+            console.log("Username: ", data[idx]?.user.username);
             userNameArr = [];
 
-            console.log("Usernames", data[idx].user.username);
-            userNameArr = data[idx].user.username.split('');
+            console.log("Usernames", data[idx]?.user.username);
+            userNameArr = data[idx]?.user.username.split('');
             let imgDescriptionArr;
 
-            if (data[idx].description) {
+            if (data[idx]?.description) {
                 imgDescriptionArr = data[idx].description.split('');
             }
 
@@ -229,7 +250,7 @@ const handleImageModalInteractions = (data) => {
             //     }
             // }
 
-            timer = setInterval(printUserName, 200);
+            // timer = setInterval(printUserName, 200);
             // if (imgDescriptionArr[idx] !== undefined) {
             //     timerDescription = setInterval(printImageDescription, 200);
             // }
@@ -239,25 +260,29 @@ const handleImageModalInteractions = (data) => {
             //     // console.log("TAG ====>,", data[idx].tags[0].title);
             //     // related_images_url += `&query=${data[idx].tags[0].title}`;
             // }
-            related_images_url = `${RELATED_IMAGES_BASE_URL}&query=${data[idx].tags[0].title}`;
+            console.log("IMage tags are here ==================> ", data[idx]?.tags[0]);
+            related_images_url = `${RELATED_IMAGES_BASE_URL}?q=${data[idx]?.tags[0].title}&page=10`;
+            console.log("Related Images url =====> ", related_images_url);
 
             getRandomImages(related_images_url, relatedImagesContainers[idx]);
         });
 
-        closeModalBtns[idx].addEventListener('click', () => {
-            // imgModals[idx].close();
-            // images = [];
-            related_images_url = RELATED_IMAGES_BASE_URL;
-            console.log("IMage afer closing,", images);
-            document.body.style = "overflow: visible";
-            imgModalContainerWithOverlays[idx].classList.remove('show-modal');
-            alpha = 0.4;
-            window.removeEventListener('scroll', listenModalScroll);
-            modalUserNames[idx].textContent = "";
-            modalImgDetails[idx].textContent = "";
-            currentWidthFactor = 80;
-            currentHeightFactor = 80;
-        });
+        // I don't think the following is needed becoz the modal is being closed everytime when the it is clicked outside the modal...
+
+        // closeModalBtns[idx].addEventListener('click', () => {
+        //     // imgModals[idx].close();
+        //     // images = [];
+        //     related_images_url = RELATED_IMAGES_BASE_URL;
+        //     console.log("IMage afer closing,", images);
+        //     document.body.style = "overflow: visible";
+        //     imgModalContainerWithOverlays[idx].classList.remove('show-modal');
+        //     alpha = 0.4;
+        //     window.removeEventListener('scroll', listenModalScroll);
+        //     modalUserNames[idx].textContent = "";
+        //     modalImgDetails[idx].textContent = "";
+        //     currentWidthFactor = 80;
+        //     currentHeightFactor = 80;
+        // });
 
         document.addEventListener('keydown', (e) => {
             if (e.key == 'Escape') {
@@ -283,6 +308,8 @@ const handleImageModalInteractions = (data) => {
             if (!clickInside) {
                imgModalContainerWithOverlays[idx].classList.remove('show-modal');
                document.body.style = "overflow: visible";
+               closeModalBtns[idx].removeEventListener('click', closeModal);
+               document.removeEventListener('keydown', closeModalOnEscape);
             }
         });
     });
@@ -309,7 +336,9 @@ export const renderImages = (wrapper, data) => {
 async function getRandomImages(url, imgContainer) {
     currentModalImages = [];
     const imgData = await fetchData(url);
-    currentModalImages = [...await imgData.results];
+    console.log("IMage data ======> ", imgData);
+    // currentModalImages = [...await imgData.results];
+    currentModalImages = [...await imgData];
     console.log("Images: ",images);
 
     imgContainer.innerHTML = '';
@@ -330,4 +359,32 @@ async function getRandomImages(url, imgContainer) {
 
     console.log(requiredImageData);
     renderImages(imgContainer, requiredImageData);
+}
+
+// close all modals function...
+function closeAllModals() {
+    const imgModalContainerWithOverlays = document.querySelectorAll('.img-modal-container-with-overlay');
+    const closeModalBtns = document.querySelectorAll('.close-image-modal-btn');
+
+    imgModalContainerWithOverlays.forEach(element => {
+        element.classList.remove('show-modal');
+    });
+
+    document.body.style = "overflow: visible";
+
+    closeModalBtns.forEach(btn => {
+        btn.removeEventListener('click', closeModal);
+    });
+
+    window.removeEventListener('keydown', closeModalOnEscape);
+}
+
+function closeModal() {
+    closeAllModals();
+}
+
+function closeModalOnEscape(e) {
+    if (e.key === 'Escape') {
+        closeAllModals();
+    }
 }
