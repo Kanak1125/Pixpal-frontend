@@ -41,7 +41,7 @@ window.onload = () => {
 let images = [];
 const BASE_URL = 'https://api.unsplash.com/';
 // const FILTER_BASE_URL = `${BASE_URL}/search/photos?client_id=U-JKAdSdHZRA2-glU6Oe4WSzqHGP6GpKM8DZ8yUkelY&query=random&per_page=20`;
-const FILTER_BASE_URL = `http://127.0.0.1:8000/api/search/photos?query=random`;
+const FILTER_BASE_URL = `http://127.0.0.1:8000/api/search/photos?q=all`;
 
 // const REQUEST_URL = `${BASE_URL}photos/?client_id=U-JKAdSdHZRA2-glU6Oe4WSzqHGP6GpKM8DZ8yUkelY`;
 const REQUEST_URL = `http://127.0.0.1:8000/api/images/`;
@@ -75,8 +75,6 @@ tagScrollerLeft.classList.remove('show');
 tagScrollerRight.classList.add('show');
 
 navTagContainer.onscroll = () => {
-    console.log("scrolling...");
-
     if (navTagContainer.scrollLeft > 0) {
         tagScrollerLeft.classList.add('show');
     } else {
@@ -120,68 +118,6 @@ const observerFilter = new IntersectionObserver(entries => {
     threshold: 0.5,
 });
 
-// let prevImageCount = 0;
-
-// the function to render the images in DOM...
-// export 
-
-// const renderImagesNew = ({columnCount, columnData}) => {
-
-//     console.log("column count is: ",columnCount)
-//     console.log("Data based on column count is \: ",columnData)
-//     let prevImgCounter = 0;
-
-//     columnData.map((col, idx) =>{
-//         let imgCounter = 0;
-//         imgSubCol = document.createElement('div');
-//         imgSubCol.classList.add('sub-column');
-
-        
-//         col.map((data, i) => {
-//             if (data !== undefined) {
-//                 const imgContainer = document.createElement('figure');
-//                 const imgOverlay = document.createElement('div');
-//                 const imgElement = document.createElement('img');
-//                 const imgFooter = document.createElement('div');
-//                 const userDetailContainer = document.createElement('div');
-//                 const profilePic = document.createElement('img');
-//                 const userName = document.createElement('p');
-//                 const downloadBtn = document.createElement('a');
-//                 const imageNumberTag = document.createElement('div');
-        
-//                 imgContainer.classList.add('img-container');
-//                 imgOverlay.classList.add('img-overlay');
-//                 imgElement.classList.add('img');
-//                 imgFooter.classList.add('img-footer');
-//                 userDetailContainer.classList.add('user-detail-container');
-//                 profilePic.classList.add('profile-pic');
-//                 userName.classList.add('user-name');
-//                 downloadBtn.classList.add('btn', 'download-btn');
-//                 imageNumberTag.classList.add('image-number-tag');
-        
-//                 profilePic.src = data.user.profile_image.large;
-//                 userName.textContent = data.user.username;
-//                 downloadBtn.innerHTML = '<i class="fa-solid fa-download"></i>'
-        
-//                 imageNumberTag.textContent = ++imgCounter;
-        
-//                 imgElement.setAttribute('src', data.urls.small);
-//                 userDetailContainer.appendChild(profilePic)
-//                 userDetailContainer.appendChild(userName)
-//                 imgFooter.appendChild(userDetailContainer);
-//                 imgFooter.appendChild(downloadBtn);
-//                 imgOverlay.appendChild(imgFooter);
-//                 imgContainer.appendChild(imgOverlay);
-//                 imgContainer.appendChild(imgElement);
-//                 imgContainer.appendChild(imageNumberTag);
-//                 imgSubCol.appendChild(imgContainer);
-//             }
-//         });
-
-//         imgGallery.appendChild(imgSubCol);
-//     }) 
-// }
-
 const observerMainPage = createObserver(target, REQUEST_URL, skip, PER_PAGE, getRandomImages);
 
 async function getRandomImages(url) {
@@ -200,44 +136,8 @@ async function getRandomImages(url) {
 
     console.log(newImages);
 
-    // let columnCount = parseInt(getComputedStyle(document.getElementById('img-gallery')).columnCount)
-
-    // let columnBasedDataSet = [];
-
-    // console.log("Array of 3", Array.from(new Array(columnCount)));
-    
-    // Array.from(new Array(columnCount)).map((c, idx) =>{
-    //     let columnImgArr = newImages.filter(item => {
-    //         return idx + columnCount;
-    //     });
-        
-    //     columnBasedDataSet.push(columnImgArr);
-    // })
-
-    // console.log("New test", Array.from(new Array(columnCount)));
-    // for (let i = 0; i < Array.from(new Array(columnCount)).length; i++) {
-    //     let newArr = [];
-    //     for (let j = 0; j < newImages.length; j ++) {
-    //         if (j % columnCount === 0) {
-    //             newArr.push(newImages[i + j]);
-    //         }
-    //     }
-    //     columnBasedDataSet.push(newArr);
-    // }
-
-    // renderImagesNew({columnCount:columnCount, columnData:columnBasedDataSet});
     console.log("NEW IMAGES ========>", newImages);
     renderImages(imgGallery, newImages);
-
-    // prevImageCount += 10;
-    
-    // imgGallery.appendChild(imgGallerySubGrid1);
-    // imgGallery.appendChild(imgGallerySubGrid2);
-    // imgGallery.appendChild(imgGallerySubGrid3);
-
-    // target = imgGallerySubGrid3.lastChild;
-    // target = imgGallery.lastChild.lastChild;
-    // target = imgGallery.lastChild;
     
     const imgContainers = document.querySelectorAll('.img-container');
     
@@ -259,11 +159,11 @@ async function filterImages (url) {
     
     if (images.length === 0) {
         newImages = await fetchData(url);
-        images = [...await newImages.results];
+        images = [...await newImages];
     } else {
         // observer.unobserve(target);
         const result = await fetchData(url);
-        newImages = [...await result.results];
+        newImages = [...await result];
         images = [...images, ...newImages];
     }
     console.log(images);
@@ -323,15 +223,19 @@ filterInputOptions.forEach((item, idx) => {
 
             filter_url = `${FILTER_BASE_URL}${previousElement['filter-orientation'] ? `&orientation=${previousElement['filter-orientation']}` : ''}`;
 
-            if (previousElement['filter-color']) {
-                filter_url += `&color=${previousElement['filter-color']}`
-            }
+            filter_url = `${filter_url}${previousElement['filter-color'] ? `&color=${previousElement['filter-color']}` : ''}`
+
+            filter_url = `${filter_url}${previousElement['filter-file'] ? `&color=${previousElement['filter-file']}` : ''}`
+
+            // if (previousElement['filter-color']) {
+            //     filter_url += `&color=${previousElement['filter-color']}`
+            // }
         } else {
             filter_url = FILTER_BASE_URL;
             filterInputLabels[idx].classList.remove('filter-active');
         }
         const data = await fetchData(filter_url);
-        images = data.results;
+        images = data;
         console.log(data);
         filterImages(filter_url);
     });

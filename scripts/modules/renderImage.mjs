@@ -3,17 +3,19 @@ import fetchData from "./fetchData.mjs";
 
 // the function to render the images in DOM...
 
-const BASE_URL = 'https://api.unsplash.com/';
+// const BASE_URL = 'https://api.unsplash.com/';
+const BASE_URL = 'http://127.0.0.1:8000/api';
 const SEARCH_BASE_URL = '/pages/results.html?query=';
-const RELATED_IMAGES_BASE_URL = `${BASE_URL}/search/photos?client_id=U-JKAdSdHZRA2-glU6Oe4WSzqHGP6GpKM8DZ8yUkelY&per_page=10`;
+// const RELATED_IMAGES_BASE_URL = `${BASE_URL}/search/photos?client_id=U-JKAdSdHZRA2-glU6Oe4WSzqHGP6GpKM8DZ8yUkelY&per_page=10`;
+const RELATED_IMAGES_BASE_URL = `${BASE_URL}/search/photos`;
 let images = [];
 let currentModalImages = [];
 
 const getBlob= async (url) => {
-    console.log("Current imaage url ===> ", url);
-    const response = fetch(url)
+    console.log("Current image url ===> ", url);
+    const response = fetch(url);
     return (await response).blob();
-}
+};
 
 const injectImagesToGallery = (clonedTemplate, wrapper, data, idx) => {
     const imgContainer = clonedTemplate.querySelector('.img-container');
@@ -47,9 +49,10 @@ const injectImagesToGallery = (clonedTemplate, wrapper, data, idx) => {
     }
 
     getBlob(data[idx].urls.regular).then((blob) => {
-        console.log("DOWNLOAD URL ====> ", URL.createObjectURL(blob));
+        console.log("DOWNLOAD URL ====> ", blob);
         if (downloadBtn) {
             downloadBtn.href = URL.createObjectURL(blob);
+            console.log("URL OF THE IMAGE BLOB ====> ", blob);
             downloadBtn.download = 'image.jpg';
         }
 
@@ -63,9 +66,9 @@ const injectImagesToGallery = (clonedTemplate, wrapper, data, idx) => {
     imgElement.style.visibility = 'hidden';
     imgOverlay.style.display = 'none';
     imgElement.onload = () => {
-    imgContainer.removeChild(canvas);
-    imgElement.style.visibility = 'visible';
-    imgOverlay.style.display = 'block';
+        imgContainer.removeChild(canvas);
+        imgElement.style.visibility = 'visible';
+        imgOverlay.style.display = 'block';
     }
     wrapper.appendChild(clonedTemplate);
 }
@@ -91,9 +94,10 @@ const injectModalToImages = (clonedTemplate, wrapper, data, idx) => {
     }
     
     // image modal... 
+
     getBlob(data[idx].urls.regular).then((blob) => {
-      modalDownloadBtn.href = URL.createObjectURL(blob);
-      modalDownloadBtn.download = 'image.jpg';
+        modalDownloadBtn.href = URL.createObjectURL(blob);
+        modalDownloadBtn.download = 'image.jpg';
     });
 
     modalImg.setAttribute('src', data[idx].urls.regular);
@@ -257,7 +261,7 @@ const handleImageModalInteractions = (data) => {
             //     // related_images_url += `&query=${data[idx].tags[0].title}`;
             // }
             console.log("IMage tags are here ==================> ", data[idx]?.tags[0]);
-            related_images_url = `${RELATED_IMAGES_BASE_URL}&query=${data[idx]?.tags[0].title}`;
+            related_images_url = `${RELATED_IMAGES_BASE_URL}?q=${data[idx]?.tags[0].title}&page=10`;
             console.log("Related Images url =====> ", related_images_url);
 
             getRandomImages(related_images_url, relatedImagesContainers[idx]);
@@ -332,7 +336,9 @@ export const renderImages = (wrapper, data) => {
 async function getRandomImages(url, imgContainer) {
     currentModalImages = [];
     const imgData = await fetchData(url);
-    currentModalImages = [...await imgData.results];
+    console.log("IMage data ======> ", imgData);
+    // currentModalImages = [...await imgData.results];
+    currentModalImages = [...await imgData];
     console.log("Images: ",images);
 
     imgContainer.innerHTML = '';

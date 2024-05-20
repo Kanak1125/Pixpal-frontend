@@ -11,6 +11,7 @@
     <script src="https://kit.fontawesome.com/80b2a22f1b.js" crossorigin="anonymous"></script>
     <script type="module" src="./scripts/modules/search.mjs" defer></script>
     <script type="module" src="./scripts/modules/uploadImage.mjs" defer></script>
+    <script type="module" src="./scripts/modules/dragDropImage.mjs" defer></script>
     <script src="/node_modules/fast-average-color-node/dist/index.js"></script>
 </head>
 <body>
@@ -21,7 +22,7 @@
             </a>
             <a href="/pages/login.html" class="login-btn">Login</a>
             <a href="/pages/signup.html" class="btn signup-btn">Signup</a>
-            <button class="upload-img-btn"><i class="fa-solid fa-arrow-up-from-bracket"></i></button>
+            <button title="Upload an image" class="upload-img-btn"><i class="fa-solid fa-arrow-up-from-bracket"></i></button>
         </div>
         <nav class="nav-main">
             <a href="/" class="logo">
@@ -63,6 +64,7 @@
             </button>
             <a href="/pages/login.html" class="login-btn">Login</a>
             <a href="/pages/signup.html" class="btn signup-btn">Signup</a>
+            <button title="Upload an image" class="upload-img-btn upload-img-btn-lg-screen"><i class="fa-solid fa-arrow-up-from-bracket"></i></button>
         </nav>
         <nav class="nav-bottom">
             <!-- <div class="filters">Filters</div> -->
@@ -159,17 +161,35 @@
                             class="filter-input-option"
                             value="red"
                             >
-                            <label for="filter-blue"
-                            class="filter-input-label filter-input-label-color filter-color-blue"></label>
-                            <input type="radio" name="filter-color" id="filter-blue"
+                            <label for="filter-yellow"
+                            class="filter-input-label filter-input-label-color filter-color-yellow"></label>
+                            <input type="radio" name="filter-color" id="filter-yellow"
                             class="filter-input-option"
-                            value="blue"
+                            value="yellow"
                             >
                             <label for="filter-green"
                             class="filter-input-label filter-input-label-color filter-color-green"></label>
                             <input type="radio" name="filter-color" id="filter-green"
                             class="filter-input-option"
                             value="green"
+                            >
+                            <label for="filter-cyan"
+                            class="filter-input-label filter-input-label-color filter-color-cyan"></label>
+                            <input type="radio" name="filter-color" id="filter-cyan"
+                            class="filter-input-option"
+                            value="cyan"
+                            >
+                            <label for="filter-blue"
+                            class="filter-input-label filter-input-label-color filter-color-blue"></label>
+                            <input type="radio" name="filter-color" id="filter-blue"
+                            class="filter-input-option"
+                            value="blue"
+                            >
+                            <label for="filter-magenta"
+                            class="filter-input-label filter-input-label-color filter-color-magenta"></label>
+                            <input type="radio" name="filter-color" id="filter-magenta"
+                            class="filter-input-option"
+                            value="magenta"
                             >
                             <label for="filter-white"
                             class="filter-input-label filter-input-label-color filter-color-white"></label>
@@ -182,30 +202,6 @@
                             <input type="radio" name="filter-color" id="filter-black"
                             class="filter-input-option"
                             value="black"
-                            >
-                            <label for="filter-yellow"
-                            class="filter-input-label filter-input-label-color filter-color-yellow"></label>
-                            <input type="radio" name="filter-color" id="filter-yellow"
-                            class="filter-input-option"
-                            value="yellow"
-                            >
-                            <label for="filter-orange"
-                            class="filter-input-label filter-input-label-color filter-color-orange"></label>
-                            <input type="radio" name="filter-color" id="filter-orange"
-                            class="filter-input-option"
-                            value="orange"
-                            >
-                            <label for="filter-purple"
-                            class="filter-input-label filter-input-label-color filter-color-purple"></label>
-                            <input type="radio" name="filter-color" id="filter-purple"
-                            class="filter-input-option"
-                            value="purple"
-                            >
-                            <label for="filter-teal"
-                            class="filter-input-label filter-input-label-color filter-color-teal"></label>
-                            <input type="radio" name="filter-color" id="filter-teal"
-                            class="filter-input-option"
-                            value="teal"
                             >
                         </div>
                     </div>
@@ -227,8 +223,8 @@
     <dialog class="modal-upload-image">
         <form id="upload-image-form" enctype="multipart/form-data">
             <div class="input-container input-container-upload-image">
-                <label for="file">Upload an image</label><br />
-                <input type="file" accept="jpg, png" id="file" name="file" />
+                <label class="label-upload-file" for="file">Upload an image</label><br />
+                <input type="file" accept="jpg, png, svg" id="file" class="input-img-file" name="file" />
             </div>
             <div class="input-container input-container-add-description">
                 <label for="description">Description</label><br />
@@ -300,17 +296,35 @@
                     class="filter-input-option"
                     value="red"
                     >
-                    <label for="filter-blue"
-                    class="filter-input-label filter-input-label-color filter-color-blue"></label>
-                    <input type="radio" name="filter-color" id="filter-blue"
+                    <label for="filter-yellow"
+                    class="filter-input-label filter-input-label-color filter-color-yellow"></label>
+                    <input type="radio" name="filter-color" id="filter-yellow"
                     class="filter-input-option"
-                    value="blue"
+                    value="yellow"
                     >
                     <label for="filter-green"
                     class="filter-input-label filter-input-label-color filter-color-green"></label>
                     <input type="radio" name="filter-color" id="filter-green"
                     class="filter-input-option"
                     value="green"
+                    >
+                    <label for="filter-cyan"
+                    class="filter-input-label filter-input-label-color filter-color-cyan"></label>
+                    <input type="radio" name="filter-color" id="filter-cyan"
+                    class="filter-input-option"
+                    value="cyan"
+                    >
+                    <label for="filter-blue"
+                    class="filter-input-label filter-input-label-color filter-color-blue"></label>
+                    <input type="radio" name="filter-color" id="filter-blue"
+                    class="filter-input-option"
+                    value="blue"
+                    >
+                    <label for="filter-magenta"
+                    class="filter-input-label filter-input-label-color filter-color-magenta"></label>
+                    <input type="radio" name="filter-color" id="filter-magenta"
+                    class="filter-input-option"
+                    value="magenta"
                     >
                     <label for="filter-white"
                     class="filter-input-label filter-input-label-color filter-color-white"></label>
@@ -323,30 +337,6 @@
                     <input type="radio" name="filter-color" id="filter-black"
                     class="filter-input-option"
                     value="black"
-                    >
-                    <label for="filter-yellow"
-                    class="filter-input-label filter-input-label-color filter-color-yellow"></label>
-                    <input type="radio" name="filter-color" id="filter-yellow"
-                    class="filter-input-option"
-                    value="yellow"
-                    >
-                    <label for="filter-orange"
-                    class="filter-input-label filter-input-label-color filter-color-orange"></label>
-                    <input type="radio" name="filter-color" id="filter-orange"
-                    class="filter-input-option"
-                    value="orange"
-                    >
-                    <label for="filter-purple"
-                    class="filter-input-label filter-input-label-color filter-color-purple"></label>
-                    <input type="radio" name="filter-color" id="filter-purple"
-                    class="filter-input-option"
-                    value="purple"
-                    >
-                    <label for="filter-teal"
-                    class="filter-input-label filter-input-label-color filter-color-teal"></label>
-                    <input type="radio" name="filter-color" id="filter-teal"
-                    class="filter-input-option"
-                    value="teal"
                     >
                 </div>
             </div>
@@ -399,7 +389,9 @@
                             <p class="user-name modal-user-name"></p>
                         </div>
                         <a class="btn download-btn modal-download-btn" href="" download>
-                            Download <i class="fas fa-chevron-down"></i>
+                            Download 
+                            <!-- <i class="fas fa-chevron-down"></i> -->
+                            <i class="fa-solid fa-arrow-down"></i>
                         </a>
                         <!-- <button class="close-image-modal-btn btn">Close</button> -->
                     </div>

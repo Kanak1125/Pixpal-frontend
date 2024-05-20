@@ -47,6 +47,14 @@
     color: white;
 }
 
+.upload-img-btn {
+    cursor: pointer;
+}
+
+.upload-img-btn-lg-screen {
+    display: none;
+}
+
 dialog.modal-filter {
     position: absolute;
     min-height: 100vh;
@@ -153,29 +161,26 @@ dialog .modal-nav > .clear-all-btn:hover,
 .filter-input-label-color.filter-color-red {
     background: red;
 }
-.filter-input-label-color.filter-color-blue {
-    background: blue;
+.filter-input-label-color.filter-color-yellow {
+    background: yellow;
 }
 .filter-input-label-color.filter-color-green {
     background: green;
+}
+.filter-input-label-color.filter-color-cyan {
+    background: cyan;
+}
+.filter-input-label-color.filter-color-blue {
+    background: blue;
+}
+.filter-input-label-color.filter-color-magenta {
+    background: magenta;
 }
 .filter-input-label-color.filter-color-white {
     background: white;
 }
 .filter-input-label-color.filter-color-black {
     background: black;
-}
-.filter-input-label-color.filter-color-yellow {
-    background: yellow;
-}
-.filter-input-label-color.filter-color-orange {
-    background: orange;
-}
-.filter-input-label-color.filter-color-purple {
-    background: purple;
-}
-.filter-input-label-color.filter-color-teal {
-    background: teal;
 }
 
 /* .filter-input-label.filter-input-label-color.filter-active {
@@ -238,42 +243,36 @@ dialog .modal-footer {
     columns: var(--columns);
     gap: var(--gap);
     min-width: 100%;
-    /* display: flex;
-    flex-direction: row; */
-    /* writing-mode: horizontal-tb; */
-    /* display: flex;
-    flex-wrap: wrap;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap; */
 }
-/* 
-.sub-column{
-    width: 100px;
-    height: 100px;
-    background: #000;
-} */
-
-/* .modal-upload-image > #tags {
-    font-size: 4px;
-} */
 
 .modal-upload-image {
-    inset: 50% 50%;
+    /* inset: 50% 50%;
     transform: translate(-50%, -50%);
-    /* transform-origin: left; */
-    
     border: none;
     outline: none;
     padding: 16px;
     border-radius: var(--border-radius-sm);
-    /* display: block; */
-    /* animation: scaleUp 300ms ease-out; */
+    min-width: 240px;
+    max-width: 444px;
+    width: 44%;
+    animation: scaleUp 300ms ease-out; */
+
+    transform-origin: center;
+    border: none;
+    outline: none;
+    padding: 16px;
+    border-radius: var(--border-radius-sm);
+    min-width: 240px;
+    max-width: 444px;
+    width: 44%;
+    animation: scaleUp 300ms ease-out;
+    position: relative;
 }
 
-/* .modal-upload-image > * {
-    border: 2px solid red;
-} */
+
+dialog.modal-upload-image::backdrop {
+    background-color: rgba(0, 0, 0, 0.75);
+}
 
 #upload-image-form {
     display: flex;
@@ -296,11 +295,38 @@ dialog .modal-footer {
     font-size: var(--fnt-sm) !important;
 }
 
+.input-container-upload-image {
+    width: 100%;
+}
+
+.label-upload-file {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100px;
+    border: 1px solid var(--secondary-color);
+    border-radius: var(--border-radius-sm);
+    word-wrap: break-word;
+    word-break: break-all;
+    user-select: none;
+}
+.input-img-file {
+    display: none;
+}
+
+.upload-img {
+    width: auto;
+    height: 100%;
+    object-fit: contain;
+}
+
 .input-container-add-description > input[type = "text"],
 .input-tags-field-container {
     width: 100%;
     min-height: 24px;
 }
+
 
 .input-tags-field-container {
     /* border: 2px solid red !important; */
@@ -723,6 +749,11 @@ body::-webkit-scrollbar-thumb:hover,
 
 @media screen and (min-width: 390px) {
     /* main section */
+    .upload-img-btn-lg-screen {
+        display: block;
+        color: var(--accent-color);
+    }
+
     .img-gallery,
     .related-img-container {
         --gap: 24px;
@@ -871,16 +902,12 @@ body::-webkit-scrollbar-thumb:hover,
     }
 
     .modal-typography-section {
-        /* border: 2px solid green; */
         padding: 0 20px;
     }
 
     .related-img-section {
         grid-column: 1 / -1;
     }
-    /* .modal-img {
-        width: 72%;
-    } */
 
     .related-img-section {
         align-self: start;
