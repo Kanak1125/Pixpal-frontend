@@ -123,6 +123,7 @@ const handleImageModalInteractions = (data) => {
     const relatedImagesContainers = document.querySelectorAll('.related-img-container');
 
     let related_images_url = RELATED_IMAGES_BASE_URL;
+    
     let alpha = 0.4;
     let scalingFactor = 1;
     let rotateYFactor = 45;
