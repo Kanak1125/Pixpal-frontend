@@ -15,7 +15,7 @@ let recentSearches = JSON.parse(localStorage.getItem("recent-searches")) || [];
 
 let keywords = [];
 const getTags = async () => {
-    const response = await fetch('http://127.0.0.1:8000/api/tags');
+    const response = await fetch(`http://${window.location.hostname}:8000/api/tags`);
     const data = await response.json();
     keywords = data.map(item => item.title);
     console.log("Tags from DB ====> ", keywords);

@@ -180,5 +180,11 @@ clearAllFilterBtns.forEach(btn => {
         clearImageGallery();
         console.log("PREVIOUS =========>", previousElement);
         filterImages(FILTER_BASE_URL);
+
+        filterInputOptions.forEach(option => {
+            if (option.checked) {
+                option.checked = false;
+            }
+        })
     })
 });

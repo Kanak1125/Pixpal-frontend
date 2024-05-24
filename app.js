@@ -13,9 +13,6 @@ const imgGallery = document.querySelector('.img-gallery');
 
 let filterInputLabels = document.querySelectorAll('.filter-input-label');
 let filterInputOptions = document.querySelectorAll('.filter-input-option');
-const filterOrientation = document.querySelectorAll('.filter-orientation');
-const filterFileType = document.querySelectorAll('.filter-file-type');
-const filterColors = document.querySelectorAll('.filter-input-label-color');
 
 const clearAllFilterBtns = document.querySelectorAll('.clear-all-btn');
 
@@ -39,12 +36,13 @@ window.onload = () => {
 };
 
 let images = [];
-const BASE_URL = 'https://api.unsplash.com/';
+// const BASE_URL = 'https://api.unsplash.com/';
 // const FILTER_BASE_URL = `${BASE_URL}/search/photos?client_id=U-JKAdSdHZRA2-glU6Oe4WSzqHGP6GpKM8DZ8yUkelY&query=random&per_page=20`;
-const FILTER_BASE_URL = `http://127.0.0.1:8000/api/search/photos?q=all`;
+// const FILTER_BASE_URL = `http://127.0.0.1:8000/api/search/photos?q=all`;
+const FILTER_BASE_URL = `http://${window.location.hostname}:8000/api/search/photos?q=all`;
 
 // const REQUEST_URL = `${BASE_URL}photos/?client_id=U-JKAdSdHZRA2-glU6Oe4WSzqHGP6GpKM8DZ8yUkelY`;
-const REQUEST_URL = `http://127.0.0.1:8000/api/images/`;
+const REQUEST_URL = `http://${window.location.hostname}:8000/api/images/`
 const SEARCH_BASE_URL = '/pages/results.html?query=';
 // let updated_request_url = `${REQUEST_URL}?skip=${skip}&limit=${PER_PAGE}`;
 
@@ -143,9 +141,9 @@ async function getRandomImages(url) {
     
     target = imgContainers[imgContainers.length - 1];
 
-    setTimeout(() => {
-        observerMainPage.observe(target);
-    }, 3000);
+    // setTimeout(() => {
+    //     observerMainPage.observe(target);
+    // }, 3000);
 }
 
 // getRandomImages(`${REQUEST_URL}&page=${pageCount}`);
@@ -224,7 +222,7 @@ filterInputOptions.forEach((item, idx) => {
 
             filter_url = `${filter_url}${previousElement['filter-color'] ? `&color=${previousElement['filter-color']}` : ''}`
 
-            filter_url = `${filter_url}${previousElement['filter-file'] ? `&color=${previousElement['filter-file']}` : ''}`
+            filter_url = `${filter_url}${previousElement['filter-file-type'] ? `&file_type=${previousElement['filter-file-type']}` : ''}`
 
             // if (previousElement['filter-color']) {
             //     filter_url += `&color=${previousElement['filter-color']}`
@@ -241,10 +239,16 @@ filterInputOptions.forEach((item, idx) => {
 });
 
 clearAllFilterBtns.forEach(btn => {
-    btn.addEventListener('click', async () => {
+    btn.addEventListener('click', () => {
         previousElement = {};
         clearImageGallery();
         console.log("PREVIOUS =========>", previousElement);
         getRandomImages(REQUEST_URL);
+        
+        filterInputOptions.forEach(option => {
+            if (option.checked) {
+                option.checked = false;
+            }
+        })
     })
 });

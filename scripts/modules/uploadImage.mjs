@@ -26,7 +26,8 @@ let droppedFile = null;
 
 let tags = [];  // to be submitted along form data...
 
-const submit_image_URL = "http://127.0.0.1:8000/api/images/";
+// const submit_image_URL = `http://127.0.0.1:8000/api/images/`;
+const submit_image_URL = `http://${window.location.hostname}:8000/api/images/`;
 
 imgFileInput.addEventListener('change', () => {
     labelUploadFile.textContent = fileInputField.files[0].name;

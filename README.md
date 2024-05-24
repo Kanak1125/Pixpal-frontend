@@ -21,12 +21,12 @@ Some features of this site includes:
 You can install the required packages by running the following command:
 
 ```bash
-    npm install
+npm install
 ```
 
 Similarly, you can run the project with the live server extension in the vscode.
 
-And, [here](https://github.com/Kanak1125/image-gallery-backend) is the link to the frontend repo of this project.
+And, [here](https://github.com/Kanak1125/image-gallery-backend) is the link to the backend repo of this project.
 
 ## Screenshots
 Here some screenshots of the project will be added...

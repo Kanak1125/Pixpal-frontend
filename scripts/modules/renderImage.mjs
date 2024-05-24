@@ -4,12 +4,16 @@ import fetchData from "./fetchData.mjs";
 // the function to render the images in DOM...
 
 // const BASE_URL = 'https://api.unsplash.com/';
-const BASE_URL = 'http://127.0.0.1:8000/api';
+const BASE_URL = '/api';
 const SEARCH_BASE_URL = '/pages/results.html?query=';
 // const RELATED_IMAGES_BASE_URL = `${BASE_URL}/search/photos?client_id=U-JKAdSdHZRA2-glU6Oe4WSzqHGP6GpKM8DZ8yUkelY&per_page=10`;
-const RELATED_IMAGES_BASE_URL = `${BASE_URL}/search/photos`;
+
+// const RELATED_IMAGES_BASE_URL = `${BASE_URL}/search/photos`;
+const RELATED_IMAGES_BASE_URL = `http://${window.location.hostname}:8000${BASE_URL}/search/photos`;
 let images = [];
 let currentModalImages = [];
+
+let currentImgIdx = 0;
 
 const getBlob= async (url) => {
     console.log("Current image url ===> ", url);
@@ -206,6 +210,8 @@ const handleImageModalInteractions = (data) => {
             imgModalContainerWithOverlays[idx].classList.add('show-modal');
             document.body.style = "overflow: hidden";
 
+            currentImgIdx = data[idx];
+
             // imgModalContainerWithOverlays[idx].addEventListener('wheel', listenModalScroll, { passive: false });
             imgModals[idx].addEventListener('scroll', listenModalScroll);
             imgModalContainerWithOverlays[idx].style.backgroundColor = `hsla(0, 0%, 7%, ${alpha})`;
@@ -260,7 +266,7 @@ const handleImageModalInteractions = (data) => {
             //     // console.log("TAG ====>,", data[idx].tags[0].title);
             //     // related_images_url += `&query=${data[idx].tags[0].title}`;
             // }
-            console.log("IMage tags are here ==================> ", data[idx]?.tags[0]);
+            console.log("IMage tags are here ==================> ", currentImgIdx?.tags[0]);
             related_images_url = `${RELATED_IMAGES_BASE_URL}?q=${data[idx]?.tags[0].title}&page=10`;
             console.log("Related Images url =====> ", related_images_url);
 
