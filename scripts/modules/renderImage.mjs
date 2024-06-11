@@ -3,6 +3,11 @@ import fetchData from "./fetchData.mjs";
 
 // the function to render the images in DOM...
 
+const imageType = {
+    'image/jpeg': 'jpg',
+    'image/png': 'png',
+    'image/svg+xml': 'svg',
+}
 // const BASE_URL = 'https://api.unsplash.com/';
 const BASE_URL = '/api';
 const SEARCH_BASE_URL = '/pages/results.html?query=';
@@ -57,12 +62,12 @@ const injectImagesToGallery = (clonedTemplate, wrapper, data, idx) => {
         if (downloadBtn) {
             downloadBtn.href = URL.createObjectURL(blob);
             console.log("URL OF THE IMAGE BLOB ====> ", blob);
-            downloadBtn.download = 'image.jpg';
+            downloadBtn.download = `image.${imageType[blob.type]}`;
         }
 
         if (mbDownloadBtn) {
             mbDownloadBtn.href = URL.createObjectURL(blob);
-            mbDownloadBtn.download = 'image.jpg';
+            mbDownloadBtn.download = `image.${imageType[blob.type]}`;
         }
     });
 
@@ -101,7 +106,7 @@ const injectModalToImages = (clonedTemplate, wrapper, data, idx) => {
 
     getBlob(data[idx].urls.regular).then((blob) => {
         modalDownloadBtn.href = URL.createObjectURL(blob);
-        modalDownloadBtn.download = 'image.jpg';
+        modalDownloadBtn.download = `image.${imageType[blob.type]}`;
     });
 
     modalImg.setAttribute('src', data[idx].urls.regular);

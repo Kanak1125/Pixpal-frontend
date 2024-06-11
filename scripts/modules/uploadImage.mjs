@@ -2,7 +2,7 @@
 //import { getAverageColor } from "fast-average-color-node";
 import getAverageColor from "./averageColor.mjs";
 import dropHandler from "./dragDropImage.mjs";
-
+import svg2png from "./svg2png.mjs";
 
 const uploadImageForm = document.getElementById("upload-image-form");
 
@@ -57,7 +57,16 @@ uploadImageForm.addEventListener('submit', async (e) => {
     } else {
         console.error("No file provided during submission...");
     }
+
+    const uploadedFile = formData.get('uploaded_file');
     
+    if(uploadedFile.type === "image/svg+xml") {
+        // run the conversion here...
+        const returnedPngFile = await svg2png(uploadedFile);
+        console.log("CONverted to png file url ====> ", URL.createObjectURL(returnedPngFile));
+        formData.set('uploaded_file', returnedPngFile);
+    }
+
     // labelUploadFile.addEventListener('drop', (e) => dropHandler(e, formData));
 
     for (let tag of tags) {
@@ -65,6 +74,8 @@ uploadImageForm.addEventListener('submit', async (e) => {
     }
 
     const imageEl = formData.get('uploaded_file');
+    console.log("CONverted to jpeg file url ====> ", URL.createObjectURL(imageEl));
+
 
     console.log("FormData uploaded file BEFORE submission ====> ", formData.get('uploaded_file'));
     console.log("IMAGE FILE ELEMENT ====> ", imageEl);

@@ -330,6 +330,7 @@ dialog.modal-upload-image::backdrop {
     border-radius: var(--border-radius-xs);
     padding: 2px 4px;
     transition: var(--transition);
+    margin: 4px 2px;
 }
 
 .animate-tag {
@@ -744,8 +745,9 @@ body::-webkit-scrollbar-thumb:hover,
     }
 
     .modal-upload-image {
-        width: 100%;
-        margin-top: auto;
+        width: 80%;
+        max-width: 444px;
+        /* margin-top: auto; */
     }
 
     .modal-container > * {
