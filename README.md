@@ -1,4 +1,4 @@
-![Pixpal-Type](https://github.com/user-attachments/assets/a661276b-66f6-43dd-812d-3755e16d8457)
+![pixpal_logo_with_bg](https://github.com/user-attachments/assets/71cbebf2-d9e9-49c4-8e65-d8767ad741ef)
 
 # Pixpal (Image Discovery Site)
 
@@ -32,3 +32,15 @@ And, [here](https://github.com/Kanak1125/image-gallery-backend) is the link to t
 
 ## Screenshots
 Here some screenshots of the project will be added...
+
+### Home page
+![Screenshot 2024-06-19 211217](https://github.com/user-attachments/assets/56b7ea80-361f-443b-9f8e-377dba3be465)
+
+### Search results page
+![Screenshot 2024-06-19 211544](https://github.com/user-attachments/assets/bc280713-8f48-4a41-9f17-0328d8402195)
+
+### Image modal
+![Screenshot 2024-06-19 211338](https://github.com/user-attachments/assets/317a8662-b80e-4077-94ee-244bf78fbd47)
+
+### Filter options
+![Screenshot 2024-06-19 213048](https://github.com/user-attachments/assets/6283c3af-9989-4a25-95cc-3612edfe69b4)
