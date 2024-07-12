@@ -8,16 +8,6 @@ import { v4 } from 'https://cdn.jsdelivr.net/npm/uuid@latest/dist/esm-browser/in
     }
 */
 
-// for debugging purpose only...
-const saveBlobLocally = (blob) => {
-    const a = document.createElement('a');
-    const url = URL.createObjectURL(blob);
-    a.href = url;
-    a.download = 'image.png';
-    a.click();
-    URL.revokeObjectURL(url);
-}
-
 const svg2png = (file) => {
     return new Promise((resolve, reject) => {
         const imgEl = new Image();
@@ -56,7 +46,6 @@ const svg2png = (file) => {
                     // const pngFile = new File([blob], 'image.jpg', { type: 'image/jpeg' });
                     const pngFile = new File([blob], `image-${v4()}.png`, { type: 'image/png' });
 
-                    saveBlobLocally(blob);
                     resolve(pngFile);
                 } else {
                     reject(new Error('Canvas to blob conversion failed...'));

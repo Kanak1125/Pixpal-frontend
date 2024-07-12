@@ -30,6 +30,7 @@ let pageCountFilter = 1;
 // currently the following are working...
 let skip = 0;
 const PER_PAGE = 5;
+let skip_filter = 0;
 
 window.onload = () => {
     skip = 0;
@@ -104,12 +105,14 @@ tagScrollerLeft.addEventListener('click', () => {
 const observerFilter = new IntersectionObserver(entries => {
     entries.forEach((entry, idx) => {
         console.log(entry);
+        console.warn("Current filter URL ====> ", filter_url);
         if (entry.isIntersecting) {
-            pageCountFilter ++;
-            const updatedRequestUrl = `${filter_url}&page=${pageCountFilter}`;
+            skip_filter += PER_PAGE;
+
+            const updatedRequestUrl = `${filter_url}?skip=${skip_filter}&limit=${PER_PAGE}`;
             filterImages(updatedRequestUrl);
 
-            observerFilter.unobserve(target);
+            if (target) observerFilter.unobserve(target);
         }
     })
 }, {
@@ -125,25 +128,27 @@ async function getRandomImages(url) {
         newImages = await fetchData(url);
         images = [...await newImages];
     } else {
-        // observer.unobserve(target);
+        observerMainPage.unobserve(target);
         console.log("NEw Images", await fetchData(url));
         newImages = [...await fetchData(url)];
         images = [...images, ...newImages];
+
+        if (newImages.length == 0) return;  // if there is no more images, no need to observer...
     }
-    console.log("Images: ", images);
 
-    console.log(newImages);
-
-    console.log("NEW IMAGES ========>", newImages);
     renderImages(imgGallery, newImages);
     
     const imgContainers = document.querySelectorAll('.img-container');
     
-    target = imgContainers[imgContainers.length - 1];
+    
+    setTimeout(() => {
+        target = imgContainers[imgContainers.length - 1];
+        console.log("Current target from the called page ====> ", target);
 
-    // setTimeout(() => {
-    //     observerMainPage.observe(target);
-    // }, 3000);
+        const observer = observerMainPage;
+        console.log("Observer here ====> ", observer);
+        observer.observe(target);
+    }, 3000);
 }
 
 // getRandomImages(`${REQUEST_URL}&page=${pageCount}`);
@@ -154,12 +159,14 @@ let previousElement = {};
 
 async function filterImages (url) {
     let newImages = [];
-    
+
+    observerMainPage.unobserve(target);
+
     if (images.length === 0) {
         newImages = await fetchData(url);
         images = [...await newImages];
     } else {
-        // observer.unobserve(target);
+        observerFilter.unobserve(target);
         const result = await fetchData(url);
         newImages = [...await result];
         images = [...images, ...newImages];
@@ -170,12 +177,13 @@ async function filterImages (url) {
 
     renderImages(imgGallery, newImages);
 
-    target = imgGallery.lastChild;
-    console.log("Target: ", target);
-
-    // setTimeout(() => {
-    //     observerFilter.observe(target);
-    // }, 3000);
+    const imgContainers = document.querySelectorAll('.img-container');
+    
+    setTimeout(() => {
+        target = imgContainers[imgContainers.length - 1];
+        console.log("Target FROM The filter observer =====> ", target);
+        observerFilter.observe(target);
+    }, 3000);
 }
 
 const removeActiveClass = () => {
@@ -194,6 +202,7 @@ const clearImageGallery = () => {
 
 filterInputOptions.forEach((item, idx) => {
     item.addEventListener('click', async () => {
+        // observerMainPage.unobserve(target);
         console.log(filterInputLabels[idx], item);
         const filterName = filterInputOptions[idx].getAttribute('name');
         const filterValue = item.value; // brings the value of the item that is clicked on... for eg. "red" when the input type with name "filter-color" is clicked...
@@ -240,8 +249,11 @@ filterInputOptions.forEach((item, idx) => {
 
 clearAllFilterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
+        // observerMainPage.observe(target);
+
         previousElement = {};
         clearImageGallery();
+        skip_filter = 0;
         console.log("PREVIOUS =========>", previousElement);
         getRandomImages(REQUEST_URL);
         

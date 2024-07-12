@@ -1,0 +1,38 @@
+@import url('../style.css');
+
+@keyframes scrollImgUp {
+    0% {
+        transform: translateY(80%) scale(0.6);
+        opacity: 0.4; 
+    }
+    100% {
+        transform: translateY(0%) scale(1);
+        opacity: 1; 
+    }
+}
+
+@keyframes animateTxtChar {
+    0% {font-size: 6px;}
+    100% {font-size: var(--fnt-body);}
+}
+
+@keyframes jiggle {
+    0% {transform: rotateZ(5deg)}
+    50% {transform: rotateZ(-5deg)}
+    100% {transform: rotateZ(0deg)}
+}
+
+@keyframes pulse {
+    0% {opacity: 1}
+    50% {opacity: 0.8}
+    100% {opacity: 1}
+}
+
+@keyframes scaleUp {
+    0% {
+        transform: scale(0.2) ;
+    }
+    100% {
+        transform: scale(1);
+    }
+}

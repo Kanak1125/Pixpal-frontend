@@ -2,20 +2,18 @@
 
 const createObserver = (target, url, skip, limit, callback) => {
     console.log(url);
+    console.log("Im being triggered....")
+    console.log("current target ====> ", target);
     const currentTarget = target;
     const observer = new IntersectionObserver(entries => {
         entries.forEach((entry, idx) => {
             console.log(entry);
-            if (entry.isIntersecting) {
-                // pageCount ++;
-                
+            if (entry.isIntersecting) {                
                 skip += limit;
 
                 const updatedRequestUrl = `${url}?skip=${skip}&limit=${limit}`;
                 callback(updatedRequestUrl);
-                // callback(url);
 
-                console.log("Current target -=-=-=-=--=> ", currentTarget);
                 if (currentTarget) observer.unobserve(currentTarget);
             }
         })

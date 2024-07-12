@@ -8,12 +8,9 @@ const imageType = {
     'image/png': 'png',
     'image/svg+xml': 'svg',
 }
-// const BASE_URL = 'https://api.unsplash.com/';
 const BASE_URL = '/api';
 const SEARCH_BASE_URL = '/pages/results.html?query=';
-// const RELATED_IMAGES_BASE_URL = `${BASE_URL}/search/photos?client_id=U-JKAdSdHZRA2-glU6Oe4WSzqHGP6GpKM8DZ8yUkelY&per_page=10`;
 
-// const RELATED_IMAGES_BASE_URL = `${BASE_URL}/search/photos`;
 const RELATED_IMAGES_BASE_URL = `http://${window.location.hostname}:8000${BASE_URL}/search/photos`;
 let images = [];
 let currentModalImages = [];
@@ -21,7 +18,6 @@ let currentModalImages = [];
 let currentImgIdx = 0;
 
 const getBlob= async (url) => {
-    console.log("Current image url ===> ", url);
     const response = fetch(url);
     return (await response).blob();
 };
@@ -58,10 +54,8 @@ const injectImagesToGallery = (clonedTemplate, wrapper, data, idx) => {
     }
 
     getBlob(data[idx].urls.regular).then((blob) => {
-        console.log("DOWNLOAD URL ====> ", blob);
         if (downloadBtn) {
             downloadBtn.href = URL.createObjectURL(blob);
-            console.log("URL OF THE IMAGE BLOB ====> ", blob);
             downloadBtn.download = `image.${imageType[blob.type]}`;
         }
 

@@ -1,5 +1,3 @@
-//  var getAverageColor  = require("../../node_modules/fast-average-color-node/dist/index.js")
-//import { getAverageColor } from "fast-average-color-node";
 import getAverageColor from "./averageColor.mjs";
 import dropHandler from "./dragDropImage.mjs";
 import svg2png from "./svg2png.mjs";
@@ -15,7 +13,6 @@ const imageDescriptionField = document.getElementById('description');
 
 const tagsInputField = document.getElementById('input-tags');
 
-const tagsInputFieldContainer = document.querySelector('.input-tags-field-container');
 const tagsInputContainer = document.querySelector('.input-tags-container');
 
 const labelUploadFile = document.querySelector('.label-upload-file');
@@ -26,11 +23,15 @@ let droppedFile = null;
 
 let tags = [];  // to be submitted along form data...
 
-// const submit_image_URL = `http://127.0.0.1:8000/api/images/`;
 const submit_image_URL = `http://${window.location.hostname}:8000/api/images/`;
 
 imgFileInput.addEventListener('change', () => {
-    labelUploadFile.textContent = fileInputField.files[0].name;
+    const file = fileInputField.files[0];
+    const imageElement = document.createElement('img');
+    imageElement.classList.add("upload-img");
+    imageElement.src = URL.createObjectURL(file);
+    labelUploadFile.innerHTML = '';
+    labelUploadFile.appendChild(imageElement);
 });
 
 labelUploadFile.addEventListener('drop', (e) => {
@@ -46,8 +47,6 @@ labelUploadFile.addEventListener('drop', (e) => {
 uploadImageForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    // const imgObjURL = URL.createObjectURL(fileInputField.files[0]);
-    // console.log("IMGE OBJECT URL ===> ", imgObjURL);
     formData.append('description', imageDescriptionField.value);
 
     if (droppedFile) {
@@ -66,8 +65,6 @@ uploadImageForm.addEventListener('submit', async (e) => {
         console.log("CONverted to png file url ====> ", URL.createObjectURL(returnedPngFile));
         formData.set('uploaded_file', returnedPngFile);
     }
-
-    // labelUploadFile.addEventListener('drop', (e) => dropHandler(e, formData));
 
     for (let tag of tags) {
         formData.append('tags', tag);
@@ -89,7 +86,7 @@ uploadImageForm.addEventListener('submit', async (e) => {
     imageElement.onload = async () => {
         const {R, G, B} = getAverageColor(imageElement);
         formData.append('color', JSON.stringify({R, G, B}));
-        console.log("RED ===>", R, "Green ====>", G, "Blue ====>", B);
+        console.log("Average color of the image ===> ", formData.get('color'));
 
         try {
             const submittedFormData = fetch(submit_image_URL, {
@@ -109,13 +106,7 @@ uploadImageForm.addEventListener('submit', async (e) => {
             formData = new FormData(); // reset the formData...
         }
     };
-    console.log("Form submitted ======>");
-
-    console.log(typeof imageData);
-
     modalUploadImage.close();
-
-    console.log(fileInputField.files[0]);
 });
 
 //tags input field...

@@ -18,6 +18,8 @@
     <!-- <script src="../app.js" type="module" defer></script> -->
     <script src="./../scripts/searchResults.js" type="module" defer></script>
     <script type="module" src="../scripts/modules/search.mjs" defer></script>
+    <script type="module" src="../scripts/modules/uploadImage.mjs" defer></script>
+    <script type="module" src="../scripts/modules/dragDropImage.mjs" defer></script>
 
     <script src="https://kit.fontawesome.com/80b2a22f1b.js" crossorigin="anonymous"></script>
 </head>
@@ -29,6 +31,7 @@
             </a>
             <a href="/pages/login.html" class="login-btn">Login</a>
             <a href="/pages/signup.html" class="btn signup-btn">Signup</a>
+            <button title="Upload an image" class="upload-img-btn"><i class="fa-solid fa-arrow-up-from-bracket"></i></button>
         </div>
         <nav class="nav-main">
             <a href="/" class="logo">
@@ -68,6 +71,8 @@
             <button class="options filter-icon">
                 <i class="fa-solid fa-sliders"></i>
             </button>
+            <button title="Upload an image" class="btn upload-img-btn upload-img-btn-desktop ">Upload</button>
+            <button title="Upload an image" class="upload-img-btn upload-img-btn-lg-screen"><i class="fa-solid fa-arrow-up-from-bracket"></i></button>
             <a href="/pages/login.html" class="login-btn">Login</a>
             <a href="/pages/signup.html" class="btn signup-btn">Signup</a>
         </nav>
@@ -210,6 +215,27 @@
         <!-- image gallery container -->
         <!-- <section class="img-gallery"></section> -->
     </div>
+    <dialog class="modal-upload-image">
+        <form id="upload-image-form" enctype="multipart/form-data">
+            <div class="input-container input-container-upload-image">
+                <label class="label-upload-file" for="file">Upload an image</label><br />
+                <input type="file" accept="jpg, png, svg" id="file" class="input-img-file" name="file" />
+            </div>
+            <div class="input-container input-container-add-description">
+                <label for="description">Description</label><br />
+                <input type="text" name="description" id="description">
+            </div>
+            <div class="input-container input-container-add-tags">
+                <label for="tags">Tags</label><br />
+                <div class="input-tags-field-container">
+                    <div class="input-tags-container"></div>
+                    <input type="text" name="tags" id="input-tags" placeholder="Write and, hit enter to add another tag" />
+                </div>
+            </div>
+            <input type="submit" value="Submit photo" class="btn">
+        </form>
+        <button class="btn close-upload-image-btn ">Close</button>
+    </dialog>
     <dialog class="modal-filter">
         <nav class="modal-nav">
             <button class="close-btn">
