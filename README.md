@@ -1,3 +1,5 @@
+![Pixpal-Type](https://github.com/user-attachments/assets/a661276b-66f6-43dd-812d-3755e16d8457)
+
 # Pixpal (Image Discovery Site)
 
 Pixpal is an image discovery site that allows users to search for images by keyword. The site uses the API built using the fastAPI in the backend to fetch images based on the user's search query. Users can also view the images, get the related images and download them.
