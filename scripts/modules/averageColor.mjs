@@ -12,7 +12,6 @@ const getAverageColor = (imageElement, ratio = 4) => {
     let i = -4, count = 0;
     let width = 0, height = 0;
 
-    console.log("IMage element: =====>", imageElement);
 
     // imageElement.onload = () => {
         width = canvas.width = imageElement.width;
