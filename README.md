@@ -16,7 +16,7 @@ I would like to express my gratitude to the mentors for their invaluable guidanc
 
 - **Karan Rai** - For his guidance and thoughtful review of the UI, including font selections and logo design.
 
-- **The Sarbham team** - For their feedback and suggestions that helped me in the development of this project.
+- **The Sarbham team 💻** - For their feedback and suggestions that helped me in the development of this project.
 
 ## Features
 Some features of this site includes:
@@ -40,7 +40,7 @@ npm install
 
 Similarly, you can run the project with the live server extension in the vscode.
 
-And, [here](https://github.com/Kanak1125/image-gallery-backend) is the link to the backend repo of this project.
+And, [here](https://github.com/Kanak1125/Pixpal-backend) is the link to the backend repo of this project.
 
 ## Screenshots
 Here some screenshots of the project will be added...
