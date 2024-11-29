@@ -6,7 +6,7 @@ Pixpal is an image discovery site that allows users to search for images by keyw
 
 The frontend of the project is built with the vanilla javascript. The frontend uses the fetch API to make requests to the backend API. The frontend also uses the blurhash library to decode the blurhash string to pixels.
 
-# ACKNOWLEDGEMENT 🎉
+# Acknowledgement 🎉
 
 I would like to express my gratitude to the mentors for their invaluable guidance, support and insights throughout the development of this project. I am also grateful to the entire Sarbham team for their feedback and suggestions, which played a significant role in shaping the project.
 
